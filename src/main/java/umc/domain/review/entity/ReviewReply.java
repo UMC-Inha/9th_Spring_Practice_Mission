@@ -1,13 +1,15 @@
 package umc.domain.review.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import umc.global.entity.BaseEntity;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "review_reply")
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
 public class ReviewReply extends BaseEntity {
 
     @Id

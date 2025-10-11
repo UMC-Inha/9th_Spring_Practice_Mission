@@ -2,8 +2,7 @@ package umc.domain.member.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import umc.domain.member.entity.mapping.MemberFood;
 import umc.domain.member.entity.mapping.MemberMission;
 import umc.domain.member.entity.mapping.MemberTerm;
@@ -18,6 +17,9 @@ import java.util.List;
 @Entity
 @Table(name = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
 public class Member extends BaseEntity {
 
     @Id

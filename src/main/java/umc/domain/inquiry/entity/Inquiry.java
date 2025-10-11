@@ -1,13 +1,15 @@
 package umc.domain.inquiry.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import umc.domain.inquiry.enums.Status;
 import umc.global.entity.BaseEntity;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
 @Table(name = "inquiry")
 public class Inquiry extends BaseEntity {
 

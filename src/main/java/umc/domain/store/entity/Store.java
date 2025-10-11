@@ -1,8 +1,7 @@
 package umc.domain.store.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import umc.domain.review.entity.Review;
 
 import java.util.ArrayList;
@@ -11,6 +10,9 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "store")
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
 public class Store {
 
     @Id

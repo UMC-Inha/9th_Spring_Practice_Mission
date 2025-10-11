@@ -1,8 +1,7 @@
 package umc.domain.member.entity.mapping;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import umc.domain.member.entity.Member;
 import umc.domain.member.enums.Status;
 import umc.domain.misson.entity.Mission;
@@ -11,6 +10,9 @@ import java.time.LocalDate;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
 @Table(name = "member_mission")
 public class MemberMission {
 
