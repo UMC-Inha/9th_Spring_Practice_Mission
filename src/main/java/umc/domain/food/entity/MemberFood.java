@@ -1,8 +1,16 @@
 package umc.domain.food.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 import umc.domain.user.entity.Member;
 
+
+@Entity
+@Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Table(name = "member_food")
 public class MemberFood {
 
     @Id
