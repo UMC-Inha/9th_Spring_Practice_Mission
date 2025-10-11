@@ -19,8 +19,5 @@ public class Food {
 
     @Column(name = "name", nullable = false, length = 50)
     private String name;
-
-    @OneToMany
-    List<MemberFood> memberFoodList = new ArrayList<>();
 }
 

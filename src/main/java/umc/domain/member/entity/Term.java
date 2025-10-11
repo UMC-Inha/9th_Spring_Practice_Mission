@@ -25,7 +25,4 @@ public class Term {
 
     @Column(nullable = false, name = "is_required")
     private boolean is_required;
-
-    @OneToMany(mappedBy = "term")
-    private List<MemberTerm> memberTermList = new ArrayList<>();
 }

@@ -60,9 +60,6 @@ public class Member extends BaseEntity {
     private List<MemberFood> memberFoodList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
-    private List<MemberTerm> memberTermList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<MemberMission> memberMissionList = new ArrayList<>();
 
 }
