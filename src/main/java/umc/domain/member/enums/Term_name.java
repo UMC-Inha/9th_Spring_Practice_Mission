@@ -1,0 +1,5 @@
+package umc.domain.member.enums;
+
+public enum Term_name {
+    alarm
+}
