@@ -6,6 +6,8 @@ import lombok.*;
 import umc.domain.mission.enums.Status;
 import umc.domain.store.entity.Store;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @Builder
@@ -33,7 +35,7 @@ public class Mission {
     private Status status;
 
     @Column(nullable = false)
-    private Integer due_date;
+    private LocalDate date;
 
     @Column(nullable = false)
     private String discription;
