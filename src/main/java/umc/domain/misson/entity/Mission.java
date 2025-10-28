@@ -7,6 +7,7 @@ import umc.domain.member.entity.mapping.MemberMission;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import umc.domain.store.entity.Store;
 
 @Entity
 @Table(name = "mission")
@@ -31,6 +32,10 @@ public class Mission {
 
     @Column(name = "end_date", nullable = false)
     private LocalDate end_date;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id", nullable = false)
+    private Store store;
 
     @OneToMany(mappedBy = "mission", cascade = CascadeType.REMOVE)
     private List<MemberMission> memberMissionList = new ArrayList<>();
