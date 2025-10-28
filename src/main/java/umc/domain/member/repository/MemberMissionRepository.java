@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import umc.domain.member.dto.MissionListDto;
 import umc.domain.member.entity.mapping.MemberMission;
+import umc.domain.member.enums.Status;
 
 public interface MemberMissionRepository {
 
@@ -22,4 +23,18 @@ public interface MemberMissionRepository {
         where mm.member = :member_id
 """)
     List<MissionListDto> findPendingOrCompletedMissionByMemberId(@Param("member_id") Long member_id);
+
+    @Query("""
+        select count(mm)
+        from MemberMission mm
+            join mm.mission ms
+            join ms.store s
+            join s.region r
+        where r.name = :region_name
+            and mm.status = :status
+            and mm.member.id = :member_id
+""")
+    long getMissionCountByMemberIdAndRegion(@Param("member_id")  Long member_id,
+                                           @Param("region_name") String region_name,
+                                            @Param("status") Status status);
 }
