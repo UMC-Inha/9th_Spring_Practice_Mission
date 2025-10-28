@@ -25,7 +25,7 @@ public class Store {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Category castegory;
+    private Category category;
 
     @Column
     private Integer rate;
