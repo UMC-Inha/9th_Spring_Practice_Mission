@@ -28,10 +28,10 @@ public class Mission {
     private int points;
 
     @Column(name = "unique_number", nullable = false)
-    private int unique_number;
+    private int uniqueNumber;
 
     @Column(name = "end_date", nullable = false)
-    private LocalDate end_date;
+    private LocalDate endDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id", nullable = false)

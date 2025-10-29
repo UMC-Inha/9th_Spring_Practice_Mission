@@ -32,7 +32,7 @@ public class Review extends BaseEntity {
 
     @Builder.Default
     @Column(name = "star_rating", precision = 2, scale = 1, nullable = false)
-    private BigDecimal star_rating = BigDecimal.ZERO;
+    private BigDecimal starRating = BigDecimal.ZERO;
 
     @Column(name = "content", nullable = false, length = 1000)
     private String content;
