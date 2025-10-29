@@ -32,6 +32,7 @@ public class Store {
     @Column(name ="address", nullable = false, length = 255)
     private String address;
 
-    @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
+    @Builder.Default
+    @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Review> reviewList = new ArrayList<>();
 }

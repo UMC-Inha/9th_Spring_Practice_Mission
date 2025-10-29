@@ -37,6 +37,7 @@ public class Mission {
     @JoinColumn(name = "store_id", nullable = false)
     private Store store;
 
-    @OneToMany(mappedBy = "mission", cascade = CascadeType.REMOVE)
+    @Builder.Default
+    @OneToMany(mappedBy = "mission", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<MemberMission> memberMissionList = new ArrayList<>();
 }

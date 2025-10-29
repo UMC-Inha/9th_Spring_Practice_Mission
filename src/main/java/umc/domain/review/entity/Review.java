@@ -30,15 +30,18 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "store_id", nullable = false) // 이건 양방향 매핑 관계로
     private Store store;
 
+    @Builder.Default
     @Column(name = "star_rating", precision = 2, scale = 1, nullable = false)
     private BigDecimal star_rating = BigDecimal.ZERO;
 
     @Column(name = "content", nullable = false, length = 1000)
     private String content;
 
-    @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE)
+    @Builder.Default
+    @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<ReviewPhoto> reviewPhotoList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE)
+    @Builder.Default
+    @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<ReviewReply> reviewReplyList = new ArrayList<>();
 }

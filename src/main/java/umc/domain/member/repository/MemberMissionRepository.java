@@ -20,7 +20,7 @@ public interface MemberMissionRepository {
         from MemberMission mm
             join mm.mission ms
             join ms.store s
-        where mm.member = :member_id
+        where mm.member.id = :member_id
 """)
     List<MissionListDto> findPendingOrCompletedMissionByMemberId(@Param("member_id") Long member_id);
 
