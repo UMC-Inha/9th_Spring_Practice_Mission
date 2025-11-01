@@ -1,11 +1,11 @@
 package umc.domain.member.repository;
 
-import java.util.List;
+import java.awt.print.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import umc.domain.member.dto.MissionChallengeListDto;
 import umc.domain.member.dto.MissionListDto;
-import umc.domain.member.entity.mapping.MemberMission;
 import umc.domain.member.enums.Status;
 
 public interface MemberMissionRepository {
@@ -22,8 +22,10 @@ public interface MemberMissionRepository {
             join mm.mission ms
             join ms.store s
         where mm.member.id = :member_id
+        order by ms.id asc
 """)
-    List<MissionListDto> findPendingOrCompletedMissionByMemberId(@Param("member_id") Long member_id);
+    Page<MissionListDto> findPendingOrCompletedMissionByMemberId(@Param("member_id") Long member_id,
+                                                                 Pageable pageable);
 
     @Query("""
         select count(mm)
@@ -56,7 +58,11 @@ public interface MemberMissionRepository {
                 where mm.mission.id = ms.id
                     and mm.member.id = :member_id
             )
+            and (:last_mission_id is null or ms.id > :last_mission_id)
+        order by ms.id asc
 """)
-    List<MissionChallengeListDto> findAvailableMissionsByMemberIdAndRegion(@Param("region_name") String region_name,
-                                                                           @Param("member_id") Long member_id);
+    Page<MissionChallengeListDto> findAvailableMissionsByMemberIdAndRegion(@Param("region_name") String region_name,
+                                                                           @Param("member_id") Long member_id,
+                                                                           @Param("last_mission_id") Long last_mission_id,
+                                                                           Pageable pageable);
 }
