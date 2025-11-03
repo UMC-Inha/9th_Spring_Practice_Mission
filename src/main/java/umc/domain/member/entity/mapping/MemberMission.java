@@ -33,7 +33,7 @@ public class MemberMission {
     private Status status;
 
     @Column(name = "end_date", nullable = false)
-    private LocalDate end_date;
+    private LocalDate endDate;
 
     @Column(name = "completion_date")
     private LocalDate completion_date;

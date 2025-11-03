@@ -26,5 +26,5 @@ public class MemberTerm {
     private Term term;
 
     @Column(name = "is_agreed")
-    private Boolean is_agreed;
+    private Boolean isAgreed;
 }

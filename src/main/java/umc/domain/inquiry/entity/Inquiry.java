@@ -2,7 +2,7 @@ package umc.domain.inquiry.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import umc.domain.inquiry.enums.Status;
+import umc.domain.inquiry.enums.InquiryStatus;
 import umc.global.entity.BaseEntity;
 
 @Entity
@@ -25,6 +25,6 @@ public class Inquiry extends BaseEntity {
 
     @Column(nullable = false, name = "status")
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private InquiryStatus status;
 
 }

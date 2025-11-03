@@ -1,5 +1,5 @@
 package umc.domain.inquiry.enums;
 
-public enum Status {
+public enum InquiryStatus {
     WAITING, COMPLETED
 }

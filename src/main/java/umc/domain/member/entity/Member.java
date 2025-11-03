@@ -58,10 +58,16 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private SnsType snsType;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    @Builder.Default
+    @Column(name = "is_deleted", nullable = false)
+    private boolean isDeleted = Boolean.FALSE;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<MemberFood> memberFoodList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    @Builder.Default
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<MemberMission> memberMissionList = new ArrayList<>();
 
 }
