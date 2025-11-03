@@ -5,6 +5,9 @@ import lombok.*;
 import umc.domain.member.entity.Member;
 import umc.domain.member.enums.State;
 import umc.domain.mission.entity.Mission;
+import umc.global.entity.BaseEntity;
+
+import java.time.LocalDate;
 
 @Entity
 @Builder
@@ -12,7 +15,7 @@ import umc.domain.mission.entity.Mission;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Table(name = "member_mission")
-public class MemberMission {
+public class MemberMission extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,4 +33,12 @@ public class MemberMission {
     @JoinColumn(name = "mission_id")
     private Mission mission;
 
+    @Column(nullable = false)
+    private LocalDate deadline;
+
+    // 생성 시 deadline 계산
+    @PrePersist
+    public void calculateDeadline() {
+        this.deadline = this.getCreatedAt().toLocalDate().plusDays(mission.getPeriod());
+    }
 }
