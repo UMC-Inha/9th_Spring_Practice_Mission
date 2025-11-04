@@ -36,3 +36,10 @@ out/
 ### VS Code ###
 .vscode/
 /src/main/resources/application.yml
+
+
+# QueryDSL generated QClass files
+/build/
+/out/
+/.gradle/
+/.idea/

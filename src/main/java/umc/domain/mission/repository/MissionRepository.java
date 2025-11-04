@@ -24,6 +24,9 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
     )
     List<Object[]> findMyMissions(@Param("memberId") Long memberId, Pageable pageable);
 
+
+
+
     @Query("""
             SELECT m
              from Mission m
