@@ -5,8 +5,8 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import umc.domain.member.entity.QMember;
 import umc.domain.review.dto.QReviewDto;
 import umc.domain.review.dto.QReviewPhotoDto;
@@ -16,17 +16,20 @@ import umc.domain.review.entity.QReview;
 import umc.domain.review.entity.QReviewPhoto;
 import umc.domain.review.entity.QReviewReply;
 
-@Service
-@RequiredArgsConstructor
+@Repository
+@Transactional(readOnly = true)
 public class ReviewQueryDslImpl implements ReviewQueryDsl {
 
-    private final ReviewRepository reviewRepository;
     private final EntityManager em;
+    private final JPAQueryFactory query;
+
+    public ReviewQueryDslImpl(EntityManager em) {
+        this.em = em;
+        this.query = new JPAQueryFactory(em);
+    }
 
     @Override
     public List<ReviewDto> searchReviewByMemberId(Predicate predicate) {
-
-        JPAQueryFactory query = new JPAQueryFactory(em);
 
         QReview review = QReview.review;
         QMember member = QMember.member;
