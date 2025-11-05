@@ -33,24 +33,20 @@ public class ReviewQueryDslImpl implements ReviewQueryDsl {
         QReviewPhoto photo = QReviewPhoto.reviewPhoto;
         QReviewReply reply = QReviewReply.reviewReply;
 
-        return query.select(
-                        new QReviewDto(
-                                review.id,
-                                member.name,
-                                review.starRating,
-                                GroupBy.list(new QReviewPhotoDto(
-                                        photo.photoUrl
-                                )),
-                                GroupBy.list(new QReviewReplyDto(
-                                        reply.content
-                                ))
-                        )
-                )
-                .from(review)
+        return query.from(review)
                 .join(review.member, member)
-                .join(review.reviewPhotoList, photo)
-                .join(review.reviewReplyList, reply)
+                .leftJoin(review.reviewPhotoList, photo)
+                .leftJoin(review.reviewReplyList, reply)
                 .where(predicate)
-                .fetch();
+                .transform(GroupBy.groupBy(review.id).list(
+                                new QReviewDto(
+                                        review.id,
+                                        member.name,
+                                        review.starRating,
+                                        GroupBy.list(new QReviewPhotoDto(photo.photoUrl)),
+                                        GroupBy.list(new QReviewReplyDto(reply.content))
+                                )
+                        )
+                );
     }
 }
