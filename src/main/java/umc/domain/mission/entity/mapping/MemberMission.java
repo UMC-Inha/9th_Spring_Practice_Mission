@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import umc.domain.member.entity.Member;
 import umc.domain.mission.entity.Mission;
+import umc.global.entity.BaseEntity;
 
 @Entity
 @Builder
@@ -15,7 +16,7 @@ import umc.domain.mission.entity.Mission;
 @Getter
 @Table(name ="member_mission")
 
-public class MemberMission {
+public class MemberMission extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

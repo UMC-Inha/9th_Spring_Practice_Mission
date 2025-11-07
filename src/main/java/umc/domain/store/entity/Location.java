@@ -2,7 +2,6 @@ package umc.domain.store.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import umc.domain.mission.entity.mapping.MemberMission;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.List;
 @Entity
 @Builder
 @Getter
-@Table
+@Table(name = "location")
 @NoArgsConstructor
 @AllArgsConstructor
 

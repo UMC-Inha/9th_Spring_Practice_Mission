@@ -20,7 +20,7 @@ import java.util.List;
 @Getter
 @Table(name = "member")
 @NoArgsConstructor (access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Member extends BaseEntity
 {
     @Id
@@ -42,15 +42,15 @@ public class Member extends BaseEntity
     @Enumerated(EnumType.STRING)
     private Address address;
 
-    @Column(name = "detail_address", nullable = false)
-    private String detail_address;
+    @Column(name = "detailAddress", nullable = false)
+    private String detailAddress;
 
-    @Column(name = "social_type", nullable = false)
+    @Column(name = "socialType", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Social_type social_type;
+    private Social_type socialType;
 
-    @Column(name = "social_uid", nullable = false)
-    private String social_uid;
+    @Column(name = "socialUid", nullable = false)
+    private String socialUid;
 
     @Column(name = "point", nullable = false)
     private Integer point;
@@ -58,11 +58,11 @@ public class Member extends BaseEntity
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "phone_number")
-    private String phone_number;
+    @Column(name = "phoneNumber")
+    private String phoneNumber;
 
-    @Column(name = "isdeleted")
-    private Boolean isdeleted;
+    @Column(name = "deleted",nullable = false)
+    private boolean deleted =  false;
 
     @Builder.Default
     @OneToMany(mappedBy = "member")

@@ -11,7 +11,6 @@ import umc.global.entity.BaseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.LongFunction;
 
 @Entity
 @Builder
@@ -36,7 +35,7 @@ public class Store extends BaseEntity {
     @Column(name = "detail_address",nullable = false)
     private String detailAddress;
 
-    @OneToMany(mappedBy = "Store")
+    @OneToMany(mappedBy = "store")
     private List<Mission> missions = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -44,7 +43,7 @@ public class Store extends BaseEntity {
     private Location location;
 
     @Builder.Default
-    @OneToMany(mappedBy = "Store")
+    @OneToMany(mappedBy = "store")
     private List<Review> reviews = new ArrayList<>();
 
 

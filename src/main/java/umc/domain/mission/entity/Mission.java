@@ -16,7 +16,7 @@ import java.util.List;
 @Entity
 @Builder
 @Getter
-@Table
+@Table(name = "mission")
 @NoArgsConstructor
 @AllArgsConstructor
 
@@ -34,6 +34,9 @@ public class Mission extends BaseEntity {
 
     @Column(name = "point",nullable = false)
     private Integer point;
+
+    @Column(name = "least_amount",nullable = false)
+    private Integer leastAmount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")

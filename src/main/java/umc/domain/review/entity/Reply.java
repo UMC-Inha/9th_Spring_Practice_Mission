@@ -22,6 +22,7 @@ public class Reply {
     @Column(name = "content")
     private String content;
 
-    @OneToOne(mappedBy = "reply")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_id", nullable = false,unique = true )
     private Review review;
 }
