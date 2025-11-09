@@ -4,6 +4,7 @@ import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +30,7 @@ public class ReviewQueryDslImpl implements ReviewQueryDsl {
     }
 
     @Override
-    public List<ReviewDto> searchReviewByMemberId(Predicate predicate) {
+    public List<ReviewDto> searchReviewByMemberId(Long memberId, String storeName, BigDecimal starRating) {
 
         QReview review = QReview.review;
         QMember member = QMember.member;
@@ -40,7 +41,11 @@ public class ReviewQueryDslImpl implements ReviewQueryDsl {
                 .join(review.member, member)
                 .leftJoin(review.reviewPhotoList, photo)
                 .leftJoin(review.reviewReplyList, reply)
-                .where(predicate)
+                .where(
+                        memberIdEq(memberId, review),
+                        storeNameEq(storeName, review),
+                        starRatingEq(starRating, review)
+                )
                 .transform(GroupBy.groupBy(review.id).list(
                                 new QReviewDto(
                                         review.id,
@@ -51,5 +56,17 @@ public class ReviewQueryDslImpl implements ReviewQueryDsl {
                                 )
                         )
                 );
+    }
+
+    private Predicate memberIdEq(Long memberId, QReview review) {
+        return (memberId == null) ? null : review.member.id.eq(memberId);
+    }
+
+    private Predicate storeNameEq(String storeName, QReview review) {
+        return (storeName == null) ? null : review.store.name.eq(storeName);
+    }
+
+    private Predicate starRatingEq(BigDecimal starRating, QReview review) {
+        return (starRating == null) ? null : review.starRating.eq(starRating);
     }
 }
