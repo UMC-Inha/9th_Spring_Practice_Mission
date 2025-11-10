@@ -5,6 +5,6 @@ import umc.domain.review.entity.Review;
 
 import java.util.List;
 
-public interface ReviewRepository extends JpaRepository<Review, Long> {
+public interface ReviewRepository extends JpaRepository<Review, Long> , ReviewQueryDsl {
     List<Review> findByStoreId(Long storeId);
 }
