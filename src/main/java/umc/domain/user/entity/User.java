@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity //이 클래스를 JPA 엔티티로 지정. JPA가 이 클래스를 보고 자동으로 SQL 테이블로 관리해준다.
-@Getter //모든 필드에 대해 자동으로 getter 메서드 생성
+@Getter //n모든 필드에 대해 자동으로 getter 메서드 생성
 @Builder //빌더 패턴을 자동으로 만들어주는 Lombok 어노테이션. 객체를 생성할 때 생성자 대신 가독성 좋은 체이닝 형태로 만들 수 있음.
 //보통 우리가 객체를 만들 때는 Member member = new Member("해원",25,~~); 이런식으로 한다.
 //이건 편해보이지만 문제가 있다. 인자 순서를 헷갈리면 값이 잘못 들어간다던지, 생성자 파라미터가 많아지면 알아보기 힘들다던지,
