@@ -15,6 +15,9 @@ public class Region {
     private Long id;
 
     //코드 리뷰 추가 , 지역 정보
+    @Column(name = "name", length = 100, nullable = false)
+    private String name;
+
     @Column(name = "city", length = 100, nullable = false)
     private String city;
 
