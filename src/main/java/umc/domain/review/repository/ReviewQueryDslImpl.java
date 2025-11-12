@@ -3,9 +3,9 @@ package umc.domain.review.repository;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import umc.domain.member.entity.QMember;
@@ -19,15 +19,10 @@ import umc.domain.review.entity.QReviewReply;
 
 @Repository
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class ReviewQueryDslImpl implements ReviewQueryDsl {
 
-    private final EntityManager em;
-    private final JPAQueryFactory query;
-
-    public ReviewQueryDslImpl(EntityManager em) {
-        this.em = em;
-        this.query = new JPAQueryFactory(em);
-    }
+    private final JPAQueryFactory queryFactory;
 
     @Override
     public List<ReviewDto> searchReviewByMemberId(Long memberId, String storeName, BigDecimal starRating) {
@@ -37,7 +32,7 @@ public class ReviewQueryDslImpl implements ReviewQueryDsl {
         QReviewPhoto photo = QReviewPhoto.reviewPhoto;
         QReviewReply reply = QReviewReply.reviewReply;
 
-        return query.from(review)
+        return queryFactory.from(review)
                 .join(review.member, member)
                 .leftJoin(review.reviewPhotoList, photo)
                 .leftJoin(review.reviewReplyList, reply)
