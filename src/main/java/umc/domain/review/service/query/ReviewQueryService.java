@@ -7,8 +7,8 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import umc.domain.review.dto.SearchReviewRequest;
-import umc.domain.review.dto.SearchReviewResponse;
+import umc.domain.review.dto.ReviewReqDTO;
+import umc.domain.review.dto.ReviewResDTO.SearchDTO;
 import umc.domain.review.entity.QReview;
 import umc.domain.review.repository.ReviewRepository;
 
@@ -20,7 +20,7 @@ public class ReviewQueryService {
     private final ReviewRepository reviewRepository;
     private static final QReview review = QReview.review;
 
-    public List<SearchReviewResponse> searchReview(Long memberId, SearchReviewRequest request) {
+    public List<SearchDTO> searchReview(Long memberId, ReviewReqDTO.SearchDTO request) {
         BooleanBuilder builder = new BooleanBuilder();
 
         builder.and(review.member.id.eq(memberId));
