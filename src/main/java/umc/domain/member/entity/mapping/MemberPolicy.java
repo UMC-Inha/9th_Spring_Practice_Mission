@@ -2,6 +2,8 @@ package umc.domain.member.entity.mapping;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import umc.domain.member.entity.Member;
@@ -12,6 +14,8 @@ import java.time.LocalDateTime;
 
 
 @Entity
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class MemberPolicy extends BaseEntity {
@@ -26,8 +30,5 @@ public class MemberPolicy extends BaseEntity {
     @ManyToOne()
     @JoinColumn(name = "policy_id", nullable = false)
     private Policy policy;
-
-    @Column(name = "agreed_at", nullable = false)
-    private LocalDateTime agreedAt;
 
 }
