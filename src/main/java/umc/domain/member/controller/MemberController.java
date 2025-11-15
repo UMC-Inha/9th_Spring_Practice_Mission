@@ -1,5 +1,6 @@
 package umc.domain.member.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import umc.domain.member.dto.MemberReqDTO;
@@ -32,7 +33,7 @@ public class MemberController {
 
     @PostMapping("/sign-up")
     ApiResponse<MemberResDTO.JoinDTO> signUp(
-            @RequestBody MemberReqDTO.JoinDTO dto) {
+            @RequestBody @Valid MemberReqDTO.JoinDTO dto) {
         return ApiResponse.onSuccess(MemberSuccessCode.CREATED, memberCommandService.signUp(dto));
     }
 }

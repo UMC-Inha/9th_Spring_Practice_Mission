@@ -2,10 +2,13 @@ package umc.global.apiPayload.handler;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.OffsetDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import umc.global.alert.DiscordWebhookSender;
@@ -68,5 +71,20 @@ public class GeneralExceptionAdvice {
 
         return ResponseEntity.status(code.getStatus())
                 .body(ApiResponse.onFailure(code, ex.getMessage()));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    protected ResponseEntity<ApiResponse<Map<String,String>>> MethodArgumentNotValidException(
+            MethodArgumentNotValidException ex
+    ){
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(error ->
+                errors.put(error.getField(), error.getDefaultMessage())
+        );
+
+        GeneralErrorCode code = GeneralErrorCode.VALID_FAIL;
+        ApiResponse<Map<String, String>> errorResponse = ApiResponse.onFailure(code, errors);
+
+        return ResponseEntity.status(code.getStatus()).body(errorResponse);
     }
 }
