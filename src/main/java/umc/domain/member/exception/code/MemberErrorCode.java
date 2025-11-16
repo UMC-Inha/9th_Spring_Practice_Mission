@@ -9,7 +9,8 @@ import umc.global.apiPayload.code.BaseErrorCode;
 @AllArgsConstructor
 public enum MemberErrorCode implements BaseErrorCode {
 
-    NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "MEMBER404_1", "존재하지 않는 회원입니다.");
+    NOT_FOUND_MEMBER(HttpStatus.NOT_FOUND, "MEMBER404_1", "존재하지 않는 회원입니다."),
+    NOT_OWNER(HttpStatus.FORBIDDEN, "MEMBER403_1", "해당 회원은 OWNER 권한이 아닙니다.");
 
     private final HttpStatus status;
     private final String code;
