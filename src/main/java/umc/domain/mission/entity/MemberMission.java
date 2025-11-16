@@ -16,7 +16,8 @@ import java.time.LocalDateTime;
 @Getter
 public class MemberMission extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "accepted_at", nullable = false)
@@ -50,5 +51,14 @@ public class MemberMission extends BaseEntity {
         this.status = status;
         this.mission = mission;
         this.member = member;
+    }
+
+    public static MemberMission challenge(Mission mission, Member member) {
+        return MemberMission.builder()
+                .status(MissionStatus.IN_PROGRESS)
+                .mission(mission)
+                .member(member)
+                .acceptedAt(LocalDateTime.now())
+                .build();
     }
 }
