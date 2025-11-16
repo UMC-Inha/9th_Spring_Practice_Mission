@@ -1,4 +1,4 @@
-package umc.domain.mission.service;
+package umc.domain.mission.service.query;
 
 import java.time.LocalDateTime;
 import java.util.List;
