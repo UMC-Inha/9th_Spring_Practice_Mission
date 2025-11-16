@@ -1,9 +1,12 @@
 package com.example.umc9th.domain.review.controller;
 
-import com.example.umc9th.domain.review.dto.ReviewDTO;
+import com.example.umc9th.domain.review.dto.res.ReviewResDTO;
 import com.example.umc9th.domain.review.entity.Review;
 import com.example.umc9th.domain.review.service.ReviewQueryService;
+import com.example.umc9th.global.apiPayload.ApiResponse;
+import com.example.umc9th.global.apiPayload.code.GeneralSuccessCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,15 +23,18 @@ public class ReviewController {
             @RequestParam String query,
             @RequestParam String type
     ){
-        List<Review> result = reviewQueryService.searchReview(query,type);
-        return result;
+        return ApiResponse.onSuccess(
+                GeneralSuccessCode.OK,
+                reviewQueryService.searchReview(query, type)
+        ).getResult();
     }
 
     @GetMapping("/review")
-    public List<ReviewDTO> filterReviews(
+    public ResponseEntity<ApiResponse<List<ReviewResDTO.ReviewDTO>>> filterReviews(
             @RequestParam("storeId") Long storeId,
             @RequestParam(value = "star", required = false) Float star) { // 선택 파라미터
 
-            return reviewQueryService.getReviews(storeId, star);
+            List<ReviewResDTO.ReviewDTO> response = reviewQueryService.getReviews(storeId, star);
+            return ResponseEntity.ok(ApiResponse.onSuccess(GeneralSuccessCode.OK, response));
     }
 }
