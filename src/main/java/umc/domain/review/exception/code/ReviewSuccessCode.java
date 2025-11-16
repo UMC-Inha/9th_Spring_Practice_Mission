@@ -2,7 +2,6 @@ package umc.domain.review.exception.code;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import umc.global.apiPayload.code.BaseSuccessCode;
 
