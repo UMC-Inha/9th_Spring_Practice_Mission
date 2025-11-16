@@ -43,10 +43,10 @@ public class Member extends BaseEntity {
     @Column(name = "birthday", nullable = false)
     private LocalDate birthday;
 
-    @Column(name = "status" , nullable = false)
+    @Column(name = "status" , nullable = false) //처음엔 true로
     private Boolean status;
 
-    @Column(name = "point", nullable = false)
+    @Column(name = "point", nullable = false) //0으로
     private Integer point;
 
     @Column(name = "reception", nullable = false)
