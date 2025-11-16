@@ -30,11 +30,11 @@ public class ReviewController {
     }
 
     @GetMapping("/review")
-    public ResponseEntity<ApiResponse<ReviewResDTO.ReviewDTO>> filterReviews(
+    public ResponseEntity<ApiResponse<List<ReviewResDTO.ReviewDTO>>> filterReviews(
             @RequestParam("storeId") Long storeId,
             @RequestParam(value = "star", required = false) Float star) { // 선택 파라미터
 
-            ReviewResDTO.ReviewDTO response = (ReviewResDTO.ReviewDTO) reviewQueryService.getReviews(storeId, star);
+            List<ReviewResDTO.ReviewDTO> response = reviewQueryService.getReviews(storeId, star);
             return ResponseEntity.ok(ApiResponse.onSuccess(GeneralSuccessCode.OK, response));
     }
 }

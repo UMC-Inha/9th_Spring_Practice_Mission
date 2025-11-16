@@ -7,8 +7,8 @@ import java.time.LocalDate;
 public class ReviewResDTO {
     @Builder
     public static class ReviewDTO {
-        private Long id;
-        private Long store;
+        private Long missionId;
+        private Long storeId;
         private String content;
         private Float star;
         private LocalDate createdDate;

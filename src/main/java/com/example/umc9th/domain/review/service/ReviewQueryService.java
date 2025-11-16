@@ -22,7 +22,6 @@ import static com.example.umc9th.domain.review.dto.res.ReviewResDTO.*;
 @RequiredArgsConstructor
 public class ReviewQueryService {
     private final ReviewRepository reviewRepository;
-    private final RestClient.Builder builder;
     private final StoreRepository storeRepository;
 
     // 워크북 내용
@@ -51,7 +50,6 @@ public class ReviewQueryService {
     }
 
     // 미션
-    // ReviewListDTO
     public List<ReviewDTO> getReviews(Long storeId, Float star) {
 
         // 1. store 유무 확인
@@ -67,7 +65,7 @@ public class ReviewQueryService {
 
     public ReviewDTO convertDTO(Review review) {
         return ReviewDTO.builder()
-                .id(review.getId())
+                .storeId(review.getId())
                 .star(review.getStar())
                 .createdDate(review.getCreatedAt().toLocalDate())
                 .content(review.getContent()).build();
