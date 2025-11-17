@@ -13,7 +13,7 @@ import umc.global.apiPayload.Exception.GeneralException;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class MemberServiceImpl  implements MemberService{
+public class MemberQueryServiceImpl implements MemberQueryService {
     private final MemberRepository memberRepository;
 
     @Override
