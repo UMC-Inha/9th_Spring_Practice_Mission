@@ -4,32 +4,28 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-import umc.domain.review.dto.MyReviewQuery;
-import umc.domain.review.dto.ReviewCard;
-import umc.domain.review.service.ReviewQueryService;
+import umc.domain.review.dto.req.MyReviewReqDTO;
+import umc.domain.review.dto.res.MyReviewResDTO;
+import umc.domain.review.service.ReviewService;
+import umc.global.apiPayload.ApiResponse;
+import umc.global.apiPayload.code.GeneralSuccessCode;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/reviews")
+@RequestMapping("/api/v1/reviews")
 public class ReviewQueryController {
 
-    private final ReviewQueryService reviewQueryService;
+    private final ReviewService reviewService;
 
-    @GetMapping("/my")
-    public Page<ReviewCard> findMyReviews(
-            @RequestParam(required = false) Long storeId,
-            @RequestParam(required = false) Float star,
-            @RequestParam(required = false) Float minStar,
-            @RequestParam(required = false) Float maxStar,
-            @RequestParam(required = false) String sort,
+    @GetMapping("/me")
+    public ApiResponse<Page<MyReviewResDTO>> getMyReviews(
+            @RequestParam("member_id") Long memberId, // 실제 인증 객체 타입에 맞게 수정
+            @RequestBody MyReviewReqDTO reqDTO,
             Pageable pageable
     ) {
-        Long currentMemberId = getCurrentMemberId();
-        MyReviewQuery query = new MyReviewQuery(storeId, star, minStar, maxStar, sort);
-        return reviewQueryService.getMyReviews(currentMemberId, query, pageable);
-    }
 
-    private Long getCurrentMemberId() {
-        return 1L;
+        Page<MyReviewResDTO> result = reviewService.getMyReviews(memberId, reqDTO, pageable);
+
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
     }
 }

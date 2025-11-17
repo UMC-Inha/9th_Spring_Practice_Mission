@@ -2,15 +2,15 @@ package umc.domain.review.repository;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-import umc.domain.review.dto.MyReviewQuery;
-import umc.domain.review.dto.QReviewCard;
-import umc.domain.review.dto.ReviewCard;
+import umc.domain.review.dto.res.MyReviewResDTO;
+import umc.domain.review.repository.query.MyReviewQuery;
 import umc.domain.review.service.ReviewSort;
 
 import java.util.List;
@@ -25,23 +25,21 @@ public class ReviewQueryDslImpl implements ReviewQueryDsl {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<ReviewCard> findMyReviews(Long memberId, MyReviewQuery req, Pageable pageable) {
+    public Page<MyReviewResDTO> findMyReviews(Long memberId, MyReviewQuery query, Pageable pageable) {
 
-        BooleanBuilder where = new BooleanBuilder();
-        where.and(review.member.id.eq(memberId));
+        BooleanBuilder where = buildWhere(memberId, query);
+        OrderSpecifier<?>[] orders = resolveSort(query);
 
-
-        OrderSpecifier<?>[] orders = toOrderSpecifiers(req.sortKey());
-
-        List<ReviewCard> content = queryFactory
-                .select(new QReviewCard(
+        List<MyReviewResDTO> content = queryFactory
+                .select(
+                        Projections.constructor(MyReviewResDTO.class,
                         review.id,
                         review.store.id,
                         review.store.name,
                         review.star,
                         review.content,
                         review.createdAt,
-                        review.member.id.eq(memberId)
+                        review.member.id.eq(memberId) // mine
                 ))
                 .from(review)
                 .join(review.store, store)
@@ -54,17 +52,43 @@ public class ReviewQueryDslImpl implements ReviewQueryDsl {
         Long total = queryFactory
                 .select(review.count())
                 .from(review)
+                .join(review.store, store)
                 .where(where)
                 .fetchOne();
 
         return new PageImpl<>(content, pageable, total == null ? 0 : total);
     }
 
-    private OrderSpecifier<?>[] toOrderSpecifiers(ReviewSort sort) {
-        return switch (sort) {
-            case STAR_DESC -> new OrderSpecifier[]{review.star.desc(), review.id.desc()};
-            case STAR_ASC  -> new OrderSpecifier[]{review.star.asc(), review.id.desc()};
-            case CREATED_DESC -> new OrderSpecifier[]{review.createdAt.desc(), review.id.desc()};
-        };
+    private BooleanBuilder buildWhere(Long memberId, MyReviewQuery query) {
+        BooleanBuilder where = new BooleanBuilder();
+
+        // 내 리뷰만
+        where.and(review.member.id.eq(memberId));
+
+        if (query == null) {
+            return where;
+        }
+
+        if (query.getStoreId() != null) {
+            where.and(review.store.id.eq(query.getStoreId()));
+        }
+
+        if (query.getMinStar() != null) {
+            where.and(review.star.goe(query.getMinStar()));
+        }
+
+        if (query.getMaxStar() != null) {
+            where.and(review.star.loe(query.getMaxStar()));
+        }
+
+        return where;
+    }
+
+    private OrderSpecifier<?>[] resolveSort(MyReviewQuery query) {
+        ReviewSort sort = (query == null || query.getSortKey() == null)
+                ? ReviewSort.CREATED_DESC
+                : query.getSortKey();
+
+        return sort.toOrders();
     }
 }
