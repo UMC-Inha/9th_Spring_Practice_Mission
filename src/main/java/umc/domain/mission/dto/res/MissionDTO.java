@@ -4,6 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record  MissionDTO (
+     long MissionId,
     String storeName,
     Integer least_amount,
     Integer point,

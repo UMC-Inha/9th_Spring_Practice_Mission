@@ -28,6 +28,7 @@ public class MissionQueryServiceImpl implements MissionQueryService
         // 2. Page<DTO> 타입으로 변환
         Page<MissionDTO> missionDTOPage = missionPage.map(mission ->
                 MissionDTO.builder()
+                        .MissionId(mission.getId())
                         .locationName(locationName)
                         .storeName(mission.getStore().getName())
                         .least_amount(mission.getLeastAmount())
