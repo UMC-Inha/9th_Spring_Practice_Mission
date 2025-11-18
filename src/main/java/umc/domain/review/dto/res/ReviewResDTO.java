@@ -21,10 +21,4 @@ public class ReviewResDTO {
     }
 
 
-    @Builder
-    @Getter
-    public static class Exception{
-        private String message;
-    }
-
 }

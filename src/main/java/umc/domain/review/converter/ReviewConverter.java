@@ -18,11 +18,5 @@ public class ReviewConverter {
                 .build();
     }
 
-        //객체 -> DTO
-        public static ReviewResDTO.Exception toExceptionDTO(String message){
-            return ReviewResDTO.Exception.builder()
-                    .message(message).build();
-        }
-
 
 }
