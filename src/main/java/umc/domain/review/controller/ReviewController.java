@@ -5,9 +5,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import umc.domain.review.dto.ReviewResponseDTO;
-import umc.domain.review.entity.Review;
-import umc.domain.review.service.ReviewService;
+import umc.domain.review.dto.res.ReviewResDTO;
+import umc.domain.review.service.query.ReviewQueryService;
+import umc.global.apiPayload.ApiResponse;
+import umc.global.apiPayload.code.GeneralSuccessCode;
 
 import java.util.List;
 
@@ -15,28 +16,32 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/reviews")
 public class ReviewController {
-
-    private final ReviewService reviewService;
+    private final ReviewQueryService reviewQueryService;
 
     @GetMapping("/search") //워크북 실습용 API
-    public List<Review> searchReview(
+    public ApiResponse<List<ReviewResDTO.ReviewPreviewDTO>> searchReview(
             @RequestParam String query,
             @RequestParam String type
     ){
-
-        //서비스에게 요청
-        List<Review> result = reviewService.searchReview(query,type);
-        return result;
+        return ApiResponse.onSuccess(
+                GeneralSuccessCode.OK,
+                reviewQueryService.searchReview(query, type)
+        );
     }
 
-    //과제(미션)용 API
-    @GetMapping("/my")
-    public List<ReviewResponseDTO.ReviewPreviewDTO>getMyReviews(
-            @RequestParam(name = "userId")Long userId,
-            @RequestParam(name = "storeId", required = false) Long storeId,
-            @RequestParam(name = "starFloor", required = false) Integer starFloor
-    ){
-        List<ReviewResponseDTO.ReviewPreviewDTO> myReviews = reviewService.getMyReviews(userId,storeId,starFloor);
-        return myReviews;
-    }
+
+//과제(미션)용 API
+@GetMapping("/my")
+public ApiResponse<List<ReviewResDTO.ReviewPreviewDTO>>getMyReviews(
+        @RequestParam(name = "userId")Long userId,
+        @RequestParam(name = "storeId", required = false) Long storeId,
+        @RequestParam(name = "starFloor", required = false) Integer starFloor
+) {
+    return ApiResponse.onSuccess(
+            GeneralSuccessCode.OK,
+            reviewQueryService.getMyReviews(userId, storeId, starFloor)
+    );
 }
+}
+
+

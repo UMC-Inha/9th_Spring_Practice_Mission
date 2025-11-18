@@ -18,14 +18,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewQueryDslImpl implements ReviewQueryDsl{
 
-    private final EntityManager em;
+    private final JPAQueryFactory queryFactory;
 
     @Override //워크북때 했던 코드
     public List<Review> searchReview(Predicate predicate){
-
-        //JPA 세팅
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-
         //Q클래스 선언
         QReview review = QReview.review;
         QStore store = QStore.store;
@@ -41,8 +37,6 @@ public class ReviewQueryDslImpl implements ReviewQueryDsl{
     //과제(미션 코드)
     @Override
     public List<Review> findMyReviewsFiltered(Long userId, Long storeId, Integer starFloor){
-
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
         QReview review = QReview.review;
         QStore store = QStore.store;
