@@ -1,12 +1,14 @@
 package umc.domain.review.repository;
 
-import com.querydsl.core.types.Predicate;
+import java.math.BigDecimal;
 import java.util.List;
 import umc.domain.review.dto.ReviewDto;
 
 public interface ReviewQueryDsl {
 
     List<ReviewDto> searchReviewByMemberId(
-            Predicate predicate
+            Long memberId,
+            String storeName,
+            BigDecimal starRating
     );
 }
