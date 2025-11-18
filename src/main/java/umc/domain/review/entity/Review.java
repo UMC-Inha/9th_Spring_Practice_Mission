@@ -2,7 +2,7 @@ package umc.domain.review.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import umc.domain.store.entity.Store;
-import umc.domain.user.entity.Member;
+import umc.domain.member.entity.Member;
 import umc.global.entity.BaseEntity;
 
 @Entity

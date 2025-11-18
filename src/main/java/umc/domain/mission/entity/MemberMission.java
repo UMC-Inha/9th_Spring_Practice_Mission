@@ -2,8 +2,8 @@ package umc.domain.mission.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import umc.domain.policy.entity.Policy;
-import umc.domain.user.entity.Member;
+import umc.domain.mission.enums.Status;
+import umc.domain.member.entity.Member;
 
 @Entity
 @Getter
@@ -24,4 +24,10 @@ public class MemberMission {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mission_id")
     private Mission mission;
+
+
+    //해당 멤버가 해당 미션을 성공했는지 안했는지 판단
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status;
 }

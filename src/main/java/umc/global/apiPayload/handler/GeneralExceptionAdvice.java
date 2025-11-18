@@ -3,6 +3,7 @@ package umc.global.apiPayload.handler;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import umc.global.apiPayload.ApiResponse;
@@ -12,6 +13,28 @@ import umc.global.apiPayload.exception.GeneralException;
 public class GeneralExceptionAdvice {
 
     @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ApiResponse<Void>> handleValidException(
+            GeneralException ex
+    ) {
+        return ResponseEntity.status(ex.getCode().getStatus())
+                .body(ApiResponse.onFailure(
+                        ex.getCode(),
+                        null
+                ));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<Void>> handleValidDtoException(
+            GeneralException ex
+    ) {
+        return ResponseEntity.status(ex.getCode().getStatus())
+                .body(ApiResponse.onFailure(
+                        ex.getCode(),
+                        null
+                ));
+    }
+
+    @ExceptionHandler(GeneralException.class)
     public ResponseEntity<ApiResponse<Void>> handleException(
             GeneralException ex
     ) {
