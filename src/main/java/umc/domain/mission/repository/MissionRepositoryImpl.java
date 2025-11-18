@@ -6,9 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
+import umc.domain.location.entity.QLocation;
 import umc.domain.mission.entity.Mission;
 import umc.domain.mission.entity.QMission;
-import umc.domain.store.entity.QLocation;
 import umc.domain.store.entity.QStore;
 
 import java.util.List;
