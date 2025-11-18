@@ -1,5 +1,6 @@
 package umc.domain.auth.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +19,7 @@ public class AuthController {
     // 회원가입
     @PostMapping("/sign-up")
     public ApiResponse<AuthResDTO .SignUpDTO> signUp(
-            @RequestBody AuthReqDTO.SignUpDTO dto
+            @RequestBody @Valid AuthReqDTO.SignUpDTO dto
     ){
         return ApiResponse.onSuccess(AuthSuccessCode.SIGN_UP_SUCCESS, signUpService.signup(dto));
     }

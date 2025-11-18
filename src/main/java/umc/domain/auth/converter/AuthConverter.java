@@ -25,6 +25,7 @@ public class AuthConverter {
                 .name(dto.name())
                 .birth(dto.birth())
                 .address(dto.address())
+                .detailAddress(dto.detailAddress())
                 .gender(dto.gender())
                 .build();
     }
