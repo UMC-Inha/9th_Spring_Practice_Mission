@@ -121,11 +121,10 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     @Override
     @Transactional
     public void updateMemberName(Long memberId, String name) {
-        int updatedCount = memberRepository.updateMemberName(memberId, name);
 
-        if (updatedCount == 0) {
-            throw new MemberException(NOT_FOUND_MEMBER);
-        }
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
+        member.updateName(name);
 
     }
 

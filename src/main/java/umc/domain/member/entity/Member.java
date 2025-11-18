@@ -75,6 +75,10 @@ public class Member extends BaseEntity {
         this.setDeletedAt(LocalDateTime.now());
     }
 
+    public void updateName(String name){
+        this.name = name;
+    }
+
     @Builder
     public Member(
             String name,
