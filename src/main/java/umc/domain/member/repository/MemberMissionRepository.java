@@ -46,11 +46,13 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
                                             @Param("status") Status status);
 
     @Query("""
-                    select new umc.domain.member.dto.MissionChallengeListDto(s.name, s.type
-                            , ms.description
-                            , ms.points
-                            , function('datediff',ms.endDate, current_date())
-                            , ms.id)
+                    select new umc.domain.member.dto.MissionChallengeListDto(
+                                s.name,
+                                s.type,
+                                ms.description,
+                                ms.points,
+                                cast(function('datediff',ms.endDate, current_date()) as integer),
+                                ms.id)
                     from Mission ms
                         join ms.store s
                         join s.region r

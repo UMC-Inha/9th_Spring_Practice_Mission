@@ -14,7 +14,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
             select new umc.domain.member.dto.MyPageDto(
                     m.nickname,
                     m.email,
-                    m.phone_number,
+                    m.phoneNumber,
                     m.points
             )
             from Member m

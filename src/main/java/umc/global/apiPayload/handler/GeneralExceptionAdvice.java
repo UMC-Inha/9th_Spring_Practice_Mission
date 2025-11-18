@@ -1,6 +1,9 @@
 package umc.global.apiPayload.handler;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import umc.global.apiPayload.ApiResponse;
@@ -34,5 +37,21 @@ public class GeneralExceptionAdvice {
                                 ex.getMessage()
                         )
                 );
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<Map<String, String>>> handleMethodArgumentNotValidException(
+            MethodArgumentNotValidException ex
+    ) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(
+                error -> errors.put(error.getField(), error.getDefaultMessage())
+        );
+
+        GeneralErrorCode code = GeneralErrorCode.VALID_FAIL;
+        ApiResponse<Map<String, String>> errorResponse = ApiResponse.onFailure(code, errors);
+
+        // 에러코드와 Body를 함께 반환한다.
+        return ResponseEntity.status(code.getStatus()).body(errorResponse);
     }
 }

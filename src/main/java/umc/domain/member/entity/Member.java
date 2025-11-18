@@ -1,18 +1,29 @@
 package umc.domain.member.entity;
 
 
-import jakarta.persistence.*;
-import lombok.*;
-import umc.domain.member.entity.mapping.MemberFood;
-import umc.domain.member.entity.mapping.MemberMission;
-import umc.domain.member.entity.mapping.MemberTerm;
-import umc.domain.member.enums.Gender;
-import umc.domain.member.enums.SnsType;
-import umc.global.entity.BaseEntity;
-
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import umc.domain.member.entity.mapping.MemberFood;
+import umc.domain.member.entity.mapping.MemberMission;
+import umc.domain.member.enums.Gender;
+import umc.domain.member.enums.SnsType;
+import umc.global.entity.BaseEntity;
 
 @Entity
 @Table(name = "member")
@@ -29,17 +40,17 @@ public class Member extends BaseEntity {
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 
-    @Column(name = "nickname", nullable = false, length = 50)
+    @Column(name = "nickname", length = 50)
     private String nickname;
 
     @Column(name = "password", nullable = false, length = 255)
     private String password;
 
-    @Column(name = "email", nullable = false, length = 255)
+    @Column(name = "email", length = 255)
     private String email;
 
-    @Column(name = "phone_number", nullable = false, length = 11)
-    private String phone_number;
+    @Column(name = "phone_number", length = 11)
+    private String phoneNumber;
 
     @Column(name = "gender", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -55,8 +66,9 @@ public class Member extends BaseEntity {
     private Long points;
 
     @Column(name = "sns_type")
+    @Builder.Default
     @Enumerated(EnumType.STRING)
-    private SnsType snsType;
+    private SnsType snsType = SnsType.LOCAL;
 
     @Builder.Default
     @Column(name = "is_deleted", nullable = false)
