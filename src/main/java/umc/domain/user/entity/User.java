@@ -60,7 +60,7 @@ public class User extends BaseEntity {
     private String phoneNum;
 
     @Column(name="phone_verified")
-    private boolean phoneVerified;
+    private Boolean phoneVerified;
 
     @Column(name="inactive_time")
     private LocalDateTime inactiveTime;
