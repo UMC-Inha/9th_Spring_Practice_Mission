@@ -30,7 +30,7 @@ public class StoreController {
     private final StoreCommandService storeCommandService;
     private final MissionCommandService missionCommandService;
 
-    @PostMapping("/{region_id}")
+    @PostMapping("/{regionId}")
     public ApiResponse<StoreResDTO.createStoreResDTO> createStore(
             @PathVariable Long regionId,
             @RequestBody @Valid StoreReqDTO.createStoreReqDTO reqDTO

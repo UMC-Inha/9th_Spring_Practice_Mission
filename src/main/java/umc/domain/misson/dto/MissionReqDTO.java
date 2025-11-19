@@ -11,7 +11,7 @@ public class MissionReqDTO {
             String description,
             @PositiveOrZero
             int points,
-            int uniqueNumber,
+            @NotNull
             LocalDate endDate
     ) {
     }
