@@ -10,6 +10,7 @@ import umc.domain.member.dto.MyPageDto;
 import umc.domain.member.enums.Status;
 import umc.domain.member.repository.MemberMissionRepository;
 import umc.domain.member.repository.MemberRepository;
+import umc.global.dto.PageResponse;
 
 @Service
 @RequiredArgsConstructor
@@ -29,15 +30,18 @@ public class MemberQueryServiceImpl implements MemberQueryService {
     }
 
     @Override
-    public Page<MissionListDto> getMissions(Long memberId, Pageable pageable) {
-        return memberMissionRepository.findMissionsByMemberId(memberId, pageable);
+    public PageResponse<MissionListDto> getMissions(Long memberId, Pageable pageable) {
+        Page<MissionListDto> page = memberMissionRepository.findMissionsByMemberId(memberId, pageable);
+        return PageResponse.of(page);
     }
 
     @Override
-    public Page<MissionChallengeListDto> getAvailableMissions(Long memberId, String regionName,
-                                                              Long lastMissionId, Pageable pageable) {
-        return memberMissionRepository
+    public PageResponse<MissionChallengeListDto> getAvailableMissions(Long memberId, String regionName,
+                                                                      Long lastMissionId, Pageable pageable) {
+
+        Page<MissionChallengeListDto> page = memberMissionRepository
                 .findAvailableMissionsByMemberIdAndRegion(regionName, memberId, lastMissionId, pageable);
+        return PageResponse.of(page);
     }
 }
 

@@ -2,9 +2,8 @@ package umc.domain.member.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +21,7 @@ import umc.domain.member.service.command.MemberCommandService;
 import umc.domain.member.service.query.MemberQueryService;
 import umc.global.apiPayload.ApiResponse;
 import umc.global.apiPayload.code.GeneralSuccessCode;
+import umc.global.dto.PageResponse;
 
 @RestController
 @RequiredArgsConstructor
@@ -57,27 +57,23 @@ public class MemberController {
     }
 
     @GetMapping("{memberId}/missions")
-    public ApiResponse<Page<MissionListDto>> getMemberMissions(
+    public ApiResponse<PageResponse<MissionListDto>> getMemberMissions(
             @PathVariable Long memberId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size
+            @PageableDefault(size = 20) Pageable pageable
     ) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<MissionListDto> missionList = memberQueryService.getMissions(memberId, pageable);
+        PageResponse<MissionListDto> missionList = memberQueryService.getMissions(memberId, pageable);
 
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, missionList);
     }
 
     @GetMapping("{memberId}/missions/challenge")
-    public ApiResponse<Page<MissionChallengeListDto>> getAvailableMissions(
+    public ApiResponse<PageResponse<MissionChallengeListDto>> getAvailableMissions(
             @PathVariable Long memberId,
             @RequestParam String regionName,
             @RequestParam Long lastMissionId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size
+            @PageableDefault(size = 20) Pageable pageable
     ) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<MissionChallengeListDto> missionList = memberQueryService
+        PageResponse<MissionChallengeListDto> missionList = memberQueryService
                 .getAvailableMissions(memberId, regionName, lastMissionId, pageable);
 
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, missionList);
