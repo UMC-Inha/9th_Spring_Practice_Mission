@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-public class MissionCreateReqDTO {
+public class MissionReqDTO {
 
     @Getter
     @Builder
@@ -18,5 +18,13 @@ public class MissionCreateReqDTO {
         private String conditional;
         private Integer Point;
         private Integer leastAmount;
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class GetChallengeMissionReqDTO{
+        private Long  missionId;
     }
 }

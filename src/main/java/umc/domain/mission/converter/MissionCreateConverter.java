@@ -1,6 +1,6 @@
 package umc.domain.mission.converter;
 
-import umc.domain.mission.dto.req.MissionCreateReqDTO;
+import umc.domain.mission.dto.req.MissionReqDTO;
 import umc.domain.mission.dto.res.MissionDetailDTO;
 import umc.domain.mission.entity.Mission;
 import umc.domain.store.entity.Store;
@@ -20,7 +20,7 @@ public class MissionCreateConverter {
                 .build();
     }
     //MissionCreateReqDTO -> Mission 엔티티
-    public  static Mission  toMission(MissionCreateReqDTO.MissionCreateReq req, Store store) {
+    public  static Mission  toMission(MissionReqDTO.MissionCreateReq req, Store store) {
         return Mission.builder()
                 .deadline(req.getDeadline())
                 .conditional(req.getConditional())

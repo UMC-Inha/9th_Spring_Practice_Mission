@@ -10,5 +10,4 @@ public record OnGoingMissionDto(
         Integer point,
         LocalDate deadline,
         Integer leastAmount
-) {
-}
+) { }
