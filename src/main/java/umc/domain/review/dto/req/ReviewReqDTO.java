@@ -14,7 +14,7 @@ public class ReviewReqDTO {
             @NotNull
             @Min(value = 0, message = "별점은 0점 이상이어야 합니다.")
             @Max(value = 5, message = "별점은 5점 이하여야 합니다.")
-            Integer rating,
+            Float rating,
 
             String content
     ){}

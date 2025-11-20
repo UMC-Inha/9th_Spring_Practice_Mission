@@ -36,7 +36,7 @@ public class ReviewQueryDslImpl implements ReviewQueryDsl{
 
     //과제(미션 코드)
     @Override
-    public List<Review> findMyReviewsFiltered(Long userId, Long storeId, Integer starFloor){
+    public List<Review> findMyReviewsFiltered(Long userId, Long storeId, Float starFloor){
 
         QReview review = QReview.review;
         QStore store = QStore.store;
@@ -67,7 +67,7 @@ public class ReviewQueryDslImpl implements ReviewQueryDsl{
         return storeId != null ? QStore.store.id.eq(storeId) : null;
     }
 
-    private BooleanExpression ratingEq(Integer starFloor) {
+    private BooleanExpression ratingEq(Float starFloor) {
         // starFloor가 null이면 where절에 추가되지 않음 (null 반환)
         return starFloor != null ? QReview.review.rating.eq(starFloor) : null;
     }

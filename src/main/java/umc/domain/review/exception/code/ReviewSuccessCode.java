@@ -4,12 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import umc.global.apiPayload.code.BaseErrorCode;
+import umc.global.apiPayload.code.BaseSuccessCode;
 
 @Getter
 @AllArgsConstructor
-public enum ReviewErrorCode implements BaseErrorCode {
-    NOT_FOUND(HttpStatus.NOT_FOUND, "REVIEW404-1", "리뷰를 찾을 수 없습니다.");
+public enum ReviewSuccessCode implements BaseSuccessCode {
 
+    FOUND(HttpStatus.FOUND, "REVIEW200_1","리뷰를 찾는데 성공했습니다."),
+    ;
     private final HttpStatus status;
     private final String code;
     private final String message;

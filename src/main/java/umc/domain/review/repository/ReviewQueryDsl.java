@@ -13,5 +13,5 @@ public interface ReviewQueryDsl {
     ); //워크북 코드
 
     //과제 코드
-    List<Review> findMyReviewsFiltered(Long userId, Long storeId, Integer starFloor);
+    List<Review> findMyReviewsFiltered(Long userId, Long storeId, Float starFloor);
 }
