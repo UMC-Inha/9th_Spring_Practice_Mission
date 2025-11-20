@@ -27,14 +27,7 @@ public class MissionCreateServiceImpl implements MissionCreateService {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new GeneralException(StoreErrorCode.STORE_NOT_FOUND));
 
-        // Mission 엔티티 생성
-        Mission mission = Mission.builder()
-                .deadline(req.getDeadline())
-                .conditional(req.getConditional())
-                .point(req.getPoint())
-                .leastAmount(req.getLeastAmount())
-                .store(store)
-                .build();
+      Mission mission = MissionCreateConverter.toMission(req,store);
 
         //  저장
         Mission saved = missionRepository.save(mission);
