@@ -19,6 +19,7 @@ import java.util.Map;
 public class GeneralExceptionAdvice {
 
     //애플리케이션에서 발생하는 커스텀 예외를 처리
+    @ExceptionHandler(GeneralException.class)
     public ResponseEntity<ApiResponse<Void>> handleException(
             GeneralException ex
     ){
