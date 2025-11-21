@@ -5,6 +5,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import umc.domain.mission.entity.Mission;
+import umc.domain.user.entity.User;
 import umc.domain.user.enums.MissionStatus;
 import umc.domain.user.mapping.UserMission;
 
@@ -55,4 +57,8 @@ public interface UserMissionRepository extends JpaRepository<UserMission,Long> {
             @Param("userId") Long userId,
             @Param("regionId") Long regionId
     );
+
+    //이미 해당 미션을 특정 상태(IN_PROGRESS)로 도전 중인지 확인
+    boolean existsByUserAndMissionAndStatus(User user, Mission mission, MissionStatus status);
+
 }

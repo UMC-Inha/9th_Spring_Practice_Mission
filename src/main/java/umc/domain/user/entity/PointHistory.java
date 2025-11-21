@@ -12,7 +12,7 @@ import umc.global.entity.BaseEntity;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Table(name="point_histories")
-public class PointHistory extends BaseEntity {
+public class  PointHistory extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

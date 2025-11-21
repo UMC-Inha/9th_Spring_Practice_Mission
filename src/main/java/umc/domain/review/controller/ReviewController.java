@@ -1,11 +1,11 @@
 package umc.domain.review.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import umc.domain.review.dto.req.ReviewReqDTO;
 import umc.domain.review.dto.res.ReviewResDTO;
+import umc.domain.review.service.command.ReviewCommandService;
 import umc.domain.review.service.query.ReviewQueryService;
 import umc.global.apiPayload.ApiResponse;
 import umc.global.apiPayload.code.GeneralSuccessCode;
@@ -17,6 +17,7 @@ import java.util.List;
 @RequestMapping("/api/reviews")
 public class ReviewController {
     private final ReviewQueryService reviewQueryService;
+    private final ReviewCommandService reviewCommandService;
 
     @GetMapping("/search") //워크북 실습용 API
     public ApiResponse<List<ReviewResDTO.ReviewPreviewDTO>> searchReview(
@@ -42,6 +43,18 @@ public ApiResponse<List<ReviewResDTO.ReviewPreviewDTO>>getMyReviews(
             reviewQueryService.getMyReviews(userId, storeId, starFloor)
     );
 }
+
+//리뷰 추가 API
+    @PostMapping("/")
+    public ApiResponse<ReviewResDTO.AddReviewResDTO>addReview(
+            @RequestBody @Valid ReviewReqDTO.AddReviewDTO req
+            ){
+        return ApiResponse.onSuccess(
+                GeneralSuccessCode.OK,
+                reviewCommandService.addReview(req)
+        );
+    }
+
 }
 
 

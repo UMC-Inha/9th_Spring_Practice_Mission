@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class ReviewResDTO {
 
@@ -20,11 +21,14 @@ public class ReviewResDTO {
         private LocalDate createdAt;
     }
 
-
     @Builder
-    @Getter
-    public static class Exception{
-        private String message;
-    }
+    public record AddReviewResDTO(
+            Long reviewId,
+            Long storeId,
+            String content,
+            Integer rating,
+            LocalDateTime createdAt
+    ){}
+
 
 }

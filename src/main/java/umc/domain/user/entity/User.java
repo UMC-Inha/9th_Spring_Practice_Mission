@@ -41,9 +41,13 @@ public class User extends BaseEntity {
     @Column(name="address", nullable = false)
     private String address;
 
+    @Column(name="detail_address")
+    private String detailAddress;
+
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private MemberStatus status;
+    @Builder.Default
+    private MemberStatus status = MemberStatus.ACTIVE;
 
     @Column(name="point", nullable = false)
     @Builder.Default
@@ -56,7 +60,7 @@ public class User extends BaseEntity {
     private String phoneNum;
 
     @Column(name="phone_verified")
-    private boolean phoneVerified;
+    private Boolean phoneVerified;
 
     @Column(name="inactive_time")
     private LocalDateTime inactiveTime;
