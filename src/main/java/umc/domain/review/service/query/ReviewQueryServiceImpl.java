@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import umc.domain.region.entity.QRegion;
 import umc.domain.review.converter.ReviewConverter;
 import umc.domain.review.dto.res.ReviewResDTO;
@@ -15,18 +16,24 @@ import umc.domain.store.entity.Store;
 import umc.domain.store.exception.StoreException;
 import umc.domain.store.exception.code.StoreErrorCode;
 import umc.domain.store.repository.StoreRepository;
+import umc.domain.user.entity.User;
+import umc.domain.user.exception.UserException;
+import umc.domain.user.exception.code.UserErrorCode;
+import umc.domain.user.repository.UserRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
 public class ReviewQueryServiceImpl implements ReviewQueryService {
 
         private final ReviewRepository reviewRepository;
         private final StoreRepository storeRepository;
+    private final UserRepository userRepository;
 
-        //워크북 실습 코드
+    //워크북 실습 코드
         @Override
         public List<ReviewResDTO.ReviewPreviewWorkbookDTO> searchReview(String query, String type) {
 
@@ -88,6 +95,20 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
             Page<Review> result = reviewRepository.findAllByStore(store,pageRequest);
 
             return ReviewConverter.toReviewPreviewListDTO(result);
+        }
+
+        @Override
+        public ReviewResDTO.MyReviewPreviewListDTO getMyReviewList(Integer page){
+
+            User user = userRepository.findById(1L).orElseThrow(()-> new UserException(UserErrorCode.NOT_FOUND));
+
+            //프론트는 반드시 1부터 시작하는 조건이 있기에 -1해줌.
+            PageRequest pageRequest = PageRequest.of(page-1,10);
+
+            Page<Review> reviewPage = reviewRepository.findAllByUser(user,pageRequest);
+
+            return ReviewConverter.toMyReviewPreviewListDTO(reviewPage);
+
         }
     }
 

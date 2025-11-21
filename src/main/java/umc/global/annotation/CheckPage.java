@@ -3,6 +3,7 @@ package umc.global.annotation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
+import umc.global.validator.CheckPageValidator;
 
 import java.lang.annotation.*;
 

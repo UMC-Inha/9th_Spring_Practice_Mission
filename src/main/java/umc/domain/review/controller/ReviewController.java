@@ -4,12 +4,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import umc.domain.review.dto.req.ReviewReqDTO;
 import umc.domain.review.dto.res.ReviewResDTO;
 import umc.domain.review.exception.code.ReviewSuccessCode;
 import umc.domain.review.service.command.ReviewCommandService;
 import umc.domain.review.service.query.ReviewQueryService;
+import umc.global.annotation.CheckPage;
 import umc.global.apiPayload.ApiResponse;
 import umc.global.apiPayload.code.GeneralSuccessCode;
 
@@ -17,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Validated
 @RequestMapping("/api/reviews")
 public class ReviewController implements ReviewControllerDocs{
     private final ReviewQueryService reviewQueryService;
@@ -66,6 +69,17 @@ public ApiResponse<List<ReviewResDTO.ReviewPreviewWorkbookDTO>>getMyReviews(
         return ApiResponse.onSuccess(
                 GeneralSuccessCode.OK,
                 reviewCommandService.addReview(req)
+        );
+    }
+
+    @GetMapping("/my/list")
+    @Override
+    public ApiResponse<ReviewResDTO.MyReviewPreviewListDTO> getMyReviewList(
+            @CheckPage @RequestParam(name="page") Integer page
+    ){
+        return ApiResponse.onSuccess(
+                GeneralSuccessCode.OK,
+                reviewQueryService.getMyReviewList(page)
         );
     }
 

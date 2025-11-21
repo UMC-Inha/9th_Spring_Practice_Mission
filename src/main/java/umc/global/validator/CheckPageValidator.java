@@ -17,7 +17,7 @@ public class CheckPageValidator implements ConstraintValidator<CheckPage,Integer
         if(value == null || value < 1){
             context.disableDefaultConstraintViolation();//기본 메시지 끄기
             //커스텀 에러 메세지 설정
-            context.buildConstraintViolationWithTemplate(GeneralErrorCode.BAD_REQUEST.getMessage())
+            context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
                     .addConstraintViolation();
             return false;
         }

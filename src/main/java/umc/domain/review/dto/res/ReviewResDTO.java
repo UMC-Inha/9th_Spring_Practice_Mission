@@ -49,6 +49,18 @@ public class ReviewResDTO {
             LocalDate createdAt
     ){}
 
+    //내 리뷰 목록(페이징 정보 포함)
+    @Builder
+    public record MyReviewPreviewListDTO(
+            List<ReviewPreviewWorkbookDTO> reviewList,
+            Integer listSize,
+            Integer totalPage,
+            Long totalElements,
+            Boolean isFirst,
+            Boolean isLast
+    ){}
+
+
 
 
 }

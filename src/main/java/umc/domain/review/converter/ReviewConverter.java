@@ -8,14 +8,17 @@ import umc.domain.store.entity.Store;
 import umc.domain.user.entity.User;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ReviewConverter {
 
+    //단건 변환
     public static ReviewResDTO.ReviewPreviewWorkbookDTO toReviewPreviewBookDTO(Review review){
         return ReviewResDTO.ReviewPreviewWorkbookDTO.builder()
                 .reviewId(review.getId())
                 .storeName(review.getStore().getName())
-                .rating(review.getRating())
+                .rating(review.getRating().floatValue())
                 .content(review.getContent())
                 .createdAt(review.getCreatedAt().toLocalDate())
                 .build();
@@ -65,4 +68,19 @@ public class ReviewConverter {
                 .build();
     }
 
+    //Page<Review> -> 내가 작성한 리뷰 목록 DTO로 변환
+    public static ReviewResDTO.MyReviewPreviewListDTO toMyReviewPreviewListDTO(Page<Review> reviewPage){
+        List<ReviewResDTO.ReviewPreviewWorkbookDTO> myReviewDTOList = reviewPage.getContent().stream()
+                .map(ReviewConverter::toReviewPreviewBookDTO)
+                .collect(Collectors.toList());
+
+        return ReviewResDTO.MyReviewPreviewListDTO.builder()
+                .reviewList(myReviewDTOList)
+                .listSize(reviewPage.getSize())
+                .totalPage(reviewPage.getTotalPages())
+                .totalElements(reviewPage.getTotalElements())
+                .isFirst(reviewPage.isFirst())
+                .isLast(reviewPage.isLast())
+                .build();
+    }
 }
