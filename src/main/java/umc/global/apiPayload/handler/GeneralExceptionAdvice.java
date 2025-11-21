@@ -1,5 +1,6 @@
 package umc.global.apiPayload.handler;
 
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,6 +19,7 @@ import java.util.Map;
 public class GeneralExceptionAdvice {
 
     //애플리케이션에서 발생하는 커스텀 예외를 처리
+    @ExceptionHandler(GeneralException.class)
     public ResponseEntity<ApiResponse<Void>> handleException(
             GeneralException ex
     ){
@@ -66,5 +68,25 @@ public class GeneralExceptionAdvice {
         // 에러 코드, 메시지와 함께 errors를 반환
         return ResponseEntity.status(code.getStatus()).body(errorResponse);
     }
+
+    //@Validated 검증 실패 시 발생하는 예외 처리(ConstraintViolationException)
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ApiResponse<Map<String,String>>> handleConstraintViolationException(ConstraintViolationException ex){
+
+        Map<String, String> errors = new HashMap<>(); //어떤 필드가 어떤 메시지때문에 틀렸는지 Map형태로 담음
+        ex.getConstraintViolations().forEach(violation -> {
+
+            String path = violation.getPropertyPath().toString();
+            String fieldName = path.substring(path.lastIndexOf('.') + 1); // 결과: page
+
+            String errorMessage = violation.getMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        GeneralErrorCode code = GeneralErrorCode.BAD_REQUEST;
+        ApiResponse<Map<String,String>> errorResponse = ApiResponse.onFailure(code, errors);
+        return ResponseEntity.status(code.getStatus()).body(errorResponse);
+    }
+
+
 
 }

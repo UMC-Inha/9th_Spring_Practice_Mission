@@ -27,7 +27,7 @@ public class Review extends BaseEntity {
     private Store store;
 
     @Column(nullable = false)
-    private Integer rating;
+    private Float rating;
 
     @Column(nullable = false)
     private String content;

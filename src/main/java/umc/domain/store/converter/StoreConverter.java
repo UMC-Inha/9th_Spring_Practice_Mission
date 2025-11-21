@@ -66,6 +66,6 @@ public class StoreConverter {
                         .breakEndTime(dto.breakEndTime())
                         .lastOrderTime(dto.lastOrderTime())
                         .build()
-                ).collect(Collectors.toList());
+                ).toList();
     }
 }

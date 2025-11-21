@@ -29,4 +29,8 @@ public class UserMission extends BaseEntity {
     @Column(name="status", nullable = false)
     @Enumerated(EnumType.STRING)
     private MissionStatus status;
+
+    public void complete(){
+        this.status = MissionStatus.SUCCESS;
+    }
 }

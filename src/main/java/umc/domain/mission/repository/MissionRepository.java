@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import umc.domain.mission.entity.Mission;
+import umc.domain.store.entity.Store;
 import umc.domain.user.enums.MissionStatus;
 
 import java.util.List;
@@ -40,4 +41,6 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
             @Param("statuses")List<MissionStatus> statuses,
             Pageable pageable
             );
+
+    Page<Mission> findAllByStore(Store store, Pageable pageable);
 }

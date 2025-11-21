@@ -1,11 +1,16 @@
 package umc.domain.user.converter;
 
+import org.springframework.data.domain.Page;
 import umc.domain.mission.entity.Mission;
 import umc.domain.user.dto.req.UserMissionReqDTO;
 import umc.domain.user.dto.res.UserMissionResDTO;
 import umc.domain.user.entity.User;
 import umc.domain.user.enums.MissionStatus;
 import umc.domain.user.mapping.UserMission;
+
+import java.awt.print.Pageable;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserMissionConverter {
 
@@ -24,6 +29,45 @@ public class UserMissionConverter {
                 .missionId(userMission.getMission().getId())
                 .status(userMission.getStatus())
                 .createdAt(userMission.getCreatedAt())
+                .build();
+    }
+
+    //UserMission 엔티티 -> MyMissionByStatusResDTO
+    public static UserMissionResDTO.MyMissionByStatusResDTO  toMyMissionByStatusResDTO(UserMission userMission){
+        return UserMissionResDTO.MyMissionByStatusResDTO.builder()
+                .userMissionId(userMission.getId())
+                .storeName(userMission.getMission().getStore().getName())
+                .rewardPoint(userMission.getMission().getRewardPoint())
+                .baseAmount(userMission.getMission().getBaseAmount())
+                .deadLine(userMission.getMission().getDeadline())
+                .status(userMission.getStatus())
+                .build();
+    }
+
+    //Page<UserMission> -> MyMissionByStatusListDTO
+    public static UserMissionResDTO.MyMissionByStatusListResDTO toMyMissionByStatusListResDTO(Page<UserMission> missionPage){
+        List<UserMissionResDTO.MyMissionByStatusResDTO> missionList = missionPage.getContent().stream()
+                .map(UserMissionConverter::toMyMissionByStatusResDTO)
+                .collect(Collectors.toList());
+
+        return UserMissionResDTO.MyMissionByStatusListResDTO.builder()
+                .missionList(missionList)
+                .listSize(missionPage.getSize())
+                .totalPage(missionPage.getTotalPages())
+                .totalElements(missionPage.getTotalElements())
+                .isFirst(missionPage.isFirst())
+                .isLast(missionPage.isLast())
+                .build();
+    }
+
+    //UserMission 엔티티 -> CompleteMissionResDTO
+    public static UserMissionResDTO.CompleteMissionResDTO toCompleteMissionResDTO(UserMission mission){
+        return UserMissionResDTO.CompleteMissionResDTO.builder()
+                .userMissionId(mission.getId())
+                .status(mission.getStatus())
+                .missionId(mission.getMission().getId())
+                .rewardPoint(mission.getMission().getRewardPoint())
+                .updatedAt(mission.getUpdatedAt())
                 .build();
     }
 }
