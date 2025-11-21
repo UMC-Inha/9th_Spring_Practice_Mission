@@ -17,9 +17,9 @@ public class UserReqDTO {
             Gender gender,
             @NotNull
             LocalDate birth,
-            @NotNull
+            @NotBlank
             String address,
-            @NotNull
+            @NotBlank
             String specAddress,
             @ExistFoods
             List<Long> preferCategory
