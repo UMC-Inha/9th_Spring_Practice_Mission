@@ -18,7 +18,7 @@ public class ReviewConverter {
 
     private static ReviewResDTO.ReviewDTO toDTO(Review review) {
         return ReviewDTO.builder()
-                .missionId(review.getId())
+                .reviewId(review.getId())
                 .storeId(review.getStore().getId())
                 .content(review.getContent())
                 .star(review.getStar())
