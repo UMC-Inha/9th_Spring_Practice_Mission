@@ -59,4 +59,15 @@ public class UserMissionConverter {
                 .isLast(missionPage.isLast())
                 .build();
     }
+
+    //UserMission 엔티티 -> CompleteMissionResDTO
+    public static UserMissionResDTO.CompleteMissionResDTO toCompleteMissionResDTO(UserMission mission){
+        return UserMissionResDTO.CompleteMissionResDTO.builder()
+                .userMissionId(mission.getId())
+                .status(mission.getStatus())
+                .missionId(mission.getMission().getId())
+                .rewardPoint(mission.getMission().getRewardPoint())
+                .updatedAt(mission.getUpdatedAt())
+                .build();
+    }
 }

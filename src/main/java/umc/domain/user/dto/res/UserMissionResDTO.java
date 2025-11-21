@@ -36,4 +36,13 @@ public class UserMissionResDTO {
             LocalDate deadLine,
             MissionStatus status
     ){}
+
+    @Builder
+    public record CompleteMissionResDTO(
+            Long userMissionId,
+            MissionStatus status,
+            Long missionId,
+            Integer rewardPoint,
+            LocalDateTime updatedAt
+    ){}
 }

@@ -3,29 +3,36 @@ package umc.domain.user.service.command;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import umc.domain.food.entity.Food;
 import umc.domain.food.exception.FoodException;
 import umc.domain.food.exception.code.FoodErrorCode;
 import umc.domain.food.repository.FoodRepository;
 import umc.domain.user.converter.UserConverter;
+import umc.domain.user.converter.UserMissionConverter;
+import umc.domain.user.dto.req.UserMissionReqDTO;
 import umc.domain.user.dto.req.UserReqDTO;
+import umc.domain.user.dto.res.UserMissionResDTO;
 import umc.domain.user.dto.res.UserResDTO;
 import umc.domain.user.entity.User;
+import umc.domain.user.exception.UserMissionException;
+import umc.domain.user.exception.code.UserMissionErrorCode;
 import umc.domain.user.mapping.UserFood;
+import umc.domain.user.mapping.UserMission;
 import umc.domain.user.repository.UserFoodRepository;
+import umc.domain.user.repository.UserMissionRepository;
 import umc.domain.user.repository.UserRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserCommandServiceImpl implements UserCommandService {
 
     private final UserRepository userRepository;
     private final FoodRepository foodRepository;
     private final UserFoodRepository userFoodRepository;
+    private final UserMissionRepository userMissionRepository;
 
     //회원가입 로직
     @Override
@@ -71,5 +78,6 @@ public class UserCommandServiceImpl implements UserCommandService {
         //응답 DTO 생성
         return UserConverter.toJoinDTO(user);
     }
+
 
 }

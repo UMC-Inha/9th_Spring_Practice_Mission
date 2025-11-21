@@ -47,4 +47,20 @@ public class UserMissionController {
         );
     }
 
+    @PatchMapping("/{userMissionId}/complete")
+    @Operation(summary = "미션 완료 API", description = "진행 중인 미션을 완료 상태로 변경합니다.")
+    @Parameters({
+            @Parameter(name = "userMissionId", description = "유저 미션 ID (진행 중인 미션의 ID)")
+    })
+    public ApiResponse<UserMissionResDTO.CompleteMissionResDTO> completeMission(
+            @PathVariable(name="userMissionId") Long userMissionId,
+            @RequestBody @Valid UserMissionReqDTO.CompleteMissionDTO req
+    ){
+        return ApiResponse.onSuccess(
+                GeneralSuccessCode.OK,
+                userMissionCommandService.completeMission(userMissionId, req)
+        );
+    }
+
+
 }
