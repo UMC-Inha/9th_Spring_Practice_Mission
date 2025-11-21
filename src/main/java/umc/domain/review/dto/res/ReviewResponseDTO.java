@@ -1,4 +1,4 @@
-package umc.domain.review.dto;
+package umc.domain.review.dto.res;
 
 
 import lombok.AllArgsConstructor;

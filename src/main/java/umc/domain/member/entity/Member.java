@@ -44,10 +44,12 @@ public class Member extends BaseEntity {
     private LocalDate birthday;
 
     @Column(name = "status" , nullable = false) //처음엔 true로
-    private Boolean status;
+    @Builder.Default
+    private Boolean status = true;
 
-    @Column(name = "point", nullable = false) //0으로
-    private Integer point;
+    @Column(name = "point", nullable = false)
+    @Builder.Default
+    private Integer point = 0;//0으로
 
     @Column(name = "reception", nullable = false)
     @Enumerated(EnumType.STRING)

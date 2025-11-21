@@ -1,4 +1,4 @@
-package umc.domain.member.service;
+package umc.domain.member.service.query;
 
 
 import lombok.RequiredArgsConstructor;

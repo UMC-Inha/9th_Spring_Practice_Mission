@@ -1,29 +1,30 @@
 package umc.domain.review.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import umc.domain.review.code.ReviewSuccessCode;
-import umc.domain.review.dto.ReviewResponseDTO;
-import umc.domain.review.service.ReviewQueryService;
+import umc.domain.review.dto.req.ReviewReqDTO;
+import umc.domain.review.dto.res.ReviewResDTO;
+import umc.domain.review.dto.res.ReviewResponseDTO;
+import umc.domain.review.service.command.ReviewCommandService;
+import umc.domain.review.service.query.ReviewQueryService;
 import umc.global.apiPayload.ApiResponse;
 import umc.global.apiPayload.dto.PageResponseDTO;
 
 
 @RestController
-@RequestMapping("/reviews")
 @RequiredArgsConstructor
 public class ReviewController {
 
     private final ReviewQueryService reviewQueryService;
+    private final ReviewCommandService reviewCommandService;
 
-    @GetMapping("/search")
+    @GetMapping("/reviews/search")
     public ResponseEntity<ApiResponse<PageResponseDTO<ReviewResponseDTO>>> searchReview(
             @RequestParam Long memberId,              // ✅ 추가됨
             @RequestParam(required = false) String type,
@@ -41,6 +42,16 @@ public class ReviewController {
 
         return ResponseEntity.ok(
                 ApiResponse.onSuccess(ReviewSuccessCode.REVIEW_SEARCH_SUCCESS, response)
+        );
+    }
+
+    @PostMapping("/stores/{storeId}/reviews")
+    public ResponseEntity<ApiResponse<ReviewResDTO.CreateResDTO>> createReview(
+            @PathVariable Long storeId,
+            @RequestBody @Valid ReviewReqDTO.CreateReviewDTO dto
+    ) {
+        return ResponseEntity.ok(
+                ApiResponse.onSuccess(ReviewSuccessCode.REVIEW_CREATE_SUCCESS,reviewCommandService.createReview(dto))
         );
     }
 }

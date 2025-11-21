@@ -1,29 +1,28 @@
 package umc.domain.mission.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import umc.domain.mission.code.MissionSuccessCode;
-import umc.domain.mission.dto.MissionResponseDTO;
-import umc.domain.mission.service.MissionQueryService;
-import umc.domain.review.code.ReviewSuccessCode;
+import umc.domain.mission.dto.req.MissionReqDTO;
+import umc.domain.mission.dto.res.MissionResDTO;
+import umc.domain.mission.service.command.MissionCommandService;
+import umc.domain.mission.service.query.MissionQueryService;
 import umc.global.apiPayload.ApiResponse;
 import umc.global.apiPayload.dto.PageResponseDTO;
 
 @RestController
-@RequestMapping("/missions")
 @RequiredArgsConstructor
 public class MissionController {
     private final MissionQueryService missionQueryService;
+    private final MissionCommandService missionCommandService;
 
-    @GetMapping("/available")
-    public ResponseEntity<ApiResponse<PageResponseDTO<MissionResponseDTO>>> getAvailableMissions(
+    @GetMapping("/missions/available")
+    public ResponseEntity<ApiResponse<PageResponseDTO<MissionResDTO.MissionResponseDTO>>> getAvailableMissions(
             @RequestParam Long regionId,
             @RequestParam Long memberId,
             @PageableDefault(
@@ -34,11 +33,21 @@ public class MissionController {
             )
             Pageable pageable
     ) {
-        PageResponseDTO<MissionResponseDTO> result =
+        PageResponseDTO<MissionResDTO.MissionResponseDTO> result =
                 missionQueryService.getAvailableMissions(regionId, memberId, pageable);
 
         return ResponseEntity.ok(
                 ApiResponse.onSuccess(MissionSuccessCode.MISSION_SEARCH_SUCCESS, result)
+        );
+    }
+
+    @PostMapping("/stores/{storeId}/missions")
+    public ResponseEntity<ApiResponse<MissionResDTO.CreateResDTO>> createMission(
+            @PathVariable Long storeId,
+            @RequestBody @Valid MissionReqDTO.CreateReqDTO dto
+            ){
+        return ResponseEntity.ok(
+                ApiResponse.onSuccess(MissionSuccessCode.MISSION_CREATE_SUCCESS,missionCommandService.createMission(dto))
         );
     }
 }

@@ -1,17 +1,17 @@
 package umc.domain.member.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import umc.domain.member.code.MemberSuccessCode;
+import umc.domain.member.dto.req.MemberReqDTO;
 import umc.domain.member.dto.res.MemberResponseDTO;
-import umc.domain.member.service.MemberQueryService;
-import umc.domain.mission.code.MissionSuccessCode;
+import umc.domain.member.service.command.MemberCommandService;
+import umc.domain.member.service.query.MemberQueryService;
 import umc.global.apiPayload.ApiResponse;
 import umc.global.apiPayload.dto.PageResponseDTO;
 
@@ -21,6 +21,7 @@ import umc.global.apiPayload.dto.PageResponseDTO;
 public class MemberController {
 
     private final MemberQueryService memberQueryService;
+    private final MemberCommandService memberCommandService;
 
     @GetMapping
     public ResponseEntity<ApiResponse<PageResponseDTO<MemberResponseDTO.SearchDTO>>> getMembers(
@@ -37,6 +38,15 @@ public class MemberController {
 
         return ResponseEntity.ok(
                 ApiResponse.onSuccess(MemberSuccessCode.MEMBER_LIST_SUCCESS, result)
+        );
+    }
+
+    @PostMapping("/sign-up")
+    public ResponseEntity<ApiResponse<MemberResponseDTO.SignupResponseDTO>> signUp(
+            @RequestBody @Valid MemberReqDTO.SignupRequestDTO dto
+            ){
+        return ResponseEntity.ok(
+                ApiResponse.onSuccess(MemberSuccessCode.MEMBER_SIGNUP_SUCCESS, memberCommandService.signup(dto))
         );
     }
 }

@@ -1,4 +1,4 @@
-package umc.domain.review.service;
+package umc.domain.review.service.query;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import umc.domain.review.code.ReviewErrorCode;
 import umc.domain.review.converter.ReviewConverter;
-import umc.domain.review.dto.ReviewResponseDTO;
+import umc.domain.review.dto.res.ReviewResponseDTO;
 import umc.domain.review.entity.Review;
 import umc.domain.review.exception.ReviewException;
 import umc.domain.review.repository.ReviewRepository;

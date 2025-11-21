@@ -23,7 +23,8 @@ public class MemberMission extends BaseEntity {
 
     @Column(name = "state", nullable = false)
     @Enumerated(EnumType.STRING)
-    private State state;
+    @Builder.Default
+    private State state = State.RUNNING;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

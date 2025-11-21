@@ -8,7 +8,8 @@ import umc.global.apiPayload.code.BaseSuccessCode;
 @Getter
 @AllArgsConstructor
 public enum MemberSuccessCode implements BaseSuccessCode {
-    MEMBER_LIST_SUCCESS(HttpStatus.OK, "MEMBER200_1", "유저 조회 성공");
+    MEMBER_LIST_SUCCESS(HttpStatus.OK, "MEMBER200_1", "유저 조회 성공"),
+    MEMBER_SIGNUP_SUCCESS(HttpStatus.CREATED, "MEMBER201_1", "회원 가입 성공");
 
     private final HttpStatus status;
     private final String code;
