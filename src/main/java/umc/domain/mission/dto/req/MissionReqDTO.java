@@ -1,5 +1,7 @@
 package umc.domain.mission.dto.req;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,10 +16,10 @@ public class MissionReqDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class MissionCreateReq {
-        private LocalDate deadline;
-        private String conditional;
-        private Integer Point;
-        private Integer leastAmount;
+        @NotNull private LocalDate deadline;
+        @NotBlank private String conditional;
+        @NotNull private Integer Point;
+        @NotNull private Integer leastAmount;
     }
 
     @Getter
@@ -25,6 +27,6 @@ public class MissionReqDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class GetChallengeMissionReqDTO{
-        private Long  missionId;
+        @NotNull private Long  missionId;
     }
 }
