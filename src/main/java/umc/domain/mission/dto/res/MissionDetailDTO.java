@@ -5,9 +5,12 @@ import lombok.Builder;
 import java.time.LocalDate;
 
 @Builder
-public record OnGoingMissionDto(
+public record MissionDetailDTO(
+        Long missionId,
+        Long storeId,
         String storeName,
-        Integer point,
         LocalDate deadline,
+        String conditional,
+        Integer point,
         Integer leastAmount
-) { }
+){}

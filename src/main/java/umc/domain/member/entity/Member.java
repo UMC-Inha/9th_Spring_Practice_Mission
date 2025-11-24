@@ -45,23 +45,23 @@ public class Member extends BaseEntity
     @Column(name = "detailAddress", nullable = false)
     private String detailAddress;
 
-    @Column(name = "socialType", nullable = false)
+    @Column(name = "socialType")
     @Enumerated(EnumType.STRING)
     private Social_type socialType;
 
-    @Column(name = "socialUid", nullable = false)
+    @Column(name = "socialUid")
     private String socialUid;
 
-    @Column(name = "point", nullable = false)
+    @Column(name = "point")
     private Integer point;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email")
     private String email;
 
     @Column(name = "phoneNumber")
     private String phoneNumber;
 
-    @Column(name = "deleted",nullable = false)
+    @Column(name = "deleted")
     private boolean deleted =  false;
 
     @Builder.Default

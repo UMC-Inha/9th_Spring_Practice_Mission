@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import umc.domain.location.entity.Location;
 import umc.domain.mission.entity.Mission;
 import umc.domain.review.entity.Review;
 import umc.global.entity.BaseEntity;

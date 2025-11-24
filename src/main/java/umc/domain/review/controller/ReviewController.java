@@ -5,7 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import umc.domain.review.dto.req.MyReviewReqDTO;
+import umc.domain.review.dto.req.ReviewReqDTO;
 import umc.domain.review.dto.res.MyReviewResDTO;
+import umc.domain.review.dto.res.ReviewResDTO;
+import umc.domain.review.service.ReviewCommandService;
 import umc.domain.review.service.ReviewService;
 import umc.global.apiPayload.ApiResponse;
 import umc.global.apiPayload.code.GeneralSuccessCode;
@@ -13,9 +16,10 @@ import umc.global.apiPayload.code.GeneralSuccessCode;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/reviews")
-public class ReviewQueryController {
+public class ReviewController {
 
     private final ReviewService reviewService;
+    private final ReviewCommandService reviewCommandService;
 
     @GetMapping("/me")
     public ApiResponse<Page<MyReviewResDTO>> getMyReviews(
@@ -28,4 +32,18 @@ public class ReviewQueryController {
 
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
     }
+
+
+    @PostMapping("/write/{memberId}/{storeId}")
+    public ApiResponse<ReviewResDTO.ReviewInfo> writeReview(
+            @PathVariable Long memberId,
+            @PathVariable Long storeId,
+            @RequestBody ReviewReqDTO.CreateReview req
+    ) {
+        ReviewResDTO.ReviewInfo result =
+                reviewCommandService.writeReview(memberId, storeId, req);
+
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
+    }
+
 }

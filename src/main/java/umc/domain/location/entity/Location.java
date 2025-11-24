@@ -1,7 +1,8 @@
-package umc.domain.store.entity;
+package umc.domain.location.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import umc.domain.store.entity.Store;
 
 import java.util.ArrayList;
 import java.util.List;

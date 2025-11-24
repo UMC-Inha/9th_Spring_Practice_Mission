@@ -8,7 +8,25 @@ import org.springframework.http.HttpStatus;
 
 public enum GeneralSuccessCode implements BaseSuccessCode {
 
-    OK(HttpStatus.OK, "COMMON200_1", "요청이 성공적으로 처리되었습니다."),
+    // 200 OK
+    OK(HttpStatus.OK,
+            "COMMON200_1",
+            "요청이 성공적으로 처리되었습니다."),
+
+    // 201 Created
+    CREATED(HttpStatus.CREATED,
+            "COMMON201_1",
+            "리소스가 성공적으로 생성되었습니다."),
+
+    // 202 Accepted
+    ACCEPTED(HttpStatus.ACCEPTED,
+            "COMMON202_1",
+            "요청이 접수되었습니다. 비동기적으로 처리됩니다."),
+
+    // 204 No Content
+    NO_CONTENT(HttpStatus.NO_CONTENT,
+            "COMMON204_1",
+            "요청은 성공했지만 응답할 내용이 없습니다."),
 
     ;
     private final HttpStatus status;
