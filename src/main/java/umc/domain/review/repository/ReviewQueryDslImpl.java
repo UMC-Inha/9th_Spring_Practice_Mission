@@ -38,8 +38,7 @@ public class ReviewQueryDslImpl implements ReviewQueryDsl {
                         review.store.name,
                         review.star,
                         review.content,
-                        review.createdAt,
-                        review.member.id.eq(memberId) // mine
+                        review.createdAt
                 ))
                 .from(review)
                 .join(review.store, store)

@@ -21,7 +21,7 @@ public class ReviewController {
     private final ReviewCommandService reviewCommandService;
 
     //
-    @GetMapping("/me")
+    @PostMapping("/me")
     public ApiResponse<Page<ReviewResDTO.MyReviewResDTO>> getMyReviews(
             @RequestParam("member_id") Long memberId, // 실제 인증 객체 타입에 맞게 수정
             @RequestBody MyReviewReqDTO reqDTO,

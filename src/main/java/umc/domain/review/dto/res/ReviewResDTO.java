@@ -27,9 +27,8 @@ public class ReviewResDTO {
             Long reviewId,
             Long storeId,
             String storeName,
-            Integer star,
+            Float star,
             String content,
-            LocalDateTime createdAt,
-            boolean mine
+            LocalDateTime createdAt
     ) {}
 }
