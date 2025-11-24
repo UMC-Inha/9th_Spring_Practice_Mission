@@ -12,6 +12,7 @@ import com.example.umc9th.domain.store.repository.StoreRepository;
 import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClient;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import static com.example.umc9th.domain.review.dto.res.ReviewResDTO.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ReviewQueryService {
     private final ReviewRepository reviewRepository;
     private final StoreRepository storeRepository;

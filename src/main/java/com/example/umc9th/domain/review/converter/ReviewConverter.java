@@ -18,8 +18,8 @@ public class ReviewConverter {
 
     private static ReviewResDTO.ReviewDTO toDTO(Review review) {
         return ReviewDTO.builder()
-                .id(review.getId())
-                .store(review.getStore().getId())
+                .reviewId(review.getId())
+                .storeId(review.getStore().getId())
                 .content(review.getContent())
                 .star(review.getStar())
                 .createdDate(review.getCreatedAt().toLocalDate())
