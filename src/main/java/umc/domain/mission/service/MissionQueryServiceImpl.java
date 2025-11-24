@@ -19,15 +19,23 @@ public class MissionQueryServiceImpl implements MissionQueryService
 
     private final MissionRepository missionRepository;
 
+    @Override
     @Transactional(readOnly = true)
     public MissionResDTO.MissionListResult findByLocationName(String locationName, Pageable pageable) {
 
         //  Page<엔티티타입> 조회
         Page<Mission> missionPage = missionRepository.findByName(locationName, pageable);
 
-
-
         // Converter에게  변환 위임
-        return MissionConverter.toMissionLIstResult(missionPage,locationName);
+        return MissionConverter.toMissionListResult(missionPage);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public MissionResDTO.MissionListResult findByStoreId(Long storeId, Pageable pageable) {
+        //Page<엔티티타입> 조회
+        Page<Mission> missionPage = missionRepository.findByStoreId(storeId, pageable);
+        //converter에게 변환 위임
+        return MissionConverter.toMissionListResult(missionPage);
     }
 }

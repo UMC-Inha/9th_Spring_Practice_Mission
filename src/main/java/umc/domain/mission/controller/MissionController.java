@@ -43,6 +43,16 @@ public class MissionController {
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
     }
 
+    //특정 가게의 미션 목록 조회
+    @GetMapping("/stores/{storeId}")
+    public ApiResponse<MissionResDTO.MissionListResult> getStoreMissions(
+            @PathVariable Long storeId,
+            @PageableDefault(page = 0, size = 10) Pageable pageable
+    ) {
+        MissionResDTO.MissionListResult result = missionQueryService.findByStoreId(storeId, pageable);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
+    }
+
     //회원이 특정 미션에 도전(멤버 미션에 미션 추가)
     @PostMapping("/members/{memberId}")
     public ApiResponse<MissionResDTO.GetChallengeMissionResDTO> challengeMission(

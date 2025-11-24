@@ -5,8 +5,9 @@ import umc.domain.mission.dto.res.MissionResDTO;
 import umc.domain.mission.entity.Mission;
 
 public class MissionConverter {
-//엔티티 -> MissionDTO
-    public static MissionResDTO.MissionDTO toMissionDTO(Mission mission, String locationName) {
+    //엔티티 -> MissionDTO
+    public static MissionResDTO.MissionDTO toMissionDTO(Mission mission) {
+        String locationName = mission.getStore().getLocation().getName();
         return MissionResDTO.MissionDTO.builder()
                 .MissionId(mission.getId())
                 .locationName(locationName)
@@ -18,10 +19,10 @@ public class MissionConverter {
     }
 
     //Page<Mission> -> MissionListResult
-    public static MissionResDTO.MissionListResult toMissionLIstResult(Page<Mission> missionPage, String locationName) {
+    public static MissionResDTO.MissionListResult toMissionListResult(Page<Mission> missionPage) {
 
         //Page<Mission>  -> Page<MissionDTO>
-        Page<MissionResDTO.MissionDTO> missionDTOPage = missionPage.map(mission -> toMissionDTO(mission, locationName));
+        Page<MissionResDTO.MissionDTO> missionDTOPage = missionPage.map(MissionConverter::toMissionDTO);
 
         //Page<MissionDTO> -> MissionListResult
         return MissionResDTO.MissionListResult.builder()
