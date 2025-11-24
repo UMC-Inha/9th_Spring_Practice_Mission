@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import umc.domain.mission.service.MemberMissionQueryService;
 import umc.global.apiPayload.ApiResponse;
 
-import static umc.domain.mission.dto.res.MemberMissionResDTO.*;
+import static umc.domain.mission.dto.res.MissionResDTO.*;
 import static umc.global.apiPayload.code.GeneralSuccessCode.*;
 
 @RestController

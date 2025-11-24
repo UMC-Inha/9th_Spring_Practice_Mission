@@ -6,15 +6,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.domain.member.repository.MemberRepository;
 import umc.domain.mission.converter.MemberMissionConverter;
-import umc.domain.mission.dto.res.CompletedMissionDto;
-import umc.domain.mission.dto.res.OnGoingMissionDto;
 import umc.domain.mission.exception.MissionErrorCode;
 import umc.domain.mission.repository.MemberMissionRepository;
 import umc.global.apiPayload.Exception.GeneralException;
 
 import java.util.List;
 
-import static umc.domain.mission.dto.res.MemberMissionResDTO.*;
+import static umc.domain.mission.dto.res.MissionResDTO.*;
 
 @Service
 @RequiredArgsConstructor

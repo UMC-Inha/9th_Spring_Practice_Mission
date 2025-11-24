@@ -3,6 +3,7 @@ package umc.domain.mission.dto.res;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class MissionResDTO {
@@ -10,11 +11,74 @@ public class MissionResDTO {
     @Getter
     @Builder
     public static class MissionListResult {
-        private List<MissionDTO> missions; // 페이징을 사용하더라도 여기서는 list로 받음. repository에서 page를 쓰더라도 list로 받고 넘겨줌
-        private int totalPages; // 전체 페이지 수
-        private long totalElements; // 전체 요소 수
-        private int currentPage; // 현재 페이지 번호
-        private int size; // 현재 페이지의 요소 개수
-        private boolean hasNext; // 다음 페이지 존재 여부
+        private List<MissionDTO> missions;
+        private int totalPages;
+        private long totalElements;
+        private int currentPage;
+        private int size;
+        private boolean hasNext;
     }
+
+    @Builder
+    public record MissionDTO(
+            long MissionId,
+            String storeName,
+            Integer least_amount,
+            Integer point,
+            String locationName,
+            int deadline
+    ) { }
+
+    @Builder
+    public record MissionDetailDTO(
+            Long missionId,
+            Long storeId,
+            String storeName,
+            LocalDate deadline,
+            String conditional,
+            Integer point,
+            Integer leastAmount
+    ) {}
+
+    @Builder
+    public record OnGoingMissionDto(
+            String storeName,
+            Integer point,
+            LocalDate deadline,
+            Integer leastAmount
+    ) { }
+
+    @Builder
+    public record CompletedMissionDto(
+            Long missionId,
+            String storeName,
+            Integer point,
+            Integer leastAmount
+    ) { }
+
+    @Getter
+    @Builder
+    public static class OnGoingMissionListResult {
+        private Long memberId;
+        private List<OnGoingMissionDto> missions;
+        private int totalCount;
+        private int currentPage;
+        private int pageSize;
+    }
+
+    @Getter
+    @Builder
+    public static class CompletedMissionListResult {
+        private Long memberId;
+        private List<CompletedMissionDto> missions;
+        private int totalCount;
+    }
+
+    @Builder
+    public record GetChallengeMissionResDTO(
+            Long memberMissionId,
+            Long memberId,
+            Long missionId,
+            Boolean isCompleted
+    ){}
 }

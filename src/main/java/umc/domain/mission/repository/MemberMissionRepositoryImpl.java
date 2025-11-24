@@ -5,8 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-import umc.domain.mission.dto.res.CompletedMissionDto;
-import umc.domain.mission.dto.res.OnGoingMissionDto;
+import umc.domain.mission.dto.res.MissionResDTO;
 import umc.domain.mission.entity.QMission;
 import umc.domain.mission.entity.mapping.QMemberMission;
 import umc.domain.store.entity.QStore;
@@ -24,12 +23,12 @@ public class MemberMissionRepositoryImpl   implements MemberMissionRepositoryCus
     private final QStore s = QStore.store;
 
     @Override
-    public List<OnGoingMissionDto> findOnGoingMissions(Long memberId, Pageable pageable) {
+    public List<MissionResDTO.OnGoingMissionDto> findOnGoingMissions(Long memberId, Pageable pageable) {
 
         return queryFactory
                 .select(
                         Projections.constructor(
-                                OnGoingMissionDto.class,
+                                MissionResDTO.OnGoingMissionDto.class,
                                 s.name,
                                 m.point,
                                 m.deadline,
@@ -53,12 +52,12 @@ public class MemberMissionRepositoryImpl   implements MemberMissionRepositoryCus
     }
 
     @Override
-    public List<CompletedMissionDto> findCompletedMissions(Long memberId, Pageable pageable) {
+    public List<MissionResDTO.CompletedMissionDto> findCompletedMissions(Long memberId, Pageable pageable) {
 
         return queryFactory
                 .select(
                         Projections.constructor(
-                                CompletedMissionDto.class,
+                                MissionResDTO.CompletedMissionDto.class,
                                 m.id,
                                 s.name,
                                 m.point,

@@ -1,14 +1,13 @@
 package umc.domain.mission.converter;
 
 import org.springframework.data.domain.Page;
-import umc.domain.mission.dto.res.MissionDTO;
 import umc.domain.mission.dto.res.MissionResDTO;
 import umc.domain.mission.entity.Mission;
 
 public class MissionConverter {
 //엔티티 -> MissionDTO
-    public static MissionDTO toMissionDTO(Mission mission, String locationName) {
-        return MissionDTO.builder()
+    public static MissionResDTO.MissionDTO toMissionDTO(Mission mission, String locationName) {
+        return MissionResDTO.MissionDTO.builder()
                 .MissionId(mission.getId())
                 .locationName(locationName)
                 .storeName(mission.getStore().getName())
@@ -22,7 +21,7 @@ public class MissionConverter {
     public static MissionResDTO.MissionListResult toMissionLIstResult(Page<Mission> missionPage, String locationName) {
 
         //Page<Mission>  -> Page<MissionDTO>
-        Page<MissionDTO> missionDTOPage = missionPage.map(mission -> toMissionDTO(mission, locationName));
+        Page<MissionResDTO.MissionDTO> missionDTOPage = missionPage.map(mission -> toMissionDTO(mission, locationName));
 
         //Page<MissionDTO> -> MissionListResult
         return MissionResDTO.MissionListResult.builder()

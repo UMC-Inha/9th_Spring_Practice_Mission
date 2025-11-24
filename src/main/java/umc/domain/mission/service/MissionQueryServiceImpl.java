@@ -6,7 +6,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.domain.mission.converter.MissionConverter;
-import umc.domain.mission.dto.res.MissionDTO;
 import umc.domain.mission.dto.res.MissionResDTO;
 import umc.domain.mission.entity.Mission;
 import umc.domain.mission.repository.MissionRepository;
