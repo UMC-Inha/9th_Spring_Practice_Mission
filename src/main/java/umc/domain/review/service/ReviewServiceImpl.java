@@ -5,8 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import umc.domain.review.converter.MyReviewConverter;
-import umc.domain.review.dto.req.MyReviewReqDTO;
-import umc.domain.review.dto.res.MyReviewResDTO;
+import umc.domain.review.dto.req.ReviewReqDTO.MyReviewReqDTO;
+import umc.domain.review.dto.res.ReviewResDTO;
 import umc.domain.review.repository.ReviewRepository;
 import umc.domain.review.repository.query.MyReviewQuery;
 
@@ -16,7 +16,7 @@ public class ReviewServiceImpl  implements ReviewService {
     private final ReviewRepository reviewRepository;
 
     @Override
-    public Page<MyReviewResDTO> getMyReviews(Long memberId, MyReviewReqDTO reqDTO, Pageable pageable) {
+    public Page<ReviewResDTO.MyReviewResDTO> getMyReviews(Long memberId, MyReviewReqDTO reqDTO, Pageable pageable) {
 
         MyReviewQuery query = MyReviewConverter.toMyReviewQuery(reqDTO);
 

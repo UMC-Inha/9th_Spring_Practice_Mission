@@ -11,4 +11,13 @@ public class ReviewReqDTO {
         private String content;  // 리뷰 내용
         private Float star;    //별점
     }
+
+    @Getter
+    @Builder
+    public static class MyReviewReqDTO{
+        private Long storeId;
+        private Integer minStar;
+        private Integer maxStar;
+        private umc.domain.review.service.ReviewSort sortKey;
+    }
 }

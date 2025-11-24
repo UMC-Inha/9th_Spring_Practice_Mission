@@ -1,6 +1,6 @@
 package umc.domain.review.converter;
 
-import umc.domain.review.dto.req.MyReviewReqDTO;
+import umc.domain.review.dto.req.ReviewReqDTO;
 import umc.domain.review.repository.query.MyReviewQuery;
 import umc.domain.review.service.ReviewSort;
 
@@ -9,7 +9,7 @@ public class MyReviewConverter {
     private MyReviewConverter() {
     }
 
-    public static MyReviewQuery toMyReviewQuery(MyReviewReqDTO reqDTO) {
+    public static MyReviewQuery toMyReviewQuery(ReviewReqDTO.MyReviewReqDTO reqDTO) {
 
         if (reqDTO == null) {
             return MyReviewQuery.builder()

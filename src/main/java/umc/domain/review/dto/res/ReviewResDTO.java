@@ -22,4 +22,14 @@ public class ReviewResDTO {
 
         private LocalDateTime createdAt;
     }
+
+    public record MyReviewResDTO(
+            Long reviewId,
+            Long storeId,
+            String storeName,
+            Integer star,
+            String content,
+            LocalDateTime createdAt,
+            boolean mine
+    ) {}
 }
