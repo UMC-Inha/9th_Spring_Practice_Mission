@@ -23,6 +23,7 @@ public class MissionController {
     private final MemberMissionQueryService memberMissionQueryService;
     private final MemberMissionCommandService memberMissionCommandService;
 
+    //지역명으로 미션 조회(특정 지역의 미션 조회)
     @GetMapping
     public ApiResponse<MissionResDTO.MissionListResult> findByLocation(
             @RequestParam String locationName,
@@ -32,6 +33,7 @@ public class MissionController {
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
     }
 
+    //특정 가게에 미션 생성
     @PostMapping("/stores/{storeId}")
     public ApiResponse<MissionResDTO.MissionDetailDTO> createMission(
             @PathVariable Long storeId,
@@ -41,6 +43,7 @@ public class MissionController {
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
     }
 
+    //회원이 특정 미션에 도전(멤버 미션에 미션 추가)
     @PostMapping("/members/{memberId}")
     public ApiResponse<MissionResDTO.GetChallengeMissionResDTO> challengeMission(
             @PathVariable Long memberId,
@@ -51,6 +54,7 @@ public class MissionController {
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
     }
 
+    //회원이 진행중인 미션 목록 조회. 페이징 지원
     @GetMapping("/members/{memberId}/ongoing")
     public ApiResponse<MissionResDTO.OnGoingMissionListResult> getOnGoingMissions(
             @PathVariable Long memberId,
@@ -60,6 +64,7 @@ public class MissionController {
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
     }
 
+    // 회원의 완료한 미션 목록 조회. 페이징 지원
     @GetMapping("/members/{memberId}/completed")
     public ApiResponse<MissionResDTO.CompletedMissionListResult> getCompletedMissions(
             @PathVariable Long memberId,
