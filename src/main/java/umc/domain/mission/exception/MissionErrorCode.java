@@ -29,6 +29,11 @@ public enum MissionErrorCode implements BaseErrorCode {
             HttpStatus.NOT_FOUND,
             "MISSION404_4",
             "미션이 존재하지 않습니다."
+    ),
+    MEMBER_MISSION_NOT_FOUND(
+            HttpStatus.NOT_FOUND,
+            "MISSION404_5",
+            "회원-미션 매핑이 존재하지 않습니다."
     );
 
     private final HttpStatus status;

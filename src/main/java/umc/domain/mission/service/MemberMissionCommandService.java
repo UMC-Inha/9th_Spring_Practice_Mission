@@ -4,4 +4,5 @@ import umc.domain.mission.dto.res.MissionResDTO;
 
 public interface MemberMissionCommandService {
     MissionResDTO.GetChallengeMissionResDTO getChallengeMission(Long memberId, Long missionId);
+    MissionResDTO.GetChallengeMissionResDTO completeMission(Long memberMissionId);
 }

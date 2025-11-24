@@ -2,6 +2,7 @@ package umc.domain.mission.repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -17,6 +18,7 @@ import java.util.List;
 public class MemberMissionRepositoryImpl   implements MemberMissionRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;
+    private final EntityManager entityManager;
 
     private final QMemberMission mm = QMemberMission.memberMission;
     private final QMission m = QMission.mission;
@@ -77,5 +79,20 @@ public class MemberMissionRepositoryImpl   implements MemberMissionRepositoryCus
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
+    }
+
+    @Override
+    public void completeMission(Long memberMissionId) {
+        queryFactory
+                .update(mm)
+                .set(mm.isCompleted, true)
+                .where(
+                        mm.id.eq(memberMissionId),
+                        mm.isCompleted.isFalse()
+                )
+                .execute();
+
+        entityManager.flush();
+        entityManager.clear();
     }
 }

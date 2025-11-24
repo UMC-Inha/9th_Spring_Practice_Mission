@@ -64,6 +64,15 @@ public class MissionController {
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
     }
 
+    //회원의 진행중 미션 완료 처리
+    @PatchMapping("/members/missions/{memberMissionId}/complete")
+    public ApiResponse<MissionResDTO.GetChallengeMissionResDTO> completeMission(
+            @PathVariable Long memberMissionId
+    ) {
+        MissionResDTO.GetChallengeMissionResDTO result = memberMissionCommandService.completeMission(memberMissionId);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
+    }
+
     //회원이 진행중인 미션 목록 조회. 페이징 지원
     @GetMapping("/members/{memberId}/ongoing")
     public ApiResponse<MissionResDTO.OnGoingMissionListResult> getOnGoingMissions(
