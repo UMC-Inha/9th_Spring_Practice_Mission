@@ -1,9 +1,9 @@
-package umc.domain.user.entity;
+package umc.domain.member.entity;
 
 
 import jakarta.persistence.*;
 import lombok.*;
-import umc.domain.user.enums.Gender;
+import umc.domain.member.enums.Gender;
 import umc.global.entity.BaseEntity;
 
 import java.time.LocalDate;

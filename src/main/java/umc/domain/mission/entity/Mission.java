@@ -30,6 +30,7 @@ public class Mission {
     private Integer point;
 
 
+    //해당 미션 자체가 가계에서 진행 중인지 아닌지 판단
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;

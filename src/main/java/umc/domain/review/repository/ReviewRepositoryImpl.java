@@ -14,7 +14,7 @@ import java.util.List;
 
 import static umc.domain.review.entity.QReview.review;
 import static umc.domain.store.entity.QStore.store;
-import static umc.domain.user.entity.QMember.member;
+import static umc.domain.member.entity.QMember.member;
 
 @Repository
 @RequiredArgsConstructor

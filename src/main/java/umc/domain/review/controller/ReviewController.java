@@ -1,29 +1,27 @@
 package umc.domain.review.controller;
 
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import jakarta.validation.constraints.NotNull;
 
 import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import umc.domain.review.converter.ReviewConverter;
+import umc.domain.review.dto.CreateReviewDto;
 import umc.domain.review.dto.FindMyReviewDto;
 import umc.domain.review.entity.Review;
 import umc.domain.review.service.ReviewService;
 import umc.global.apiPayload.ApiResponse;
 import umc.global.apiPayload.code.GeneralSuccessCode;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/reviews")
+@RequestMapping("/api/v1/reviews")
 @RequiredArgsConstructor
-@Validated
 public class ReviewController {
 
     private final ReviewService reviewService;
@@ -56,6 +54,26 @@ public class ReviewController {
 
         return ApiResponse.onSuccess(
                 code, reviewDtoPage
+        );
+
+    }
+
+
+    @PostMapping("/{memberId}/{storeId}")
+    public ApiResponse<?> createReview(
+            @NotBlank @PathVariable("memberId") Long memberId,
+            @NotBlank @PathVariable("storeId") Long storeId,
+            @RequestBody @Valid CreateReviewDto createReviewDto
+            ){
+
+
+        Long reviewId = reviewService.createReview(memberId, storeId, createReviewDto.getRate(),
+                createReviewDto.getDescription(), createReviewDto.getPhoto());
+
+        GeneralSuccessCode code = GeneralSuccessCode.OK;
+
+        return ApiResponse.onSuccess(
+                code, reviewId
         );
 
     }

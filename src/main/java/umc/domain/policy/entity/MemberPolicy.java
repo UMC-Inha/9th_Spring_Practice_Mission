@@ -3,7 +3,7 @@ package umc.domain.policy.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import umc.domain.user.entity.Member;
+import umc.domain.member.entity.Member;
 
 @Entity
 @Getter

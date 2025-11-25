@@ -1,4 +1,4 @@
-package umc.domain.user.enums;
+package umc.domain.member.enums;
 
 public enum Gender {
     MALE,
