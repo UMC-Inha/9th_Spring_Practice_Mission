@@ -2,11 +2,14 @@ package umc.domain.mission.repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import umc.domain.mission.entity.Mission;
 import umc.domain.mission.repository.projection.AvailableMissionProjection;
+import umc.domain.store.entity.Store;
 
 public interface MissionRepository extends JpaRepository<Mission, Long> {
 
@@ -45,5 +48,6 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
             @Param("limit") int limit
     );
 
+    Page<Mission> findByStore(Store store, Pageable pageable);
 
 }
