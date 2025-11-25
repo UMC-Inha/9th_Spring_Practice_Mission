@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import umc.domain.review.dto.ReviewDto;
-import umc.domain.review.service.ReviewQueryService;
+import umc.domain.review.service.query.ReviewQueryServiceImpl;
 import umc.global.apiPayload.ApiResponse;
 import umc.global.apiPayload.code.GeneralSuccessCode;
 
@@ -16,7 +16,7 @@ import umc.global.apiPayload.code.GeneralSuccessCode;
 @RequiredArgsConstructor
 public class ReviewController {
 
-    private final ReviewQueryService reviewQueryService;
+    private final ReviewQueryServiceImpl reviewQueryService;
 
     @GetMapping("/{id}/reviews")
     public ApiResponse<List<ReviewDto>> searchReviewByMember(
