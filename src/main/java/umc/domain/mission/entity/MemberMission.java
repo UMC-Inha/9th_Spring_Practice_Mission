@@ -26,7 +26,7 @@ public class MemberMission {
     private Mission mission;
 
 
-    //해당 멤버가 해당 미션을 성공했는지 안했는지 판단
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;
