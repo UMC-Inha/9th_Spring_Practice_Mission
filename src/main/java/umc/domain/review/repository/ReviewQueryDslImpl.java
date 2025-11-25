@@ -5,7 +5,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import umc.domain.review.dto.SearchReviewResponse;
+import umc.domain.review.dto.ReviewResDTO;
 import umc.domain.review.entity.QReview;
 import umc.domain.store.entity.QStore;
 
@@ -15,12 +15,12 @@ public class ReviewQueryDslImpl implements ReviewQueryDsl {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<SearchReviewResponse> searchReview(Predicate predicate) {
+    public List<ReviewResDTO.SearchDTO> searchReview(Predicate predicate) {
         QReview review = QReview.review;
         QStore store = QStore.store;
 
         return queryFactory
-                .select(Projections.constructor(SearchReviewResponse.class,
+                .select(Projections.constructor(ReviewResDTO.SearchDTO.class,
                         review.id,
                         store.name,
                         review.star,

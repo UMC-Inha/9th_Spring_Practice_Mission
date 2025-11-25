@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import umc.domain.member.entity.Member;
 import umc.domain.member.exception.MemberException;
 import umc.domain.member.repository.MemberRepository;
-import umc.domain.review.dto.CreateReviewRequest;
+import umc.domain.review.dto.ReviewReqDTO;
 import umc.domain.review.entity.Review;
 import umc.domain.review.entity.ReviewPhoto;
 import umc.domain.review.repository.ReviewRepository;
@@ -27,23 +27,24 @@ public class ReviewCommandService {
     private final StoreRepository storeRepository;
 
     @Transactional
-    public void createReview(CreateReviewRequest request) {
+    public void createReview(Long memberId, ReviewReqDTO.CreateDTO request) {
 
-        Member member = memberRepository.findById(request.getMemberId())
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
 
-        Store store = storeRepository.findById(request.getStoreId())
+        Store store = storeRepository.findById(request.storeId())
                 .orElseThrow(() -> new StoreException(NOT_FOUND_STORE));
 
         Review review = Review.builder()
                 .store(store)
-                .content(request.getContent())
-                .star(request.getStar())
+                .content(request.content())
+                .star(request.star())
                 .member(member)
                 .build();
 
-        List<ReviewPhoto> photos = request.getPhotoUrls().stream()
+        List<ReviewPhoto> photos = request.photoUrls().stream()
                 .map(url -> ReviewPhoto.builder()
+                        .review(review)
                         .photoUrl(url)
                         .build())
                 .toList();
@@ -51,7 +52,6 @@ public class ReviewCommandService {
         review.addPhotos(photos);
 
         reviewRepository.save(review);
-
     }
 
 }
