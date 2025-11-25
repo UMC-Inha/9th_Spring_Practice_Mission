@@ -9,6 +9,7 @@ import umc.global.apiPayload.code.BaseSuccessCode;
 @AllArgsConstructor
 public enum ReviewSuccessCode implements BaseSuccessCode {
 
+    FOUND(HttpStatus.OK, "REVIEW200_1", "요청하신 리뷰를 찾았습니다."),
     CREATED(HttpStatus.CREATED, "REVIEW201_1", "리뷰가 정상적으로 등록되었습니다."),
     ;
 

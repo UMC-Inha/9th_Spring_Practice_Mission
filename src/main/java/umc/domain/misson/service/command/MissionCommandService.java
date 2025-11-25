@@ -9,4 +9,9 @@ public interface MissionCommandService {
             Long storeId,
             MissionReqDTO.createMissionReqDTO reqDTO
     );
+
+    MissionResDTO.MissionPreviewDTO updateMissionStatus(
+            Long memberId,
+            Long missionId
+    );
 }

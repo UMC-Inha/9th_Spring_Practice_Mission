@@ -1,4 +1,4 @@
-package umc.domain.member.repository;
+package umc.domain.member.repository.membermission;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +12,7 @@ import umc.domain.member.entity.mapping.MemberMission;
 import umc.domain.member.enums.Status;
 
 @Repository
-public interface MemberMissionRepository extends JpaRepository<MemberMission, Long> {
+public interface MemberMissionRepository extends JpaRepository<MemberMission, Long>, MemberMissionQueryDsl {
 
     @Query("""
                     select new umc.domain.member.dto.MissionListDto(

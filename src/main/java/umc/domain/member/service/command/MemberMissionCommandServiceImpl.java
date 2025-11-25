@@ -8,8 +8,8 @@ import umc.domain.member.entity.Member;
 import umc.domain.member.entity.mapping.MemberMission;
 import umc.domain.member.exception.member.MemberException;
 import umc.domain.member.exception.member.code.MemberErrorCode;
-import umc.domain.member.repository.MemberMissionRepository;
 import umc.domain.member.repository.MemberRepository;
+import umc.domain.member.repository.membermission.MemberMissionRepository;
 import umc.domain.misson.entity.Mission;
 import umc.domain.misson.exception.MissionException;
 import umc.domain.misson.exception.code.MissionErrorCode;
@@ -34,7 +34,7 @@ public class MemberMissionCommandServiceImpl implements MemberMissionCommandServ
                 .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND));
 
         MemberMission memberMission = MemberMissionConverter.toMemberMission(mission, member);
-        
+
         memberMissionRepository.save(memberMission);
         mission.getMemberMissionList().add(memberMission);
         member.getMemberMissionList().add(memberMission);
