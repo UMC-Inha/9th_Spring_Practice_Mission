@@ -1,0 +1,78 @@
+package umc.domain.review.service.query;
+
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import java.math.BigDecimal;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import umc.domain.review.converter.ReviewConverter;
+import umc.domain.review.dto.ReviewReqDTO;
+import umc.domain.review.dto.ReviewResDTO;
+import umc.domain.review.dto.ReviewResDTO.SearchDTO;
+import umc.domain.review.entity.QReview;
+import umc.domain.review.entity.Review;
+import umc.domain.review.repository.ReviewRepository;
+import umc.domain.store.entity.Store;
+import umc.domain.store.exception.StoreException;
+import umc.domain.store.exception.code.StoreErrorCode;
+import umc.domain.store.repository.StoreRepository;
+
+@Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
+public class ReviewQueryServiceImpl implements ReviewQueryService {
+
+    private final ReviewRepository reviewRepository;
+    private final StoreRepository storeRepository;
+
+    private static final QReview review = QReview.review;
+
+    public List<SearchDTO> searchReview(Long memberId, ReviewReqDTO.SearchDTO request) {
+        BooleanBuilder builder = new BooleanBuilder();
+
+        builder.and(review.member.id.eq(memberId));
+
+        if (request.storeName() != null && !request.storeName().isBlank()) {
+            builder.and(review.store.name.containsIgnoreCase(request.storeName()));
+        }
+
+        if (request.starRange() != null) {
+            builder.and(starBucket(request.starRange()));
+        }
+
+        return reviewRepository.searchReview(builder);
+    }
+
+    @Override
+    public ReviewResDTO.ReviewPreViewListDTO findReview( String storeName, Integer page){
+
+        Store store = storeRepository.findByName(storeName).
+                orElseThrow(() -> new StoreException(StoreErrorCode.NOT_FOUND_STORE));
+
+        PageRequest pageRequest = PageRequest.of(page, 5);
+        Page<Review> result = reviewRepository.findAllByStore(store, pageRequest);
+
+        return ReviewConverter.toReviewPreviewListDTO(result);
+
+    }
+
+    private BooleanExpression starBucket(int bucket) {
+
+        QReview r = QReview.review;
+
+        BigDecimal min = BigDecimal.valueOf(bucket).setScale(1);
+
+        if (bucket == 5) {
+            return r.star.eq(BigDecimal.valueOf(5.0).setScale(1));
+        }
+
+        BigDecimal maxExclusive = BigDecimal.valueOf(bucket + 1).setScale(1);
+
+        return r.star.goe(min).and(r.star.lt(maxExclusive));
+    }
+
+}

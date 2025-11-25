@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import umc.domain.review.dto.ReviewReqDTO;
+import umc.domain.review.dto.ReviewResDTO;
 import umc.domain.review.exception.code.ReviewSuccessCode;
 import umc.domain.review.service.command.ReviewCommandService;
 import umc.domain.review.service.query.ReviewQueryService;
@@ -20,12 +21,12 @@ import umc.global.apiPayload.code.GeneralSuccessCode;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/reviews")
-public class ReviewController {
+public class ReviewController implements ReviewControllerDocs{
 
     private final ReviewQueryService reviewQueryService;
     private final ReviewCommandService reviewCommandService;
 
-    @GetMapping
+    @GetMapping("/search")
     public ApiResponse<List<SearchDTO>> searchReview(
             @RequestParam Long memberId,
             @RequestBody ReviewReqDTO.SearchDTO request) {
@@ -33,6 +34,17 @@ public class ReviewController {
         List<SearchDTO> result = reviewQueryService.searchReview(memberId, request);
 
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
+    }
+
+    @GetMapping
+    @Override
+    public ApiResponse<ReviewResDTO.ReviewPreViewListDTO> getReviews(
+            @RequestParam String storeName,
+            @RequestParam(defaultValue = "1") Integer page
+    ){
+
+        ReviewSuccessCode code = ReviewSuccessCode.FOUND;
+        return ApiResponse.onSuccess(code, reviewQueryService.findReview(storeName, page));
     }
 
     @PostMapping
