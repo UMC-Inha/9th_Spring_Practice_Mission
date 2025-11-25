@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 import umc.domain.member.entity.MemberGender;
 import umc.global.annotation.ExistFoods;
+import umc.global.annotation.ValidGender;
 
 public class MemberReqDTO {
 
@@ -33,6 +34,7 @@ public class MemberReqDTO {
             LocalDate birth,
 
             @NotNull(message = "성별은 필수 입력값입니다.")
+            @ValidGender
             MemberGender gender,
 
             @NotNull(message = "약관 동의 정보는 필수입니다.")

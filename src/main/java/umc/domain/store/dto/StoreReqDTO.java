@@ -5,11 +5,13 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import umc.domain.store.entity.StoreType;
+import umc.global.annotation.ValidStoreType;
 
 public class StoreReqDTO {
 
     public record CreateDTO(
             @NotNull(message = "가게 타입은 필수입니다.")
+            @ValidStoreType
             StoreType type,
 
             @NotBlank(message = "가게 이름은 필수입니다.")
