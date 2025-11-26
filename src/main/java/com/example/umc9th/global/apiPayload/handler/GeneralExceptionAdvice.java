@@ -4,12 +4,29 @@ import com.example.umc9th.global.apiPayload.ApiResponse;
 import com.example.umc9th.global.apiPayload.code.BaseErrorCode;
 import com.example.umc9th.global.apiPayload.code.GeneralErrorCode;
 import com.example.umc9th.global.apiPayload.exception.GeneralException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GeneralExceptionAdvice {
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ApiResponse<?> handleValidationException(MethodArgumentNotValidException e) {
+
+        String errorMessage = e.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(err -> err.getDefaultMessage())
+                .findFirst()
+                .orElse("잘못된 요청입니다.");
+
+        GeneralErrorCode code = GeneralErrorCode.BAD_REQUEST;
+        ApiResponse<?> result = ApiResponse.onFailure(code, errorMessage);
+        return result;
+    }
 
     // 애플리케이션에서 발생하는 커스텀 예외를 처리
     @ExceptionHandler(GeneralException.class)
