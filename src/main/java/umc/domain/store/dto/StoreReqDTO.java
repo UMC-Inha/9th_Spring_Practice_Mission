@@ -1,15 +1,15 @@
 package umc.domain.store.dto;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 public class StoreReqDTO {
 
     public record createStoreReqDTO(
-            @NotNull
+            @NotBlank
             String name,
-            @NotNull
+            @NotBlank
             String type,
-            @NotNull
+            @NotBlank
             String address
     ) {
     }
