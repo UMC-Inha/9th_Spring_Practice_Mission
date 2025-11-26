@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/stores/{storeId}/missions")
+@RequestMapping("/stores")
 public class MissionChallengeController {
 
     private final MissionChallengeService missionChallengeService;
     @PostMapping("/{missionId}/challenge")
     public ApiResponse<MissionChallengeDTO> challengeMission (
-            @PathVariable Long storeId,
             @PathVariable Long missionId
     ) {
-        MissionChallengeDTO result = missionChallengeService.challengeMission(storeId, missionId);
+        Long memberId = 1L; // security token
+        MissionChallengeDTO result = missionChallengeService.challengeMission(missionId, memberId);
 
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
     }

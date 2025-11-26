@@ -1,6 +1,7 @@
 package com.example.umc9th.domain.review.service;
 
 import com.example.umc9th.domain.review.converter.ReviewConverter;
+import com.example.umc9th.domain.review.dto.res.ReviewResDTO;
 import com.example.umc9th.domain.review.entity.QReview;
 import com.example.umc9th.domain.review.entity.Review;
 import com.example.umc9th.domain.review.repository.ReviewRepository;
@@ -11,6 +12,8 @@ import com.example.umc9th.domain.store.exception.StoreException;
 import com.example.umc9th.domain.store.repository.StoreRepository;
 import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClient;
@@ -52,6 +55,7 @@ public class ReviewQueryService {
     }
 
     // 미션
+    /*
     public List<ReviewDTO> getReviews(Long storeId, Float star) {
 
         // 1. store 유무 확인
@@ -62,8 +66,10 @@ public class ReviewQueryService {
         List<Review> filterList = reviewRepository.filterReview(store.getId(), star);
 
         // 3. Converter로 변환해서 return.
-        return ReviewConverter.toDTOList(filterList);
+        return ReviewConverter.toDTO(filterList);
     }
+     */
+
 
     public ReviewDTO convertDTO(Review review) {
         return ReviewDTO.builder()
@@ -71,5 +77,14 @@ public class ReviewQueryService {
                 .star(review.getStar())
                 .createdDate(review.getCreatedAt().toLocalDate())
                 .content(review.getContent()).build();
+    }
+
+    public ReviewResDTO.ReviewPreViewListDTO findReview(String storeName, Integer page) {
+        Store store = storeRepository.findByName(storeName).orElseThrow(()-> new StoreException(StoreErrorCode.STORE_NOT_FOUND));
+
+        PageRequest pageRequest = PageRequest.of(page, 5);
+        Page<Review> result = reviewRepository.findAllByStore(store, pageRequest);
+
+        return ReviewConverter.toReviewPreviewListDTO(result);
     }
 }
