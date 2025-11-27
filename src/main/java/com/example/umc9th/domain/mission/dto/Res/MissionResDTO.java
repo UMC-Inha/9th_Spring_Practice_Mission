@@ -25,7 +25,6 @@ public class MissionResDTO {
             Integer point,
             LocalDateTime deadline
     ) {}
-
 }
 
 

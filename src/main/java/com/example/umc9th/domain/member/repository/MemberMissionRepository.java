@@ -1,5 +1,6 @@
 package com.example.umc9th.domain.member.repository;
 
+import com.example.umc9th.domain.member.enums.Status;
 import com.example.umc9th.domain.mission.entity.Mission;
 import com.example.umc9th.domain.mission.entity.mapping.MemberMission;
 import org.springframework.data.domain.Page;
@@ -62,4 +63,6 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
             @Param("regionId") Long regionId,
             @Param("success") Boolean success
     );
+
+    Page<MemberMission> findMemberMissionByStatus(Long memberId, Status status, Pageable pageable);
 }
