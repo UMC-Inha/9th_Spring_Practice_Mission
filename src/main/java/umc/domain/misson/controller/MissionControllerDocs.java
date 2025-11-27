@@ -2,6 +2,7 @@ package umc.domain.misson.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.constraints.NotBlank;
 import umc.domain.misson.dto.MissionResDTO.MissionPreviewDTO;
 import umc.domain.misson.dto.MissionResDTO.MissionPreviewListDTO;
 import umc.global.annotation.PageParam;
@@ -18,7 +19,7 @@ public interface MissionControllerDocs {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패"),
     })
     ApiResponse<MissionPreviewListDTO> getMissionsByStore(
-            String storeName, @PageParam Integer page
+            @NotBlank String storeName, @PageParam Integer page
     );
 
 
@@ -31,7 +32,7 @@ public interface MissionControllerDocs {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패"),
     })
     ApiResponse<MissionPreviewListDTO> getOngoingMissions(
-            Long memberId, @PageParam Integer page
+            @NotBlank Long memberId, @PageParam Integer page
     );
 
     @Operation( // Swagger 전용 Docs

@@ -40,6 +40,8 @@ public class GeneralExceptionAdvice {
                 );
     }
 
+    // 이건 DTO 검증 실패일 때 발생하는 Exception(@RequestBody)
+    // 에러 저장소: BindingError (필드 에러)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<Map<String, String>>> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException ex
@@ -57,11 +59,22 @@ public class GeneralExceptionAdvice {
     }
 
     @ExceptionHandler(HandlerMethodValidationException.class)
-    public ResponseEntity<ApiResponse<String>> handleHandlerMethodValidationException(
+    public ResponseEntity<ApiResponse<Map<String, String>>> handleHandlerMethodValidationException(
             HandlerMethodValidationException ex
     ) {
-        BaseErrorCode code = GeneralErrorCode.INVALID_PAGE;
+        Map<String, String> errors = new HashMap<>();
+
+        ex.getParameterValidationResults().forEach(result -> {
+            String paramName = result.getMethodParameter().getParameterName();
+
+            String msg = result.getResolvableErrors().get(0).getDefaultMessage();
+            errors.put(paramName, msg);
+        });
+
+        GeneralErrorCode code = GeneralErrorCode.VALID_FAIL;
+        ApiResponse<Map<String, String>> errorResponse = ApiResponse.onFailure(code, errors);
+
         return ResponseEntity.status(code.getStatus())
-                .body(ApiResponse.onFailure(code, ex.getMessage()));
+                .body(errorResponse);
     }
 }
