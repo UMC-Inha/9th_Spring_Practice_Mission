@@ -1,5 +1,9 @@
 package com.example.umc9th.domain.review.service;
 
+import com.example.umc9th.domain.member.entity.Member;
+import com.example.umc9th.domain.member.exception.MemberException;
+import com.example.umc9th.domain.member.exception.code.MemberErrorCode;
+import com.example.umc9th.domain.member.repository.MemberRepository;
 import com.example.umc9th.domain.review.converter.ReviewConverter;
 import com.example.umc9th.domain.review.dto.res.ReviewResDTO;
 import com.example.umc9th.domain.review.entity.QReview;
@@ -28,6 +32,7 @@ import static com.example.umc9th.domain.review.dto.res.ReviewResDTO.*;
 public class ReviewQueryService {
     private final ReviewRepository reviewRepository;
     private final StoreRepository storeRepository;
+    private final MemberRepository memberRepository;
 
     // 워크북 내용
     public List<Review> searchReview(String query, String type)
@@ -86,5 +91,16 @@ public class ReviewQueryService {
         Page<Review> result = reviewRepository.findAllByStore(store, pageRequest);
 
         return ReviewConverter.toReviewPreviewListDTO(result);
+    }
+
+    // 내가 작성한 리뷰 목록
+
+    public ReviewResDTO.ReviewPreViewListDTO getMyReview(Integer Page) {
+        Member member = memberRepository.findById(1L).orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND));
+
+        PageRequest pageRequest = PageRequest.of(Page, 10);
+
+        Page<Review> review = reviewRepository.findAllByMember(member, pageRequest);
+        return ReviewConverter.toReviewPreviewListDTO(review);
     }
 }
