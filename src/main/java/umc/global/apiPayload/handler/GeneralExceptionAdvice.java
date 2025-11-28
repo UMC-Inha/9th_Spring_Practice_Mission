@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import umc.global.apiPayload.ApiResponse;
 import umc.global.apiPayload.code.BaseErrorCode;
 import umc.global.apiPayload.code.GeneralErrorCode;
@@ -39,6 +40,8 @@ public class GeneralExceptionAdvice {
                 );
     }
 
+    // 이건 DTO 검증 실패일 때 발생하는 Exception(@RequestBody)
+    // 에러 저장소: BindingError (필드 에러)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<Map<String, String>>> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException ex
@@ -53,5 +56,25 @@ public class GeneralExceptionAdvice {
 
         // 에러코드와 Body를 함께 반환한다.
         return ResponseEntity.status(code.getStatus()).body(errorResponse);
+    }
+
+    @ExceptionHandler(HandlerMethodValidationException.class)
+    public ResponseEntity<ApiResponse<Map<String, String>>> handleHandlerMethodValidationException(
+            HandlerMethodValidationException ex
+    ) {
+        Map<String, String> errors = new HashMap<>();
+
+        ex.getParameterValidationResults().forEach(result -> {
+            String paramName = result.getMethodParameter().getParameterName();
+
+            String msg = result.getResolvableErrors().get(0).getDefaultMessage();
+            errors.put(paramName, msg);
+        });
+
+        GeneralErrorCode code = GeneralErrorCode.VALID_FAIL;
+        ApiResponse<Map<String, String>> errorResponse = ApiResponse.onFailure(code, errors);
+
+        return ResponseEntity.status(code.getStatus())
+                .body(errorResponse);
     }
 }

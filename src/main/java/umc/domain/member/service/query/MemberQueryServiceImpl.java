@@ -8,8 +8,8 @@ import umc.domain.member.dto.MissionChallengeListDto;
 import umc.domain.member.dto.MissionListDto;
 import umc.domain.member.dto.MyPageDto;
 import umc.domain.member.enums.Status;
-import umc.domain.member.repository.MemberMissionRepository;
 import umc.domain.member.repository.MemberRepository;
+import umc.domain.member.repository.membermission.MemberMissionRepository;
 import umc.global.dto.PageResponse;
 
 @Service

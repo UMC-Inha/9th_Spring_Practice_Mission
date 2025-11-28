@@ -1,5 +1,6 @@
 package umc.domain.misson.converter;
 
+import org.springframework.data.domain.Page;
 import umc.domain.misson.dto.MissionReqDTO;
 import umc.domain.misson.dto.MissionResDTO;
 import umc.domain.misson.entity.Mission;
@@ -25,6 +26,27 @@ public class MissionConverter {
                 .uniqueNumber(mission.getUniqueNumber())
                 .endDate(mission.getEndDate())
                 .storeId(mission.getStore().getId())
+                .build();
+    }
+
+    public static MissionResDTO.MissionPreviewDTO toMissionPreviewDTO(Mission mission) {
+        return MissionResDTO.MissionPreviewDTO.builder()
+                .description(mission.getDescription())
+                .points(mission.getPoints())
+                .endDate(mission.getEndDate())
+                .build();
+    }
+
+    public static MissionResDTO.MissionPreviewListDTO toMissionPreviewListDTO(Page<Mission> missions) {
+        return MissionResDTO.MissionPreviewListDTO.builder()
+                .missionPreviewDTOList(missions.getContent().stream()
+                        .map(MissionConverter::toMissionPreviewDTO)
+                        .toList())
+                .listSize(missions.getSize())
+                .totalPage(missions.getTotalPages())
+                .totalElements(missions.getTotalElements())
+                .isFirst(missions.isFirst())
+                .isLast(missions.isLast())
                 .build();
     }
 }

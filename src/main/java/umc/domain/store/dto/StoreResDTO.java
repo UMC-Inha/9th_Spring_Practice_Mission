@@ -14,4 +14,5 @@ public class StoreResDTO {
             String address
     ) {
     }
+
 }
