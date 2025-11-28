@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GeneralExceptionAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ApiResponse<?> handleValidationException(MethodArgumentNotValidException e) {
+    public ResponseEntity<ApiResponse<?>> handleValidationException(MethodArgumentNotValidException e) {
 
         String errorMessage = e.getBindingResult()
                 .getFieldErrors()
@@ -25,7 +25,10 @@ public class GeneralExceptionAdvice {
 
         GeneralErrorCode code = GeneralErrorCode.BAD_REQUEST;
         ApiResponse<?> result = ApiResponse.onFailure(code, errorMessage);
-        return result;
+
+        return ResponseEntity
+                .status(code.getStatus())
+                .body(result);
     }
 
     // 애플리케이션에서 발생하는 커스텀 예외를 처리

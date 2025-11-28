@@ -54,7 +54,7 @@ public class ReviewController {
         return ApiResponse.onSuccess(code,reviewQueryService.findReview(storeName, page));
     }
 
-
+    /*
     @GetMapping("/review/search")
     public List<Review> searchReview(
             @RequestParam String query,
@@ -65,6 +65,8 @@ public class ReviewController {
                 reviewQueryService.searchReview(query, type)
         ).getResult();
     }
+     */
+
 
     /*
     @GetMapping("/review")

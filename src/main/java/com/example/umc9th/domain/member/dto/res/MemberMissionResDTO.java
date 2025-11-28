@@ -1,6 +1,7 @@
 package com.example.umc9th.domain.member.dto.res;
 
 import com.example.umc9th.domain.member.enums.Status;
+import jakarta.validation.constraints.Min;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -26,6 +27,7 @@ public class MemberMissionResDTO {
             Boolean isComplete,
             String storeName
     ) {}
+
 
     @Builder
     public record SuccessResDTO(

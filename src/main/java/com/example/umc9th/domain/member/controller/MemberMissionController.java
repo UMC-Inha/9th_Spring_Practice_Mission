@@ -17,7 +17,7 @@ public class MemberMissionController {
     private final MemberMissionQueryService memberMissionQueryService;
     private final MemberCommandService memberCommandService;
 
-    @GetMapping("/api/IN_PROGRESS")
+    @GetMapping("/api/in_progress")
     public ApiResponse<MemberMissionResDTO.MissionByStatusListDTO> getMemberMissionByStatus(
             @PageCheck @RequestParam(name = "page") Integer page
     ) {
@@ -26,6 +26,8 @@ public class MemberMissionController {
                 memberMissionQueryService.getMissionByStatus(page)
         );
     }
+
+
 
     @PatchMapping("/api/{memberMissionId}/complete")
     public ApiResponse<MemberMissionResDTO.SuccessResDTO> completeMission(

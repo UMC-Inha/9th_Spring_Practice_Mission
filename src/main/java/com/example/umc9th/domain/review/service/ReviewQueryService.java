@@ -6,10 +6,8 @@ import com.example.umc9th.domain.member.exception.code.MemberErrorCode;
 import com.example.umc9th.domain.member.repository.MemberRepository;
 import com.example.umc9th.domain.review.converter.ReviewConverter;
 import com.example.umc9th.domain.review.dto.res.ReviewResDTO;
-import com.example.umc9th.domain.review.entity.QReview;
 import com.example.umc9th.domain.review.entity.Review;
 import com.example.umc9th.domain.review.repository.ReviewRepository;
-import com.example.umc9th.domain.store.entity.QRegion;
 import com.example.umc9th.domain.store.entity.Store;
 import com.example.umc9th.domain.store.exception.StoreErrorCode;
 import com.example.umc9th.domain.store.exception.StoreException;
@@ -33,8 +31,7 @@ public class ReviewQueryService {
     private final ReviewRepository reviewRepository;
     private final StoreRepository storeRepository;
     private final MemberRepository memberRepository;
-
-    // 워크북 내용
+    /*
     public List<Review> searchReview(String query, String type)
     {
         QReview review = QReview.review;
@@ -58,6 +55,9 @@ public class ReviewQueryService {
         List<Review> reviewList = reviewRepository.searchReview(builder);
         return reviewList;
     }
+     */
+    // 워크북 내용
+
 
     // 미션
     /*
