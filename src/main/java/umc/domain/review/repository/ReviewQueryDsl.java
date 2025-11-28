@@ -6,5 +6,5 @@ import umc.domain.review.dto.res.ReviewResDTO;
 import umc.domain.review.repository.query.MyReviewQuery;
 
 public interface ReviewQueryDsl {
-    Page<ReviewResDTO.MyReviewResDTO> findMyReviews(Long memberId, MyReviewQuery query, Pageable pageable);
+    Page<ReviewResDTO.MyReviewResponse> findMyReviews(Long memberId, MyReviewQuery query, Pageable pageable);
 }

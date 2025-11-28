@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ReviewResDTO {
 
@@ -23,7 +24,7 @@ public class ReviewResDTO {
         private LocalDateTime createdAt;
     }
 
-    public record MyReviewResDTO(
+    public record MyReviewResponse(
             Long reviewId,
             Long storeId,
             String storeName,
@@ -31,4 +32,15 @@ public class ReviewResDTO {
             String content,
             LocalDateTime createdAt
     ) {}
+
+    public record MyReviewListResponse(
+            List<MyReviewResponse> myReviewList,
+            Integer page,
+            Integer size,
+            Integer totalPages ,
+            Long totalElements,
+            Boolean isFirst,
+            Boolean isLast,
+            Boolean hasNext
+    ){}
 }

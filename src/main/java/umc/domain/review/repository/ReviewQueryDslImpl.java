@@ -25,14 +25,14 @@ public class ReviewQueryDslImpl implements ReviewQueryDsl {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<ReviewResDTO.MyReviewResDTO> findMyReviews(Long memberId, MyReviewQuery query, Pageable pageable) {
+    public Page<ReviewResDTO.MyReviewResponse> findMyReviews(Long memberId, MyReviewQuery query, Pageable pageable) {
 
         BooleanBuilder where = buildWhere(memberId, query);
         OrderSpecifier<?>[] orders = resolveSort(query);
 
-        List<ReviewResDTO.MyReviewResDTO> content = queryFactory
+        List<ReviewResDTO.MyReviewResponse> content = queryFactory
                 .select(
-                        Projections.constructor(ReviewResDTO.MyReviewResDTO.class,
+                        Projections.constructor(ReviewResDTO.MyReviewResponse.class,
                         review.id,
                         review.store.id,
                         review.store.name,

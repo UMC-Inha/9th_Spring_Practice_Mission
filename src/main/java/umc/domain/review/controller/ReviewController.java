@@ -22,13 +22,13 @@ public class ReviewController {
 
     //
     @PostMapping("/me")
-    public ApiResponse<Page<ReviewResDTO.MyReviewResDTO>> getMyReviews(
+    public ApiResponse<ReviewResDTO.MyReviewListResponse> getMyReviews(
             @RequestParam("member_id") Long memberId, // 실제 인증 객체 타입에 맞게 수정
             @RequestBody MyReviewReqDTO reqDTO,
             Pageable pageable
     ) {
 
-        Page<ReviewResDTO.MyReviewResDTO> result = reviewService.getMyReviews(memberId, reqDTO, pageable);
+        ReviewResDTO.MyReviewListResponse result = reviewService.getMyReviews(memberId, reqDTO, pageable);
 
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
     }

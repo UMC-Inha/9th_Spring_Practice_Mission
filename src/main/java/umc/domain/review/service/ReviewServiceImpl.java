@@ -13,13 +13,18 @@ import umc.domain.review.repository.query.MyReviewQuery;
 @Service
 @RequiredArgsConstructor
 public class ReviewServiceImpl  implements ReviewService {
+
     private final ReviewRepository reviewRepository;
 
     @Override
-    public Page<ReviewResDTO.MyReviewResDTO> getMyReviews(Long memberId, MyReviewReqDTO reqDTO, Pageable pageable) {
+    public ReviewResDTO.MyReviewListResponse getMyReviews(Long memberId, MyReviewReqDTO reqDTO, Pageable pageable) {
 
         MyReviewQuery query = MyReviewConverter.toMyReviewQuery(reqDTO);
 
-        return reviewRepository.findMyReviews(memberId, query, pageable);
+        Page<ReviewResDTO.MyReviewResponse> page =
+                reviewRepository.findMyReviews(memberId, query, pageable);
+
+        // 🔹 여기서 Page -> MyReviewListResponse로 변환
+        return MyReviewConverter.toMyReviewListResponse(page);
     }
 }
