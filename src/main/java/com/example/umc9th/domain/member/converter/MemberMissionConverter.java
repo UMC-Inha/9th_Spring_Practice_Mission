@@ -5,7 +5,6 @@ import com.example.umc9th.domain.mission.entity.mapping.MemberMission;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MemberMissionConverter {
 
@@ -32,6 +31,16 @@ public class MemberMissionConverter {
                 .totalElements(memberMissionPage.getTotalElements())
                 .isFirst(memberMissionPage.isFirst())
                 .isLast(memberMissionPage.isLast())
+                .build();
+    }
+
+    // 엔티티 -> DTO
+    public static MemberMissionResDTO.SuccessResDTO toSuccessResDTO(MemberMission memberMission) {
+        return MemberMissionResDTO.SuccessResDTO.builder()
+                .memberMissionId(memberMission.getId())
+                .point(memberMission.getMission().getPoint())
+                .storeName(memberMission.getMission().getStore().getName())
+                .status(memberMission.isStatus())
                 .build();
     }
 }

@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-@Table(name = "member_mission")
+@Table(name = "member_missions")
 public class MemberMission extends BaseEntity {
 
     @Id
@@ -28,4 +28,8 @@ public class MemberMission extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mission_id")
     private Mission mission;
+
+    public void completeMission() {
+        this.status = true;
+    }
 }

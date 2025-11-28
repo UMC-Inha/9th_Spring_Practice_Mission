@@ -1,5 +1,6 @@
 package com.example.umc9th.domain.member.dto.res;
 
+import com.example.umc9th.domain.member.enums.Status;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -24,5 +25,13 @@ public class MemberMissionResDTO {
             Integer point,
             Boolean isComplete,
             String storeName
+    ) {}
+
+    @Builder
+    public record SuccessResDTO(
+            Long memberMissionId,
+            Integer point,
+            String storeName,
+            Boolean status
     ) {}
 }
