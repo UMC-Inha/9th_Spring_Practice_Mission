@@ -2,28 +2,41 @@ package com.example.umc9th.domain.review.converter;
 
 import com.example.umc9th.domain.review.dto.res.ReviewResDTO;
 import com.example.umc9th.domain.review.entity.Review;
+import org.springframework.data.domain.Page;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.example.umc9th.domain.review.dto.res.ReviewResDTO.*;
 
 public class ReviewConverter {
 
-    public static List<ReviewDTO> toDTOList(List<Review> reviews) {
-        return reviews.stream()
-                .map(ReviewConverter::toDTO)
-                .toList();
-    }
-
-
-    private static ReviewResDTO.ReviewDTO toDTO(Review review) {
-        return ReviewDTO.builder()
-                .reviewId(review.getId())
-                .storeId(review.getStore().getId())
-                .content(review.getContent())
-                .star(review.getStar())
-                .createdDate(review.getCreatedAt().toLocalDate())
+    // result -> DTO
+    public static ReviewResDTO.ReviewPreViewListDTO toReviewPreviewListDTO(
+            Page<Review> result
+    ){
+        return ReviewResDTO.ReviewPreViewListDTO.builder()
+                .reviewList(result.getContent().stream()
+                        .map(ReviewConverter::toReviewPreviewDTO)
+                        .toList()
+                )
+                .listSize(result.getSize())
+                .totalPage(result.getTotalPages())
+                .totalElements(result.getTotalElements())
+                .isFirst(result.isFirst())
+                .isLast(result.isLast())
                 .build();
     }
 
+    public static ReviewResDTO.ReviewPreViewDTO toReviewPreviewDTO(
+            Review review
+    ){
+        return ReviewResDTO.ReviewPreViewDTO.builder()
+                .ownerNickname(review.getMember().getName())
+                .score(review.getStar())
+                .body(review.getContent())
+                .createAt(LocalDate.from(review.getCreatedAt()))
+                .build();
+    }
 }
+

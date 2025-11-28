@@ -1,15 +1,17 @@
 package com.example.umc9th.domain.member.repository;
 
-import com.example.umc9th.domain.mission.entity.Mission;
+import com.example.umc9th.domain.member.enums.Status;
 import com.example.umc9th.domain.mission.entity.mapping.MemberMission;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 
+@Repository
 public interface MemberMissionRepository extends JpaRepository<MemberMission, Long> {
     /* 내가 진행중, 진행완료한 미션 모아서보는 쿼리
     SELECT
@@ -62,4 +64,7 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
             @Param("regionId") Long regionId,
             @Param("success") Boolean success
     );
+
+    Page<MemberMission> findMemberMissionByStatus(Long memberId, Status status, Pageable pageable);
+    Optional<MemberMission> findByIdAndMemberId(Long memberMissionId, Long memberId);
 }

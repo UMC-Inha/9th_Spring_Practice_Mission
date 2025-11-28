@@ -8,9 +8,9 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum ReviewErrorCode implements BaseErrorCode {
-    REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND,
+    NOT_FOUND(HttpStatus.NOT_FOUND,
             "REVEIW_COMMON404_1",
-                    "요청한 리뷰를 찾을 수 없습니다."),
+                    "해당 리뷰를 찾을 수 없습니다."),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,
             "REVIEW_COMMON500_1",
             "예기치 않은 서버 에러가 발생했습니다."),

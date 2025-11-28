@@ -1,29 +1,40 @@
 package com.example.umc9th.domain.member.service.command;
 
 import com.example.umc9th.domain.member.converter.MemberConverter;
+import com.example.umc9th.domain.member.converter.MemberMissionConverter;
 import com.example.umc9th.domain.member.dto.req.MemberReqDTO;
+import com.example.umc9th.domain.member.dto.res.MemberMissionResDTO;
 import com.example.umc9th.domain.member.dto.res.MemberResDTO;
 import com.example.umc9th.domain.member.entity.Food;
 import com.example.umc9th.domain.member.entity.Member;
 import com.example.umc9th.domain.member.entity.mapping.MemberFood;
 import com.example.umc9th.domain.member.exception.FoodException;
+import com.example.umc9th.domain.member.exception.MemberException;
+import com.example.umc9th.domain.member.exception.MemberMissionException;
 import com.example.umc9th.domain.member.exception.code.FoodErrorCode;
+import com.example.umc9th.domain.member.exception.code.MemberErrorCode;
+import com.example.umc9th.domain.member.exception.code.MemberMissionErrorCode;
 import com.example.umc9th.domain.member.repository.FoodRepository;
 import com.example.umc9th.domain.member.repository.MemberFoodRepository;
+import com.example.umc9th.domain.member.repository.MemberMissionRepository;
 import com.example.umc9th.domain.member.repository.MemberRepository;
+import com.example.umc9th.domain.mission.entity.mapping.MemberMission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class MemberCommandServiceImpl implements MemberCommandService {
 
     private final MemberRepository memberRepository;
     private final MemberFoodRepository memberFoodRepository;
     private final FoodRepository foodRepository;
+    private final MemberMissionRepository memberMissionRepository;
 
 
     @Override
@@ -60,5 +71,23 @@ public class MemberCommandServiceImpl implements MemberCommandService {
         }
         // 응답 DTO 생성
         return MemberConverter.toJoinDTO(member);
+    }
+
+    @Override
+    public MemberMissionResDTO.SuccessResDTO SuccessMission(Long memberMissionId) {
+        Member member = memberRepository.findById(1L)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND));
+
+        MemberMission memberMission = memberMissionRepository.findByIdAndMemberId(memberMissionId, member.getId())
+                .orElseThrow(() -> new MemberMissionException(MemberMissionErrorCode.NOT_FOUND));
+
+        if(memberMission.isStatus()) {
+            throw new MemberException(MemberMissionErrorCode.ALREADY_COMPLETED);
+        }
+
+        memberMission.completeMission();
+        memberMissionRepository.save(memberMission);
+
+        return MemberMissionConverter.toSuccessResDTO(memberMission);
     }
 }

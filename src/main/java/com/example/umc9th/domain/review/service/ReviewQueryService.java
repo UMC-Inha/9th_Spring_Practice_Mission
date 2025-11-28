@@ -1,16 +1,21 @@
 package com.example.umc9th.domain.review.service;
 
+import com.example.umc9th.domain.member.entity.Member;
+import com.example.umc9th.domain.member.exception.MemberException;
+import com.example.umc9th.domain.member.exception.code.MemberErrorCode;
+import com.example.umc9th.domain.member.repository.MemberRepository;
 import com.example.umc9th.domain.review.converter.ReviewConverter;
-import com.example.umc9th.domain.review.entity.QReview;
+import com.example.umc9th.domain.review.dto.res.ReviewResDTO;
 import com.example.umc9th.domain.review.entity.Review;
 import com.example.umc9th.domain.review.repository.ReviewRepository;
-import com.example.umc9th.domain.store.entity.QRegion;
 import com.example.umc9th.domain.store.entity.Store;
 import com.example.umc9th.domain.store.exception.StoreErrorCode;
 import com.example.umc9th.domain.store.exception.StoreException;
 import com.example.umc9th.domain.store.repository.StoreRepository;
 import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClient;
@@ -25,8 +30,8 @@ import static com.example.umc9th.domain.review.dto.res.ReviewResDTO.*;
 public class ReviewQueryService {
     private final ReviewRepository reviewRepository;
     private final StoreRepository storeRepository;
-
-    // 워크북 내용
+    private final MemberRepository memberRepository;
+    /*
     public List<Review> searchReview(String query, String type)
     {
         QReview review = QReview.review;
@@ -50,8 +55,12 @@ public class ReviewQueryService {
         List<Review> reviewList = reviewRepository.searchReview(builder);
         return reviewList;
     }
+     */
+    // 워크북 내용
+
 
     // 미션
+    /*
     public List<ReviewDTO> getReviews(Long storeId, Float star) {
 
         // 1. store 유무 확인
@@ -62,8 +71,10 @@ public class ReviewQueryService {
         List<Review> filterList = reviewRepository.filterReview(store.getId(), star);
 
         // 3. Converter로 변환해서 return.
-        return ReviewConverter.toDTOList(filterList);
+        return ReviewConverter.toDTO(filterList);
     }
+     */
+
 
     public ReviewDTO convertDTO(Review review) {
         return ReviewDTO.builder()
@@ -71,5 +82,25 @@ public class ReviewQueryService {
                 .star(review.getStar())
                 .createdDate(review.getCreatedAt().toLocalDate())
                 .content(review.getContent()).build();
+    }
+
+    public ReviewResDTO.ReviewPreViewListDTO findReview(String storeName, Integer page) {
+        Store store = storeRepository.findByName(storeName).orElseThrow(()-> new StoreException(StoreErrorCode.STORE_NOT_FOUND));
+
+        PageRequest pageRequest = PageRequest.of(page, 5);
+        Page<Review> result = reviewRepository.findAllByStore(store, pageRequest);
+
+        return ReviewConverter.toReviewPreviewListDTO(result);
+    }
+
+    // 내가 작성한 리뷰 목록
+
+    public ReviewResDTO.ReviewPreViewListDTO getMyReview(Integer Page) {
+        Member member = memberRepository.findById(1L).orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND));
+
+        PageRequest pageRequest = PageRequest.of(Page, 10);
+
+        Page<Review> review = reviewRepository.findAllByMember(member, pageRequest);
+        return ReviewConverter.toReviewPreviewListDTO(review);
     }
 }
