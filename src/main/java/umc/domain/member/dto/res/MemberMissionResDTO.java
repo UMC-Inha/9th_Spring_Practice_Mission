@@ -13,4 +13,20 @@ public class MemberMissionResDTO {
             LocalDate deadline,
             State state
     ){}
+
+    @Builder
+    public record goingResDTO(
+            String storeName,
+            String content,
+            Integer point,
+            Integer period,
+            LocalDate deadline
+    ){}
+
+    @Builder
+    public record completeResDTO(
+            String storeName,
+            String content,
+            Integer point
+    ){}
 }

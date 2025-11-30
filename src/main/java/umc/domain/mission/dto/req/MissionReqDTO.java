@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import umc.global.annotation.ExistStore;
+import umc.global.annotation.ValidPage;
 
 public class MissionReqDTO {
     public record CreateReqDTO(
@@ -19,4 +20,13 @@ public class MissionReqDTO {
             @ExistStore
             Long storeId
     ){}
+
+    public record FindStoreMissionDTO(
+            @ValidPage
+            Integer page
+    ){
+        public FindStoreMissionDTO {
+            if (page == null) page = 1;
+        }
+    }
 }

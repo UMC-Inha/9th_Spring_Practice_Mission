@@ -20,4 +20,12 @@ public class MissionResDTO {
         private Integer period;
         private String storeName;
     }
+
+    @Builder
+    public record StoreMissionDTO(
+            String storeName,
+            String content,
+            Integer point,
+            Integer period
+    ){}
 }

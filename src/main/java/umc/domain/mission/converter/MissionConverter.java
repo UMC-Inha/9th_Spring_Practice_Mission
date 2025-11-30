@@ -34,4 +34,13 @@ public class MissionConverter {
                 .build();
 
     }
+
+    public static MissionResDTO.StoreMissionDTO toStoreMissionDTO(Mission mission) {
+        return MissionResDTO.StoreMissionDTO.builder()
+                .storeName(mission.getStore().getName())
+                .content(mission.getContent())
+                .point(mission.getPoint())
+                .period(mission.getPeriod())
+                .build();
+    }
 }

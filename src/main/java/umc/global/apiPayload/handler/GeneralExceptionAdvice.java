@@ -1,5 +1,6 @@
 package umc.global.apiPayload.handler;
 
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -43,6 +44,19 @@ public class GeneralExceptionAdvice {
 
         // 에러 코드, 메시지와 함께 errors를 반환
         return ResponseEntity.status(code.getStatus()).body(errorResponse);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ApiResponse<String>> handleConstraintViolationException(
+            ConstraintViolationException ex
+    ) {
+        GeneralErrorCode code = GeneralErrorCode.VALID_FAIL;
+
+        return ResponseEntity.status(code.getStatus())
+                .body(ApiResponse.onFailure(
+                        code,
+                        ex.getMessage()  // 여기서 "page 값은 1 이상이어야 합니다." 메시지가 전달됨
+                ));
     }
 
     // 그 외의 정의되지 않은 모든 예외 처리

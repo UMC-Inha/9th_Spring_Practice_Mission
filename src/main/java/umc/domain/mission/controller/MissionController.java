@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import umc.domain.mission.code.MissionSuccessCode;
 import umc.domain.mission.dto.req.MissionReqDTO;
@@ -17,7 +18,7 @@ import umc.global.apiPayload.dto.PageResponseDTO;
 
 @RestController
 @RequiredArgsConstructor
-public class MissionController {
+public class MissionController implements MissionControllerDocs{
     private final MissionQueryService missionQueryService;
     private final MissionCommandService missionCommandService;
 
@@ -50,4 +51,27 @@ public class MissionController {
                 ApiResponse.onSuccess(MissionSuccessCode.MISSION_CREATE_SUCCESS,missionCommandService.createMission(dto))
         );
     }
+
+    @Override
+    @Validated
+    @GetMapping("/stores/{storeId}/missions")
+    public ResponseEntity<ApiResponse<PageResponseDTO<MissionResDTO.StoreMissionDTO>>> getStoreMissions(
+            @PathVariable Long storeId,
+            @RequestBody @Valid MissionReqDTO.FindStoreMissionDTO dto
+    ) {
+        Integer page = dto.page(); // 기본값 1 적용됨
+
+        PageResponseDTO<MissionResDTO.StoreMissionDTO> response =
+                missionQueryService.getStoreMissions(storeId, page);
+
+        return ResponseEntity.ok(
+                ApiResponse.onSuccess(
+                        MissionSuccessCode.MISSION_SEARCH_SUCCESS,
+                        response
+                )
+        );
+    }
+
+
+
 }

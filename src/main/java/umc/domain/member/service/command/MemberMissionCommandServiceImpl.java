@@ -14,6 +14,9 @@ import umc.domain.member.repository.MemberMissionRepository;
 import umc.domain.member.repository.MemberRepository;
 import umc.domain.mission.entity.Mission;
 import umc.domain.mission.repository.MissionRepository;
+import umc.domain.member.enums.State;
+
+
 
 @Service
 @RequiredArgsConstructor
@@ -50,6 +53,24 @@ public class MemberMissionCommandServiceImpl implements MemberMissionCommandServ
 
         // DTO 변환 후 반환
         return MemberMissionConverter.toResDTO(memberMission);
+    }
+
+    @Override
+    @Transactional
+    public MemberMissionResDTO.completeResDTO completeMission(Long memberMissionId) {
+
+        MemberMission mm = memberMissionRepository.findById(memberMissionId)
+                .orElseThrow(() -> new MemberMissionException(MemberMissionErrorCode.MISSION_NOT_FOUND));
+
+        if (mm.getState() == State.SUCCESS) {
+            throw new IllegalStateException("이미 완료된 미션입니다.");
+        }
+
+        // 상태 변경 (서비스에서 직접 변경)
+        mm.setState(State.SUCCESS);
+
+        // ResDTO 변환까지 Command Service에서 수행
+        return MemberMissionConverter.toCompleteResDTO(mm);
     }
 
 }

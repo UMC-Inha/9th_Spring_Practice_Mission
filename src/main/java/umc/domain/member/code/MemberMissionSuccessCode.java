@@ -9,7 +9,8 @@ import umc.global.apiPayload.code.BaseSuccessCode;
 @AllArgsConstructor
 public enum MemberMissionSuccessCode implements BaseSuccessCode {
 
-    MISSION_ADD_SUCCESS(HttpStatus.OK, "MM200_1", "회원 미션 추가 성공");
+    MISSION_ADD_SUCCESS(HttpStatus.OK, "MM200_1", "회원 미션 추가 성공"),
+    MISSION_COMPLETE_SUCCESS(HttpStatus.OK, "MM200_2", "회원 미션 완료 성공");
 
     private final HttpStatus status;
     private final String code;
