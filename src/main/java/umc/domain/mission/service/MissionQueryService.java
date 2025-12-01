@@ -5,4 +5,5 @@ import umc.domain.mission.dto.res.MissionResDTO;
 
 public interface MissionQueryService {
     MissionResDTO.MissionListResult findByLocationName(String locationName, Pageable pageable);
+    MissionResDTO.MissionListResult findByStoreId(Long storeId, Pageable pageable);
 }

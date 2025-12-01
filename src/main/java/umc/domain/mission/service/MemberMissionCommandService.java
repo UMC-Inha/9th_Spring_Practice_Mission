@@ -1,7 +1,8 @@
 package umc.domain.mission.service;
 
-import umc.domain.mission.dto.res.GetChallengeMissionResDTO;
+import umc.domain.mission.dto.res.MissionResDTO;
 
 public interface MemberMissionCommandService {
-    GetChallengeMissionResDTO getChallengeMission(Long memberId, Long missionId);
+    MissionResDTO.GetChallengeMissionResDTO getChallengeMission(Long memberId, Long missionId);
+    MissionResDTO.GetChallengeMissionResDTO completeMission(Long memberMissionId);
 }

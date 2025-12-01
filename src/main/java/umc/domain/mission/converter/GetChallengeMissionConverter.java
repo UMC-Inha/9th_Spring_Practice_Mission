@@ -1,7 +1,7 @@
 package umc.domain.mission.converter;
 
 import umc.domain.member.entity.Member;
-import umc.domain.mission.dto.res.GetChallengeMissionResDTO;
+import umc.domain.mission.dto.res.MissionResDTO;
 import umc.domain.mission.entity.Mission;
 import umc.domain.mission.entity.mapping.MemberMission;
 
@@ -16,8 +16,8 @@ public class GetChallengeMissionConverter {
                 .build();
     }
 
-    public static GetChallengeMissionResDTO toGetChallengeMissionResDTO(MemberMission memberMission){
-        return GetChallengeMissionResDTO.builder()
+    public static MissionResDTO.GetChallengeMissionResDTO toGetChallengeMissionResDTO(MemberMission memberMission){
+        return MissionResDTO.GetChallengeMissionResDTO.builder()
                 .memberMissionId(memberMission.getId())
                 .memberId(memberMission.getMember().getId())
                 .missionId(memberMission.getMission().getId())

@@ -1,8 +1,8 @@
 package umc.domain.mission.service;
 
 import umc.domain.mission.dto.req.MissionReqDTO;
-import umc.domain.mission.dto.res.MissionDetailDTO;
+import umc.domain.mission.dto.res.MissionResDTO;
 
 public interface MissionCreateService {
-    MissionDetailDTO createMission(Long storeId, MissionReqDTO.MissionCreateReq req);
+    MissionResDTO.MissionDetailDTO createMission(Long storeId, MissionReqDTO.MissionCreateReq req);
 }

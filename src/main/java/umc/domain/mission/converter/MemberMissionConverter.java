@@ -1,28 +1,26 @@
 package umc.domain.mission.converter;
 
-import umc.domain.mission.dto.res.CompletedMissionDto;
-import umc.domain.mission.dto.res.MemberMissionResDTO;
-import umc.domain.mission.dto.res.OnGoingMissionDto;
+import umc.domain.mission.dto.res.MissionResDTO;
 
 import java.util.List;
 
 public class MemberMissionConverter {
-    public static MemberMissionResDTO.OnGoingMissionListResult toOnGoingMissionListResult(
+    public static MissionResDTO.OnGoingMissionListResult toOnGoingMissionListResult(
             Long memberId,
-            List<OnGoingMissionDto> missions
+            List<MissionResDTO.OnGoingMissionDto> missions
     ) {
-        return MemberMissionResDTO.OnGoingMissionListResult.builder()
+        return MissionResDTO.OnGoingMissionListResult.builder()
                 .memberId(memberId)
                 .missions(missions)
                 .totalCount(missions.size())
                 .build();
     }
 
-    public static MemberMissionResDTO.CompletedMissionListResult toCompletedMissionListResult(
+    public static MissionResDTO.CompletedMissionListResult toCompletedMissionListResult(
             Long memberId,
-            List<CompletedMissionDto> missions
+            List<MissionResDTO.CompletedMissionDto> missions
     ) {
-        return MemberMissionResDTO.CompletedMissionListResult.builder()
+        return MissionResDTO.CompletedMissionListResult.builder()
                 .memberId(memberId)
                 .missions(missions)
                 .totalCount(missions.size())

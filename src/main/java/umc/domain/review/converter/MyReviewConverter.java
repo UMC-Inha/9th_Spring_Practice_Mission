@@ -1,14 +1,15 @@
 package umc.domain.review.converter;
 
-import umc.domain.review.dto.req.MyReviewReqDTO;
+import org.springframework.data.domain.Page;
+import umc.domain.review.dto.res.ReviewResDTO;
 import umc.domain.review.repository.query.MyReviewQuery;
 import umc.domain.review.service.ReviewSort;
 
+import static umc.domain.review.dto.req.ReviewReqDTO.*;
+
 public class MyReviewConverter {
 
-    private MyReviewConverter() {
-    }
-
+    //요청 DTO -> 쿼리 객체
     public static MyReviewQuery toMyReviewQuery(MyReviewReqDTO reqDTO) {
 
         if (reqDTO == null) {
@@ -27,5 +28,21 @@ public class MyReviewConverter {
                                 : ReviewSort.CREATED_DESC
                 )
                 .build();
+    }
+
+    // 🔹 Page<MyReviewResponse> -> MyReviewListResponse
+    public static ReviewResDTO.MyReviewListResponse toMyReviewListResponse(
+            Page<ReviewResDTO.MyReviewResponse> page
+    ) {
+        return new ReviewResDTO.MyReviewListResponse(
+                page.getContent(),          // myReviewList
+                page.getNumber(),           // page
+                page.getSize(),             // size
+                page.getTotalPages(),       // totalPages
+                page.getTotalElements(),    // totalElements
+                page.isFirst(),             // isFirst
+                page.isLast(),              // isLast
+                page.hasNext()              // hasNext
+        );
     }
 }

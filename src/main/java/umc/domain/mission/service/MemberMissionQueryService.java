@@ -2,7 +2,7 @@ package umc.domain.mission.service;
 
 import org.springframework.data.domain.Pageable;
 
-import static umc.domain.mission.dto.res.MemberMissionResDTO.*;
+import static umc.domain.mission.dto.res.MissionResDTO.*;
 
 
 public interface MemberMissionQueryService {

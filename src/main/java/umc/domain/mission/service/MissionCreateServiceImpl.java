@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.domain.mission.converter.MissionCreateConverter;
 import umc.domain.mission.dto.req.MissionReqDTO;
-import umc.domain.mission.dto.res.MissionDetailDTO;
+import umc.domain.mission.dto.res.MissionResDTO;
 import umc.domain.mission.entity.Mission;
 import umc.domain.mission.repository.MissionRepository;
 import umc.domain.store.entity.Store;
@@ -22,7 +22,7 @@ public class MissionCreateServiceImpl implements MissionCreateService {
 
     @Override
     @Transactional
-    public MissionDetailDTO createMission(Long storeId, MissionReqDTO.MissionCreateReq req){
+    public MissionResDTO.MissionDetailDTO createMission(Long storeId, MissionReqDTO.MissionCreateReq req){
         // 가게 존재 여부 검증
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new GeneralException(StoreErrorCode.STORE_NOT_FOUND));

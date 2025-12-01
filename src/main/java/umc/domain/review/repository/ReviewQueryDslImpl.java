@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-import umc.domain.review.dto.res.MyReviewResDTO;
+import umc.domain.review.dto.res.ReviewResDTO;
 import umc.domain.review.repository.query.MyReviewQuery;
 import umc.domain.review.service.ReviewSort;
 
@@ -25,21 +25,20 @@ public class ReviewQueryDslImpl implements ReviewQueryDsl {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<MyReviewResDTO> findMyReviews(Long memberId, MyReviewQuery query, Pageable pageable) {
+    public Page<ReviewResDTO.MyReviewResponse> findMyReviews(Long memberId, MyReviewQuery query, Pageable pageable) {
 
         BooleanBuilder where = buildWhere(memberId, query);
         OrderSpecifier<?>[] orders = resolveSort(query);
 
-        List<MyReviewResDTO> content = queryFactory
+        List<ReviewResDTO.MyReviewResponse> content = queryFactory
                 .select(
-                        Projections.constructor(MyReviewResDTO.class,
+                        Projections.constructor(ReviewResDTO.MyReviewResponse.class,
                         review.id,
                         review.store.id,
                         review.store.name,
                         review.star,
                         review.content,
-                        review.createdAt,
-                        review.member.id.eq(memberId) // mine
+                        review.createdAt
                 ))
                 .from(review)
                 .join(review.store, store)

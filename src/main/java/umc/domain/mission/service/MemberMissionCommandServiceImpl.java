@@ -7,7 +7,7 @@ import umc.domain.member.entity.Member;
 import umc.domain.member.exception.MemberErrorCode;
 import umc.domain.member.repository.MemberRepository;
 import umc.domain.mission.converter.GetChallengeMissionConverter;
-import umc.domain.mission.dto.res.GetChallengeMissionResDTO;
+import umc.domain.mission.dto.res.MissionResDTO;
 import umc.domain.mission.entity.Mission;
 import umc.domain.mission.entity.mapping.MemberMission;
 import umc.domain.mission.exception.MissionErrorCode;
@@ -25,7 +25,7 @@ public class MemberMissionCommandServiceImpl implements MemberMissionCommandServ
 
     @Override
     @Transactional
-    public GetChallengeMissionResDTO getChallengeMission(Long memberId, Long missionId){
+    public MissionResDTO.GetChallengeMissionResDTO getChallengeMission(Long memberId, Long missionId){
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(()->new GeneralException(MemberErrorCode.MEMBER_NOT_FOUND));
         Mission mission = missionRepository.findById(missionId)
@@ -33,5 +33,18 @@ public class MemberMissionCommandServiceImpl implements MemberMissionCommandServ
         MemberMission saved = memberMissionRepository.save(GetChallengeMissionConverter.toMemberMission(member, mission));
 
         return GetChallengeMissionConverter.toGetChallengeMissionResDTO(saved);
+    }
+
+    @Override
+    @Transactional
+    public MissionResDTO.GetChallengeMissionResDTO completeMission(Long memberMissionId) {
+        MemberMission memberMission = memberMissionRepository.findById(memberMissionId)
+                .orElseThrow(() -> new GeneralException(MissionErrorCode.MEMBER_MISSION_NOT_FOUND));
+
+        if (!memberMission.isCompleted()) {
+            memberMissionRepository.completeMission(memberMissionId);
+        }
+
+        return GetChallengeMissionConverter.toGetChallengeMissionResDTO(memberMission);
     }
 }
