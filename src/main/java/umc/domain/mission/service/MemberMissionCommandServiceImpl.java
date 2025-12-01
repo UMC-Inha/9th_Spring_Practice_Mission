@@ -43,9 +43,6 @@ public class MemberMissionCommandServiceImpl implements MemberMissionCommandServ
 
         if (!memberMission.isCompleted()) {
             memberMissionRepository.completeMission(memberMissionId);
-            // 다시 조회하여 최신 상태 반환
-            memberMission = memberMissionRepository.findById(memberMissionId)
-                    .orElseThrow(() -> new GeneralException(MissionErrorCode.MEMBER_MISSION_NOT_FOUND));
         }
 
         return GetChallengeMissionConverter.toGetChallengeMissionResDTO(memberMission);
