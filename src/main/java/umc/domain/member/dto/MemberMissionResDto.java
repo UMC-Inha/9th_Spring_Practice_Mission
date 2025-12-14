@@ -3,7 +3,7 @@ package umc.domain.member.dto;
 import lombok.Builder;
 import umc.domain.member.enums.MissionStatus;
 
-public class MemberMissionResDto {
+public class MemberMissionResDTO {
 
     //미션 도전시 response dto
     @Builder

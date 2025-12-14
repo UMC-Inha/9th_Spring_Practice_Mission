@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import umc.domain.review.dto.ReviewResDto;
+import umc.domain.review.dto.ReviewResDTO;
 import umc.domain.review.service.ReviewService;
 import umc.global.annotation.ValidPage;
 import umc.global.apiPayload.ApiResponse;
@@ -39,7 +39,7 @@ public class ReviewController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패")
     })
     @GetMapping("/me")
-    public ApiResponse<ReviewResDto.ReviewPreViewListDTO> getMyReviews(
+    public ApiResponse<ReviewResDTO.ReviewPreViewListDTO> getMyReviews(
             @RequestParam(required = false) Long storeId,
             @Min(1) @Max(5) @RequestParam(required = false) Integer ratingFilter,
             @ValidPage @RequestParam(defaultValue = "1") Integer page,
@@ -50,7 +50,7 @@ public class ReviewController {
 
         Pageable pageable = PageRequest.of(page-1, size);
 
-        ReviewResDto.ReviewPreViewListDTO result =
+        ReviewResDTO.ReviewPreViewListDTO result =
                 reviewService.findMyReviews(memberId, storeId, ratingFilter, pageable);
 
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);

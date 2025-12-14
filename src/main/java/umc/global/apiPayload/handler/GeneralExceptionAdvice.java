@@ -7,6 +7,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import umc.domain.mission.exception.MissionException;
 import umc.global.apiPayload.ApiResponse;
 import umc.global.apiPayload.code.BaseErrorCode;
 import umc.global.apiPayload.code.GeneralErrorCode;
@@ -33,6 +34,21 @@ public class GeneralExceptionAdvice {
                         )
                 );
     }
+
+    @ExceptionHandler(PagingException.class)
+    public ResponseEntity<ApiResponse<Void>> handleException(
+            PagingException ex
+    ) {
+
+        return ResponseEntity.status(ex.getCode().getStatus())
+                .body(ApiResponse.onFailure(
+                                ex.getCode(),
+                                null
+                        )
+                );
+    }
+
+
 
 
     //@Valid

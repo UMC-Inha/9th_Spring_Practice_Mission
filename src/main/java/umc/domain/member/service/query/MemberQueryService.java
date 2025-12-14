@@ -4,5 +4,5 @@ import umc.domain.member.dto.MemberResDTO;
 
 public interface MemberQueryService {
 
-    MemberResDTO.MyPageMemberDto getMyPageInfo(Long memberId);
+    MemberResDTO.MyPageMemberDTO getMyPageInfo(Long memberId);
 }

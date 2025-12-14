@@ -6,9 +6,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import umc.domain.member.dto.MemberMissionResDto;
+import umc.domain.member.dto.MemberMissionResDTO;
 import umc.domain.member.entity.mapping.MemberMission;
-import umc.domain.mission.dto.MissionResDto;
+import umc.domain.mission.dto.MissionResDTO;
 import umc.domain.mission.exception.code.MissionSuccessCode;
 import umc.domain.mission.service.MissionService;
 import umc.global.annotation.ExistMission;
@@ -33,12 +33,12 @@ public class MissionController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패")
     })
     @GetMapping("/my/completed")
-    public ApiResponse<MissionResDto.MissionPreviewListDTO> getMyCompletedMissions(
+    public ApiResponse<MissionResDTO.MissionPreviewListDTO> getMyCompletedMissions(
             @ValidPage @RequestParam(defaultValue = "1") Integer page,
             @Positive @RequestParam (defaultValue = "10") Integer size
     ){
         Long memberId = 1L;
-        MissionResDto.MissionPreviewListDTO result = missionService.getMyCompletedMissions(memberId, page, size);
+        MissionResDTO.MissionPreviewListDTO result = missionService.getMyCompletedMissions(memberId, page, size);
         return ApiResponse.onSuccess(MissionSuccessCode.FOUND, result);
     }
 
@@ -52,13 +52,13 @@ public class MissionController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패")
     })
     @GetMapping("/my/in-progress")
-    public ApiResponse<MissionResDto.MissionPreviewListDTO> getMyInProgressMissions(
+    public ApiResponse<MissionResDTO.MissionPreviewListDTO> getMyInProgressMissions(
             @ValidPage @RequestParam(defaultValue = "1") Integer page,
             @Positive @RequestParam (defaultValue = "10") Integer size
     )
     {
         Long memberId = 1L;
-        MissionResDto.MissionPreviewListDTO result = missionService.getMyInProgressMissions(memberId, page, size);
+        MissionResDTO.MissionPreviewListDTO result = missionService.getMyInProgressMissions(memberId, page, size);
         return ApiResponse.onSuccess(MissionSuccessCode.FOUND, result);
     }
 
@@ -72,23 +72,23 @@ public class MissionController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "실패")
     })
     @PostMapping("/{missionId}/complete")
-    public ApiResponse<MemberMissionResDto.complete> completeMyMission(
+    public ApiResponse<MemberMissionResDTO.complete> completeMyMission(
             @PathVariable Long missionId
     ) {
         Long memberId = 1L;
-        MemberMissionResDto.complete result = missionService.completeMyMission(memberId, missionId);
+        MemberMissionResDTO.complete result = missionService.completeMyMission(memberId, missionId);
         return ApiResponse.onSuccess(MissionSuccessCode.UPDATED, result);
     }
 
 
     //미션도전
     @PostMapping("/{missionId}/challenge")
-    public ApiResponse<MemberMissionResDto.challenge> challengeMission(
+    public ApiResponse<MemberMissionResDTO.challenge> challengeMission(
             @PathVariable @ExistMission Long missionId
     ){
         Long memberId = 1L;  // !!!! 이후 수정 -> id는 토큰에서 꺼낸다. !!!!
 
-        MemberMissionResDto.challenge result = missionService.challengeMission(memberId,missionId);
+        MemberMissionResDTO.challenge result = missionService.challengeMission(memberId,missionId);
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
     }
 

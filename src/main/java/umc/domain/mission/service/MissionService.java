@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.domain.member.converter.MemberMissionConverter;
-import umc.domain.member.dto.MemberMissionResDto;
+import umc.domain.member.dto.MemberMissionResDTO;
 import umc.domain.member.entity.Member;
 import umc.domain.member.entity.mapping.MemberMission;
 import umc.domain.member.enums.MissionStatus;
@@ -18,8 +18,8 @@ import umc.domain.member.exception.code.MemberMissionErrorCode;
 import umc.domain.member.repository.MemberMissionRepository;
 import umc.domain.member.repository.MemberRepository;
 import umc.domain.mission.converter.MissionConverter;
-import umc.domain.mission.dto.MissionReqDto;
-import umc.domain.mission.dto.MissionResDto;
+import umc.domain.mission.dto.MissionReqDTO;
+import umc.domain.mission.dto.MissionResDTO;
 import umc.domain.mission.entity.Mission;
 import umc.domain.mission.exception.MissionException;
 import umc.domain.mission.exception.code.MissionErrorCode;
@@ -40,7 +40,7 @@ public class MissionService {
     private final MemberMissionRepository memberMissionRepository;
     private final MemberRepository memberRepository;
 
-    public MissionResDto.MissionPreviewListDTO getMyCompletedMissions(Long memberId, int page, int size) {
+    public MissionResDTO.MissionPreviewListDTO getMyCompletedMissions(Long memberId, int page, int size) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(()->new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
@@ -50,7 +50,7 @@ public class MissionService {
         return MissionConverter.toMissionPreviewListDTO(missions);
     }
 
-    public MissionResDto.MissionPreviewListDTO getMyInProgressMissions(Long memberId, int page, int size) {
+    public MissionResDTO.MissionPreviewListDTO getMyInProgressMissions(Long memberId, int page, int size) {
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(()->new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
@@ -61,9 +61,9 @@ public class MissionService {
         return MissionConverter.toMissionPreviewListDTO(missions);
     }
 
-    public MissionResDto.SimpleMissionDto createMission(
+    public MissionResDTO.SimpleMissionDTO createMission(
             Long storeId,
-            MissionReqDto.CreateMission dto
+            MissionReqDTO.CreateMission dto
     ){
         // !!!!! 여기서는 getRef 성능이득 없어보여서 수정해도 될 것 같음 !!!!!
         Store store = storeRepository.getReferenceById(storeId);
@@ -73,14 +73,14 @@ public class MissionService {
 
         missionRepository.save(mission);
 
-        return MissionConverter.toSimpleMissionDto(mission);
+        return MissionConverter.toSimpleMissionDTO(mission);
     }
 
     //미션 도전 -> 리팩토링 요소 많음
     //converter 추가해서 변환로직 분리 해야함
     //각 케이스에 대해서도 제대로 정리필요
     @Transactional
-    public MemberMissionResDto.challenge challengeMission(
+    public MemberMissionResDTO.challenge challengeMission(
             Long memberId,
             Long missionId
     ){
@@ -102,7 +102,7 @@ public class MissionService {
 
             memberMissionRepository.save(newChallenge);
 
-            return MemberMissionResDto.challenge.builder()
+            return MemberMissionResDTO.challenge.builder()
                     .memberMissionId(newChallenge.getId())
                     .missionId(newChallenge.getMission().getId())
                     .memberId(newChallenge.getMember().getId())
@@ -121,7 +121,7 @@ public class MissionService {
             case ABANDONED -> {
                 // 포기 → 다시 도전 가능 → 상태 변경 !!!! 컨버터 적용필요 !!!!
                 mapping.updateStatus(MissionStatus.IN_PROGRESS);
-                return MemberMissionResDto.challenge.builder()
+                return MemberMissionResDTO.challenge.builder()
                         .memberMissionId(mapping.getId())
                         .missionId(mapping.getMission().getId())
                         .memberId(memberId)
@@ -133,7 +133,7 @@ public class MissionService {
     }
 
     //가게의 미션 목록 조회
-    public MissionResDto.MissionPreviewListDTO getMissionPreviewList(Long storeId, int page, int size){
+    public MissionResDTO.MissionPreviewListDTO getMissionPreviewList(Long storeId, int page, int size){
 
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new StoreException(StoreErrorCode.STORE_NOT_FOUND));
@@ -146,7 +146,7 @@ public class MissionService {
 
     //미션완료
     @Transactional
-    public MemberMissionResDto.complete completeMyMission(
+    public MemberMissionResDTO.complete completeMyMission(
             Long memberId,
             Long missionId
     ){
@@ -166,6 +166,6 @@ public class MissionService {
         Member member = mm.getMember();
         member.addPoint(reward);
 
-        return MemberMissionConverter.toCompleteDto(mm);
+        return MemberMissionConverter.toCompleteDTO(mm);
     }
 }

@@ -1,6 +1,6 @@
 package umc.domain.store.dto;
 
-public class StoreReqDto {
+public class StoreReqDTO {
 
     public record StoreCreate(
         String name,

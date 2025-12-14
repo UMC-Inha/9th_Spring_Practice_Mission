@@ -2,16 +2,16 @@ package umc.domain.home.dto;
 
 import lombok.Builder;
 import umc.domain.member.dto.MemberResDTO;
-import umc.domain.mission.dto.MissionResDto;
+import umc.domain.mission.dto.MissionResDTO;
 
 import java.util.List;
 
-public class HomeResDto {
+public class HomeResDTO {
 
     @Builder
-    public record HomeInfoDto(
-            MemberResDTO.MyPageMemberDto memberInfo,    //멤버의 포인트가 필요 -> 이후 확장 고려해서 myPage Dto 재사용
+    public record HomeInfoDTO(
+            MemberResDTO.MyPageMemberDTO memberInfo,    // 멤버의 포인트가 필요 -> 이후 확장 고려해서 myPage DTO 재사용
             int completedMissionRate,
-            List<MissionResDto.SimpleMissionDto> availableMissions
+            List<MissionResDTO.SimpleMissionDTO> availableMissions
     ) {}
 }

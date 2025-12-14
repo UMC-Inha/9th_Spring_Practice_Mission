@@ -2,9 +2,9 @@ package umc.domain.review.converter;
 
 import org.springframework.data.domain.Page;
 import umc.domain.member.entity.Member;
-import umc.domain.review.dto.ReviewReplyDto;
-import umc.domain.review.dto.ReviewReqDto;
-import umc.domain.review.dto.ReviewResDto;
+import umc.domain.review.dto.ReviewReplyDTO;
+import umc.domain.review.dto.ReviewReqDTO;
+import umc.domain.review.dto.ReviewResDTO;
 import umc.domain.review.entity.Review;
 import umc.domain.store.entity.Store;
 
@@ -13,9 +13,9 @@ import java.util.List;
 
 public class ReviewConverter {
 
-    // Review → ReviewResponseDto.Detail
-    public static ReviewResDto.Detail toReviewResponseDto(Review review) {
-        return ReviewResDto.Detail.builder()
+    // Review → ReviewResponseDTO.Detail
+    public static ReviewResDTO.Detail toReviewResponseDTO(Review review) {
+        return ReviewResDTO.Detail.builder()
                 .reviewId(review.getId())
                 .storeId(review.getStore().getId())
                 .content(review.getContent())
@@ -25,7 +25,7 @@ public class ReviewConverter {
                         .map(img -> img.getImageUrl())
                         .toList())
                 .replies(review.getReplies().stream()
-                        .map(reply -> ReviewReplyDto.builder()
+                        .map(reply -> ReviewReplyDTO.builder()
                                 .replyId(reply.getId())
                                 .content(reply.getContent())
                                 .createdAt(reply.getCreatedAt())
@@ -34,15 +34,15 @@ public class ReviewConverter {
                 .build();
     }
 
-    // List<Review> → List<ReviewResponseDto.Detail>
-    public static List<ReviewResDto.Detail> toReviewResponseDtoListDetail(List<Review> reviews) {
+    // List<Review> → List<ReviewResponseDTO.Detail>
+    public static List<ReviewResDTO.Detail> toReviewResponseDTOListDetail(List<Review> reviews) {
         return reviews.stream()
-                .map(ReviewConverter::toReviewResponseDto)
+                .map(ReviewConverter::toReviewResponseDTO)
                 .toList();
     }
 
-    //ReviewReqDto.Create -> Review
-    public static Review toReview(ReviewReqDto.ReviewCreate dto, Store store, Member member) {
+    //ReviewReqDTO.Create -> Review
+    public static Review toReview(ReviewReqDTO.ReviewCreate dto, Store store, Member member) {
         return Review.builder()
                 .content(dto.content())
                 .rating(dto.rating())
@@ -53,10 +53,10 @@ public class ReviewConverter {
     }
 
     // Page<Review> -> ReviewPreViewListDTO
-    public static ReviewResDto.ReviewPreViewListDTO toReviewPreviewListDTO(
+    public static ReviewResDTO.ReviewPreViewListDTO toReviewPreviewListDTO(
             Page<Review> result
     ){
-        return ReviewResDto.ReviewPreViewListDTO.builder()
+        return ReviewResDTO.ReviewPreViewListDTO.builder()
                 .reviewList(result.getContent().stream()
                         .map(ReviewConverter::toReviewPreviewDTO)
                         .toList()
@@ -69,10 +69,10 @@ public class ReviewConverter {
                 .build();
     }
 
-    public static ReviewResDto.ReviewPreViewDTO toReviewPreviewDTO(
+    public static ReviewResDTO.ReviewPreViewDTO toReviewPreviewDTO(
             Review review
     ){
-        return ReviewResDto.ReviewPreViewDTO.builder()
+        return ReviewResDTO.ReviewPreViewDTO.builder()
                 .ownerNickname(review.getMember().getName())
                 .score(review.getRating())
                 .body(review.getContent())

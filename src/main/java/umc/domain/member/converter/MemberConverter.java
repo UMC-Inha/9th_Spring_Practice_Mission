@@ -7,9 +7,9 @@ import umc.domain.member.entity.Member;
 
 public class MemberConverter {
 
-    // member -> MemberResDto.MyPageMemberDto
-    public static MemberResDTO.MyPageMemberDto toMyPageMemberDto(Member member) {
-        return MemberResDTO.MyPageMemberDto.builder()
+    // member -> MemberResDTO.MyPageMemberDTO
+    public static MemberResDTO.MyPageMemberDTO toMyPageMemberDTO(Member member) {
+        return MemberResDTO.MyPageMemberDTO.builder()
                 .nickname(member.getNickname())
                 .email(member.getEmail())
                 .phoneNumber(member.getPhoneNumber())

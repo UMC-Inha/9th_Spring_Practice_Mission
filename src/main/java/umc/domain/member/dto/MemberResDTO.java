@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class MemberResDTO {
 
     @Builder
-    public record MyPageMemberDto(
+    public record MyPageMemberDTO(
             String nickname,
             String email,
             String phoneNumber,
