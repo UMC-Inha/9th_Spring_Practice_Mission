@@ -1,6 +1,7 @@
 package umc.domain.member.service.command;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.domain.Region.entity.Region;
@@ -18,6 +19,7 @@ import umc.domain.member.exception.MemberException;
 import umc.domain.member.exception.code.MemberErrorCode;
 import umc.domain.member.repository.MemberCategoryRepository;
 import umc.domain.member.repository.MemberRepository;
+import umc.global.auth.enums.Role;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,9 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     private final CategoryRepository categoryRepository;
     private final MemberCategoryRepository memberCategoryRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
+    //회원가입
     @Override
     @Transactional
     public MemberResDTO.JoinDTO register(
@@ -40,8 +45,9 @@ public class MemberCommandServiceImpl implements MemberCommandService {
         Region region = regionRepository.findById(dto.regionId())
                 .orElseThrow(() -> new MemberException(MemberErrorCode.REGION_NOT_FOUND));
 
+        String salt = passwordEncoder.encode(dto.password());
         //멤버 생성 및 저장
-        Member member = MemberConverter.toMember(region,dto);
+        Member member = MemberConverter.toMember(region,dto,salt, Role.ROLE_USER);
         memberRepository.save(member);
 
 

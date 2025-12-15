@@ -4,6 +4,7 @@ import umc.domain.Region.entity.Region;
 import umc.domain.member.dto.MemberReqDTO;
 import umc.domain.member.dto.MemberResDTO;
 import umc.domain.member.entity.Member;
+import umc.global.auth.enums.Role;
 
 public class MemberConverter {
 
@@ -30,7 +31,9 @@ public class MemberConverter {
     // JoinDTO -> Member
     public static Member toMember(
             Region region,
-            MemberReqDTO.JoinDTO dto
+            MemberReqDTO.JoinDTO dto,
+            String password,
+            Role role
     ){
 
         return Member.builder()
@@ -38,8 +41,17 @@ public class MemberConverter {
                 .email(dto.email())
                 .birth(dto.birth())
                 .region(region)
+                .role(role)
+                .password(password)
                 .detailAddress(dto.detailAddress())
                 .gender(dto.gender())
+                .build();
+    }
+
+    public static MemberResDTO.LoginDTO toLoginDTO(Member member, String accessToken) {
+        return MemberResDTO.LoginDTO.builder()
+                .memberId(member.getId())
+                .accessToken(accessToken)
                 .build();
     }
 }

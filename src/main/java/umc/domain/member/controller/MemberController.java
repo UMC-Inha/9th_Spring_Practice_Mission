@@ -36,5 +36,13 @@ public class MemberController {
         return ApiResponse.onSuccess(MemberSuccessCode.FOUND, memberCommandService.register(dto));
     }
 
+    // 로그인
+    @PostMapping("/login")
+    public ApiResponse<MemberResDTO.LoginDTO> login(
+            @RequestBody @Valid MemberReqDTO.LoginDTO dto
+    ){
+        return ApiResponse.onSuccess(MemberSuccessCode.FOUND, memberQueryService.login(dto));
+    }
+
 
 }

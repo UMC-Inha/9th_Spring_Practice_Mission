@@ -5,7 +5,7 @@ import umc.domain.Region.entity.Region;
 import umc.domain.member.enums.Gender;
 import umc.domain.member.enums.SocialType;
 import umc.global.BaseEntity;
-
+import umc.global.auth.enums.Role;
 
 
 import java.time.LocalDate;
@@ -57,12 +57,14 @@ public class Member extends BaseEntity {
     @Column(name="phone_number", length = 20, unique = true)
     private String phoneNumber;
 
-    @Column(name="password", length = 255)
+    @Column(name="password", length = 255, nullable = false)
     private String password;
 
     @Column(name="nickname", length = 30, unique = true)
     private String nickname;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public void addPoint(int reward) {
         this.point += reward;
