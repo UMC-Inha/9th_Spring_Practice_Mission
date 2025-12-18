@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import umc.domain.member.exception.MemberException;
 import umc.domain.member.exception.code.MemberErrorCode;
+import umc.domain.review.dto.ReqFindMyReviewDto;
 import umc.domain.review.entity.Review;
 import umc.domain.review.repository.ReviewRepository;
 import umc.domain.store.entity.Store;
@@ -26,13 +27,14 @@ public class ReviewService {
     private MemberRepository memberRepository;
     private StoreRepository storeRepository;
 
-    public Page<Review> findMyReview(Long memberId,
-                                     Long storeId, Integer rateFilter,
-                                     Boolean sortByStore, Boolean sortByRate, int page, int size){
+    public Page<Review> findMyReviews(Long memberId,
+                                     ReqFindMyReviewDto reqFindMyReviewDto,  int page, int size){
         Pageable pageable = PageRequest.of(page, size);
 
 
-        return reviewRepository.findMyReviews(memberId,storeId,rateFilter, sortByStore, sortByRate, pageable);
+
+        return reviewRepository.findMyReviews(memberId,reqFindMyReviewDto.getStoreId(),reqFindMyReviewDto.getRate()
+                ,reqFindMyReviewDto.getSortByStore(),reqFindMyReviewDto.getSortByRate(), pageable);
     }
 
 

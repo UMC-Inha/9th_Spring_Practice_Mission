@@ -9,51 +9,49 @@ import lombok.RequiredArgsConstructor;
 import jakarta.validation.constraints.NotNull;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import umc.domain.review.converter.ReviewConverter;
 import umc.domain.review.dto.CreateReviewDto;
 import umc.domain.review.dto.FindMyReviewDto;
+import umc.domain.review.dto.ReqFindMyReviewDto;
 import umc.domain.review.entity.Review;
+import umc.domain.review.exception.code.ReviewSuccessCode;
 import umc.domain.review.service.ReviewService;
+import umc.global.annotation.PageLimit;
 import umc.global.apiPayload.ApiResponse;
 import umc.global.apiPayload.code.GeneralSuccessCode;
+
+import java.util.List;
 
 
 @RestController
 @RequestMapping("/api/v1/reviews")
 @RequiredArgsConstructor
-public class ReviewController {
+public class ReviewController implements ReviewControllerDocs{
 
     private final ReviewService reviewService;
 
 
 
     @GetMapping("/{memberId}")
-    public ApiResponse<Page<FindMyReviewDto>> findMyReview(
-            @PathVariable("memberId")
-            @NotNull(message = "필수 값입니다")
-            Long memberId,
-            @RequestParam(required = false) Long storeId,
-            @RequestParam(required = false)
-            @Min(value = 1, message = "rate는 1 이상이어야 합니다")
-            @Max(value = 5, message = "rate는 5 이하여야 합니다")
-            Integer rate,
-            @RequestParam(defaultValue = "false") Boolean sortByStore,
-            @RequestParam(defaultValue = "false") Boolean sortByRate,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+    public ApiResponse<List<FindMyReviewDto>> findMyReviews(
+            @PathVariable("memberId") @NotNull(message = "필수 값입니다") Long memberId,
+            @RequestBody @Valid ReqFindMyReviewDto reqFindMyReviewDto,
+            @PageLimit @PageableDefault(page=0, size=10) Pageable pageable
     ){
 
-        Page<Review> myReview = reviewService.findMyReview(memberId,
-                storeId,rate,sortByStore,sortByRate,page, size);
+        Page<Review> myReview = reviewService.findMyReviews(memberId,
+                reqFindMyReviewDto,pageable.getPageNumber(), pageable.getPageSize());
 
 
-        Page<FindMyReviewDto> reviewDtoPage = myReview.map(ReviewConverter::toReviewDTO);
+        Page<FindMyReviewDto> reviewDtoPages = myReview.map(ReviewConverter::toReviewDTO);
 
-        GeneralSuccessCode code = GeneralSuccessCode.OK;
+        ReviewSuccessCode code = ReviewSuccessCode.OK;
 
         return ApiResponse.onSuccess(
-                code, reviewDtoPage
+                code, reviewDtoPages.getContent()
         );
 
     }
@@ -77,4 +75,7 @@ public class ReviewController {
         );
 
     }
+
+
+
 }

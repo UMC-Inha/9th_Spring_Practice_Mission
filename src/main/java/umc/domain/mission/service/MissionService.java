@@ -2,6 +2,8 @@ package umc.domain.mission.service;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import umc.domain.member.exception.MemberException;
 import umc.domain.member.exception.code.MemberErrorCode;
@@ -76,4 +78,31 @@ public class MissionService {
 
         return missionRepository.save(mission).getId();
     }
+
+
+    public Page<Mission> findStoreMission(Long storeId,
+                                          Pageable pageable){
+
+
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new StoreException(StoreErrorCode.STORE_NOT_FOUND));
+
+         return missionRepository.findAllByStore(store, pageable);
+
+
+
+    }
+
+    public Page<Mission> findMyInProgressMission(Long memberId,
+                                                 Pageable pageable) {
+
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() ->new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+
+        return memberMissionRepository.findAllByMemberAndStatus(member, Status.IN_PROGRESS,pageable);
+
+    }
+
+
+
 }
