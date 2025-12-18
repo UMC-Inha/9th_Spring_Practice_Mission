@@ -5,6 +5,7 @@ import umc.domain.member.dto.MemberResDTO;
 import umc.domain.member.entity.Member;
 import umc.domain.member.entity.MemberStatus;
 import umc.domain.member.entity.MemberType;
+import umc.global.security.CustomUserDetails;
 
 public class MemberConverter {
 
@@ -17,20 +18,34 @@ public class MemberConverter {
                 .build();
     }
 
+    public static MemberResDTO.LoginDTO toLoginDTO(
+            Member member,
+            String accessToken
+    ){
+        return MemberResDTO.LoginDTO.builder()
+                .memberId(member.getId())
+                .accessToken(accessToken)
+                .build();
+    }
+
     public static Member toMember(
-            MemberReqDTO.JoinDTO dto
+            MemberReqDTO.JoinDTO dto,
+            String password,
+            MemberType memberType
     ){
         return Member.builder()
                 .name(dto.name())
+                .email(dto.email())
+                .password(password)
                 .gender(dto.gender())
                 .birth(dto.birth())
                 .address(dto.address())
-                .email(dto.email())
                 .point(0)
-                .memberType(MemberType.USER)
+                .memberType(memberType)
                 .phoneNumber(dto.phoneNumber())
                 .memberStatus(MemberStatus.ACTIVE)
                 .build();
 
     }
+
 }

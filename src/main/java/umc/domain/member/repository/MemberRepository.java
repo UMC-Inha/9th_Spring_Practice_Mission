@@ -36,4 +36,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("delete from Member m where m.id = :id")
     int hardDeleteById(@Param("id") Long id);
 
+    Optional<Member> findByEmail(String email);
 }

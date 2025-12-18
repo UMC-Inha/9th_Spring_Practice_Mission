@@ -45,6 +45,13 @@ public class MemberReqDTO {
             List<Long> preferredFoods
     ) {}
 
+    public record LoginDTO(
+            @NotBlank
+            String email,
+            @NotBlank
+            String password
+    ){}
+
     public record AgreementDTO(
             Long policyId,
             boolean agreed
