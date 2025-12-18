@@ -18,16 +18,19 @@ public class MemberConverter {
     }
 
     public static Member toMember(
-            MemberReqDTO.JoinDTO dto
+            MemberReqDTO.JoinDTO dto,
+            String password,
+            MemberType memberType
     ){
         return Member.builder()
                 .name(dto.name())
+                .email(dto.email())
+                .password(password)
                 .gender(dto.gender())
                 .birth(dto.birth())
                 .address(dto.address())
-                .email(dto.email())
                 .point(0)
-                .memberType(MemberType.USER)
+                .memberType(memberType)
                 .phoneNumber(dto.phoneNumber())
                 .memberStatus(MemberStatus.ACTIVE)
                 .build();

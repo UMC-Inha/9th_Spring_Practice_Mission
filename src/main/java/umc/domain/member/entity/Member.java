@@ -44,6 +44,9 @@ public class Member extends BaseEntity {
     private String email;
 
     @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
     private Integer point;
 
     @Enumerated(EnumType.STRING)
@@ -86,6 +89,7 @@ public class Member extends BaseEntity {
             LocalDate birth,
             @NonNull String address,
             @NonNull String email,
+            @NonNull String password,
             Integer point,
             SocialType socialType,
             String socialUid,
@@ -98,6 +102,7 @@ public class Member extends BaseEntity {
         this.birth = birth;
         this.address = address;
         this.email = email;
+        this.password = password;
         this.point = (point != null) ? point : 0;
         this.socialType = socialType;
         this.socialUid = socialUid;

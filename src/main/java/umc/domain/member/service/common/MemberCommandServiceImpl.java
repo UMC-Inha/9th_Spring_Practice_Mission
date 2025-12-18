@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.domain.inquiry.repository.InquiryRepository;
@@ -15,6 +16,7 @@ import umc.domain.member.dto.MemberReqDTO;
 import umc.domain.member.dto.MemberResDTO;
 import umc.domain.member.entity.Food;
 import umc.domain.member.entity.Member;
+import umc.domain.member.entity.MemberType;
 import umc.domain.member.entity.Policy;
 import umc.domain.member.entity.PolicyType;
 import umc.domain.member.entity.mapping.MemberFood;
@@ -49,18 +51,15 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     private final PolicyRepository policyRepository;
     private final MemberPolicyRepository memberPolicyRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
+
     @Transactional
     @Override
-    public MemberResDTO.JoinDTO signUp(
-            MemberReqDTO.JoinDTO dto
-    ) {
+    public MemberResDTO.JoinDTO signUp(MemberReqDTO.JoinDTO dto) {
 
-        Member member = MemberConverter.toMember(dto);
-
-        memberRepository.save(member);
-
-        // 약관 동의 처리
-        if(dto.agreements()== null || dto.agreements().isEmpty()){
+        // 1) 약관 동의 처리 (검증 먼저)
+        if (dto.agreements() == null || dto.agreements().isEmpty()) {
             throw new PolicyException(PolicyErrorCode.REQUIRED_POLICY_NOT_ACCEPTED);
         }
 
@@ -84,6 +83,24 @@ public class MemberCommandServiceImpl implements MemberCommandService {
             throw new PolicyException(PolicyErrorCode.REQUIRED_POLICY_NOT_ACCEPTED);
         }
 
+        // 2) 선호 음식 검증도 save 전에 수행
+        List<Food> foods = List.of();
+        List<Long> foodIds = dto.preferredFoods();
+
+        if (foodIds != null && !foodIds.isEmpty()) {
+            foods = foodRepository.findAllById(foodIds);
+
+            if (foods.size() != foodIds.size()) {
+                throw new FoodException(FoodErrorCode.NOT_FOUND_FOOD);
+            }
+        }
+
+        // 3) 모든 검증 끝난 후 회원 저장
+        String salt = passwordEncoder.encode(dto.password());
+        Member member = MemberConverter.toMember(dto, salt, MemberType.USER);
+        memberRepository.save(member);
+
+        // 4) 약관 매핑 저장
         List<MemberPolicy> memberPolicies = policies.stream()
                 .map(policy -> MemberPolicy.builder()
                         .member(member)
@@ -94,17 +111,8 @@ public class MemberCommandServiceImpl implements MemberCommandService {
 
         memberPolicyRepository.saveAll(memberPolicies);
 
-
-        // 선호 음식 매핑
-        if (dto.preferredFoods() != null && !dto.preferredFoods().isEmpty()) {
-
-            List<Long> foodIds = dto.preferredFoods();
-            List<Food> foods = foodRepository.findAllById(foodIds);
-
-            if (foods.size() != foodIds.size()) {
-                throw new FoodException(FoodErrorCode.NOT_FOUND_FOOD);
-            }
-
+        // 5) 선호 음식 매핑 저장 (검증 때 조회한 foods 재사용)
+        if (!foods.isEmpty()) {
             List<MemberFood> memberFoods = foods.stream()
                     .map(food -> MemberFood.builder()
                             .member(member)
