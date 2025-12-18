@@ -48,6 +48,7 @@ public class MemberMissionService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public MemberMissionResDTO.SearchListDTO getMemberMissions(Long memberId, MissionStatus status, Integer page) {
 
         Member member = memberRepository.findById(memberId)

@@ -2,6 +2,7 @@ package umc.domain.review.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -24,4 +25,5 @@ public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewQue
     @EntityGraph(attributePaths = {"reviewReply", "photos"})
     Page<Review> findAllByMember(Member member, Pageable pageable);
 
+    Slice<Review> findAllBy(Pageable pageable);
 }

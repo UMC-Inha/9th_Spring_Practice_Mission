@@ -19,12 +19,12 @@ import umc.domain.store.repository.StoreRepository;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MissionQueryService {
 
     private final MissionRepository missionRepository;
     private final StoreRepository storeRepository;
 
-    @Transactional(readOnly = true)
     public List<GetMissionResponse> getAvailableMissions(
             Long userId,
             String address,
