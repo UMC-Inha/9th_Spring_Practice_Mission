@@ -5,6 +5,7 @@ import umc.domain.member.dto.MemberResDTO;
 import umc.domain.member.entity.Member;
 import umc.domain.member.entity.MemberStatus;
 import umc.domain.member.entity.MemberType;
+import umc.global.security.CustomUserDetails;
 
 public class MemberConverter {
 
@@ -14,6 +15,16 @@ public class MemberConverter {
         return MemberResDTO.JoinDTO.builder()
                 .memberId(member.getId())
                 .createAt(member.getCreatedAt())
+                .build();
+    }
+
+    public static MemberResDTO.LoginDTO toLoginDTO(
+            Member member,
+            String accessToken
+    ){
+        return MemberResDTO.LoginDTO.builder()
+                .memberId(member.getId())
+                .accessToken(accessToken)
                 .build();
     }
 
@@ -36,4 +47,5 @@ public class MemberConverter {
                 .build();
 
     }
+
 }
