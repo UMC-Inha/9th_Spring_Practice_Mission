@@ -1,54 +1,14 @@
 package umc.domain.review.service.query;
 
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import java.math.BigDecimal;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import umc.domain.review.dto.ReviewReqDTO;
+import umc.domain.review.dto.ReviewResDTO;
 import umc.domain.review.dto.ReviewResDTO.SearchDTO;
-import umc.domain.review.entity.QReview;
-import umc.domain.review.repository.ReviewRepository;
 
-@Service
-@RequiredArgsConstructor
-@Transactional(readOnly = true)
-public class ReviewQueryService {
+public interface ReviewQueryService {
 
-    private final ReviewRepository reviewRepository;
-    private static final QReview review = QReview.review;
+    List<SearchDTO> searchReview(Long memberId, ReviewReqDTO.SearchDTO request);
 
-    public List<SearchDTO> searchReview(Long memberId, ReviewReqDTO.SearchDTO request) {
-        BooleanBuilder builder = new BooleanBuilder();
-
-        builder.and(review.member.id.eq(memberId));
-
-        if (request.storeName() != null && !request.storeName().isBlank()) {
-            builder.and(review.store.name.containsIgnoreCase(request.storeName()));
-        }
-
-        if (request.starRange() != null) {
-            builder.and(starBucket(request.starRange()));
-        }
-
-        return reviewRepository.searchReview(builder);
-    }
-
-    private BooleanExpression starBucket(int bucket) {
-
-        QReview r = QReview.review;
-
-        BigDecimal min = BigDecimal.valueOf(bucket).setScale(1);
-
-        if (bucket == 5) {
-            return r.star.eq(BigDecimal.valueOf(5.0).setScale(1));
-        }
-
-        BigDecimal maxExclusive = BigDecimal.valueOf(bucket + 1).setScale(1);
-
-        return r.star.goe(min).and(r.star.lt(maxExclusive));
-    }
+    ReviewResDTO.ReviewPreViewListDTO findReview( String storeName, Integer page);
 
 }

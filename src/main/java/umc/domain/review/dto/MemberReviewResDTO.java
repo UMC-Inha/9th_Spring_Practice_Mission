@@ -2,22 +2,10 @@ package umc.domain.review.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Builder;
 
-public class ReviewResDTO {
-
-    public record SearchDTO(
-
-            Long reviewId,
-            String storeName,
-            BigDecimal star,
-            String content,
-            LocalDateTime createdAt
-
-    ) {
-    }
+public class MemberReviewResDTO {
 
     @Builder
     public record ReviewPreViewListDTO(
@@ -31,9 +19,20 @@ public class ReviewResDTO {
 
     @Builder
     public record ReviewPreViewDTO(
-            String ownerNickname,
             BigDecimal score,
             String body,
-            LocalDate createdAt
+            List<String> photoUrls,
+            LocalDate createdAt,
+            ReviewReplyDTO reviewReply
     ){}
+
+    @Builder
+    public record ReviewReplyDTO(
+
+            String body,
+            LocalDate createdAt
+    ){
+
+    }
 }
+
