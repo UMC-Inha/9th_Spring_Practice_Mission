@@ -4,6 +4,7 @@ package umc.domain.member.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import umc.domain.member.enums.Gender;
+import umc.global.auth.enums.Role;
 import umc.global.entity.BaseEntity;
 
 import java.time.LocalDate;
@@ -35,6 +36,12 @@ public class Member extends BaseEntity {
 
     @Column(nullable = false)
     private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Column
     private String phone_num;
