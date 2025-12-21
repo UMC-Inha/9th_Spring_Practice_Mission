@@ -78,4 +78,20 @@ public class MemberController {
 
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, missionList);
     }
+
+    // 회원가입
+    @PostMapping("/sign-up")
+    public ApiResponse<MemberResDTO.JoinDTO> signUp2(
+            @RequestBody @Valid MemberReqDTO.JoinDTO dto
+    ) {
+        return ApiResponse.onSuccess(MemberSuccessCode.FOUND, memberCommandService.signUp(dto));
+    }
+
+    // 로그인
+    @PostMapping("/login")
+    public ApiResponse<MemberResDTO.LoginDTO> login2(
+            @RequestBody @Valid MemberReqDTO.LoginDTO dto
+    ) {
+        return ApiResponse.onSuccess(MemberSuccessCode.FOUND, memberQueryService.login(dto));
+    }
 }
