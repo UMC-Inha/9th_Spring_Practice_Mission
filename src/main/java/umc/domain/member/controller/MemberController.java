@@ -22,8 +22,8 @@ public class MemberController {
 
     // 마이페이지 정보 조회
     @GetMapping("/mypage")
-    public ApiResponse<MemberResDTO.MyPageMemberDto> getMyPage(@RequestParam Long memberId){
-        MemberResDTO.MyPageMemberDto response = memberQueryService.getMyPageInfo(memberId);
+    public ApiResponse<MemberResDTO.MyPageMemberDTO> getMyPage(@RequestParam Long memberId){
+        MemberResDTO.MyPageMemberDTO response = memberQueryService.getMyPageInfo(memberId);
         return ApiResponse.onSuccess(MemberSuccessCode.FOUND, response);
     }
 
@@ -34,6 +34,14 @@ public class MemberController {
     ){
 
         return ApiResponse.onSuccess(MemberSuccessCode.FOUND, memberCommandService.register(dto));
+    }
+
+    // 로그인
+    @PostMapping("/login")
+    public ApiResponse<MemberResDTO.LoginDTO> login(
+            @RequestBody @Valid MemberReqDTO.LoginDTO dto
+    ){
+        return ApiResponse.onSuccess(MemberSuccessCode.FOUND, memberQueryService.login(dto));
     }
 
 

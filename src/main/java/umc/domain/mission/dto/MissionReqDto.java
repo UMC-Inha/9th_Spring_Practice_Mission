@@ -6,7 +6,7 @@ import lombok.Builder;
 
 import java.time.LocalDateTime;
 
-public class MissionReqDto {
+public class MissionReqDTO {
 
     @Builder
     public record CreateMission(

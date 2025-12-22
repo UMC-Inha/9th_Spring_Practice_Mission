@@ -10,8 +10,8 @@ import umc.domain.member.exception.MemberException;
 import umc.domain.member.exception.code.MemberErrorCode;
 import umc.domain.member.repository.MemberRepository;
 import umc.domain.review.converter.ReviewConverter;
-import umc.domain.review.dto.ReviewReqDto;
-import umc.domain.review.dto.ReviewResDto;
+import umc.domain.review.dto.ReviewReqDTO;
+import umc.domain.review.dto.ReviewResDTO;
 import umc.domain.review.entity.Review;
 import umc.domain.review.repository.ReviewRepository;
 import umc.domain.store.entity.Store;
@@ -29,13 +29,13 @@ public class ReviewService {
     private final MemberRepository memberRepository;
     private final StoreRepository storeRepository;
 
-    public List<ReviewResDto.Detail> getDetailedReviews(Long memberId, Long storeId, Integer ratingFilter) {
-        return ReviewConverter.toReviewResponseDtoListDetail(
+    public List<ReviewResDTO.Detail> getDetailedReviews(Long memberId, Long storeId, Integer ratingFilter) {
+        return ReviewConverter.toReviewResponseDTOListDetail(
                 reviewRepository.searchReview(memberId, storeId, ratingFilter)
         );
     }
 
-    public ReviewResDto.ReviewPreViewListDTO findStoreReview(Long memberId, Long storeId, Integer ratingFilter,
+    public ReviewResDTO.ReviewPreViewListDTO findStoreReview(Long memberId, Long storeId, Integer ratingFilter,
                                                              int page, int size) {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new StoreException(StoreErrorCode.STORE_NOT_FOUND));
@@ -48,7 +48,7 @@ public class ReviewService {
 
     }
 
-    public ReviewResDto.Detail createReview(ReviewReqDto.ReviewCreate dto, Long storeId) {
+    public ReviewResDTO.Detail createReview(ReviewReqDTO.ReviewCreate dto, Long storeId) {
 
         // !!!! 이후에 멤버ID 꺼내와서 수행, validation 검증 책임 분리 필요 !!!!
         Long userId = 1L;
@@ -66,10 +66,10 @@ public class ReviewService {
 
         //!!!! dto.imageUrls()를 통해 모든 url에 대해 reviewImage 객체 생성 및 연결과정 필요 !!!!
 
-        return ReviewConverter.toReviewResponseDto(review);
+        return ReviewConverter.toReviewResponseDTO(review);
     }
 
-    public ReviewResDto.ReviewPreViewListDTO findMyReviews(Long memberId, Long storeId, Integer ratingFilter, Pageable pageable) {
+    public ReviewResDTO.ReviewPreViewListDTO findMyReviews(Long memberId, Long storeId, Integer ratingFilter, Pageable pageable) {
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));

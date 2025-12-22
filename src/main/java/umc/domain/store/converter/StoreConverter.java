@@ -1,14 +1,14 @@
 package umc.domain.store.converter;
 
 import umc.domain.Region.entity.Region;
-import umc.domain.store.dto.StoreReqDto;
-import umc.domain.store.dto.StoreResDto;
+import umc.domain.store.dto.StoreReqDTO;
+import umc.domain.store.dto.StoreResDTO;
 import umc.domain.store.entity.Store;
 
 public class StoreConverter {
 
-    //StoreReqDto.Create -> Store
-    public static Store toStore(StoreReqDto.StoreCreate dto, Region region) {
+    //StoreReqDTO.Create -> Store
+    public static Store toStore(StoreReqDTO.StoreCreate dto, Region region) {
         return Store.builder()
                 .name(dto.name())
                 .ownerNumber(dto.ownerNumber())
@@ -17,9 +17,9 @@ public class StoreConverter {
                 .build();
     }
 
-    //Store -> StoreResDto.Create
-    public static StoreResDto.Create toStoreResDto(Store store) {
-        return StoreResDto.Create.builder()
+    //Store -> StoreResDTO.Create
+    public static StoreResDTO.Create toStoreResDTO(Store store) {
+        return StoreResDTO.Create.builder()
                 .name(store.getName())
                 .ownerNumber(store.getOwnerNumber())
                 .detailAddress(store.getDetailAddress())

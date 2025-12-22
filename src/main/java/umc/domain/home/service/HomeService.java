@@ -4,7 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import umc.domain.home.converter.HomeConverter;
-import umc.domain.home.dto.HomeResDto;
+import umc.domain.home.dto.HomeResDTO;
 import umc.domain.member.entity.Member;
 import umc.domain.member.repository.MemberRepository;
 import umc.domain.mission.entity.Mission;
@@ -19,7 +19,7 @@ public class HomeService {
     private final MemberRepository memberRepository;
     private final MissionRepository missionRepository;
 
-    public HomeResDto.HomeInfoDto getHomeInfo(Long memberId, Long regionId) {
+    public HomeResDTO.HomeInfoDTO getHomeInfo(Long memberId, Long regionId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
 
@@ -28,6 +28,6 @@ public class HomeService {
         List<Mission> availableMissions =
                 missionRepository.findAvailableMissionByMemberAndRegion(memberId, regionId);
 
-        return HomeConverter.toHomeInfoDto(member, completedMissionRate, availableMissions);
+        return HomeConverter.toHomeInfoDTO(member, completedMissionRate, availableMissions);
     }
 }

@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 
-public class ReviewResDto {
+public class ReviewResDTO {
 
     @Builder
     public record Detail(
@@ -17,7 +17,7 @@ public class ReviewResDto {
             LocalDateTime createdAt,
 
             List<String> imageUrls,
-            List<ReviewReplyDto> replies //답글 id, content, createdAt 포함
+            List<ReviewReplyDTO> replies //답글 id, content, createdAt 포함
     ){}
 
     //워크북 - 리뷰 리스트 (페이징 공부)

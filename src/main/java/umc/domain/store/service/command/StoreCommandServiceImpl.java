@@ -6,8 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import umc.domain.Region.entity.Region;
 import umc.domain.Region.repository.RegionRepository;
 import umc.domain.store.converter.StoreConverter;
-import umc.domain.store.dto.StoreReqDto;
-import umc.domain.store.dto.StoreResDto;
+import umc.domain.store.dto.StoreReqDTO;
+import umc.domain.store.dto.StoreResDTO;
 import umc.domain.store.entity.Store;
 import umc.domain.store.exception.StoreException;
 import umc.domain.store.exception.code.StoreErrorCode;
@@ -23,8 +23,8 @@ public class StoreCommandServiceImpl implements StoreCommandService {
 
     @Transactional
     @Override
-    public StoreResDto.Create createStore(
-            StoreReqDto.StoreCreate dto
+    public StoreResDTO.Create createStore(
+            StoreReqDTO.StoreCreate dto
     ) {
         //지역 찾기 (store에 연결필요) !!!! valid로 구현 분리해야 함 !!!!!
         Region region = regionRepository.findById(dto.regionId())
@@ -35,6 +35,6 @@ public class StoreCommandServiceImpl implements StoreCommandService {
         //저장
         storeRepository.save(store);
 
-        return StoreConverter.toStoreResDto(store);
+        return StoreConverter.toStoreResDTO(store);
     }
 }

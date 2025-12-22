@@ -1,16 +1,16 @@
 package umc.domain.mission.converter;
 
 import org.springframework.data.domain.Page;
-import umc.domain.mission.dto.MissionReqDto;
-import umc.domain.mission.dto.MissionResDto;
+import umc.domain.mission.dto.MissionReqDTO;
+import umc.domain.mission.dto.MissionResDTO;
 import umc.domain.mission.entity.Mission;
 import umc.domain.store.entity.Store;
 
 public class MissionConverter {
 
     //ResSimple -> mission
-    public static MissionResDto.SimpleMissionDto toSimpleMissionDto(Mission mission){
-        return MissionResDto.SimpleMissionDto.builder()
+    public static MissionResDTO.SimpleMissionDTO toSimpleMissionDTO(Mission mission){
+        return MissionResDTO.SimpleMissionDTO.builder()
                 .missionId(mission.getId())
                 .storeId(mission.getStore().getId())
                 .storeName(mission.getStore().getName())
@@ -19,8 +19,8 @@ public class MissionConverter {
                 .build();
     }
 
-    //MissionReqDto.create -> mission
-    public static Mission toMission(MissionReqDto.CreateMission dto, Store store){
+    //MissionReqDTO.create -> mission
+    public static Mission toMission(MissionReqDTO.CreateMission dto, Store store){
         return Mission.builder()
                 .deadline(dto.deadline())
                 .content(dto.content())
@@ -30,8 +30,8 @@ public class MissionConverter {
     }
 
     // Mission -> Res.MissionPreviewDTO
-    public static MissionResDto.MissionPreviewDTO toMissionPreviewDTO(Mission m) {
-        return MissionResDto.MissionPreviewDTO.builder()
+    public static MissionResDTO.MissionPreviewDTO toMissionPreviewDTO(Mission m) {
+        return MissionResDTO.MissionPreviewDTO.builder()
                 .missionId(m.getId())
                 .storeId(m.getStore().getId())
                 .storeName(m.getStore().getName())
@@ -41,8 +41,8 @@ public class MissionConverter {
                 .build();
     }
     // Page<Mission> -> Res.MissionPreviewListDTO
-    public static MissionResDto.MissionPreviewListDTO toMissionPreviewListDTO(Page<Mission> page) {
-        return MissionResDto.MissionPreviewListDTO.builder()
+    public static MissionResDTO.MissionPreviewListDTO toMissionPreviewListDTO(Page<Mission> page) {
+        return MissionResDTO.MissionPreviewListDTO.builder()
                 .missionList(page.getContent().stream()
                         .map(MissionConverter::toMissionPreviewDTO)
                         .toList())

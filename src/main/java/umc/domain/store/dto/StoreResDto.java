@@ -2,7 +2,7 @@ package umc.domain.store.dto;
 
 import lombok.Builder;
 
-public class StoreResDto {
+public class StoreResDTO {
 
     @Builder
     public record Create(

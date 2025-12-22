@@ -1,11 +1,11 @@
 package umc.domain.store.service.command;
 
 
-import umc.domain.store.dto.StoreReqDto;
-import umc.domain.store.dto.StoreResDto;
+import umc.domain.store.dto.StoreReqDTO;
+import umc.domain.store.dto.StoreResDTO;
 
 public interface StoreCommandService {
-    public StoreResDto.Create createStore(
-            StoreReqDto.StoreCreate dto
+    public StoreResDTO.Create createStore(
+            StoreReqDTO.StoreCreate dto
     );
 }

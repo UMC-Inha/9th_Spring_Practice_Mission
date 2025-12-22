@@ -2,8 +2,16 @@ package umc.global.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import umc.domain.mission.exception.code.MissionErrorCode;
+import umc.domain.store.exception.code.StoreErrorCode;
 import umc.global.annotation.ValidPage;
+import umc.global.apiPayload.code.PagingErrorCode;
 
+
+@Component
+@RequiredArgsConstructor
 public class PageValidator implements ConstraintValidator<ValidPage, Integer> {
 
     private int min;
@@ -17,6 +25,15 @@ public class PageValidator implements ConstraintValidator<ValidPage, Integer> {
     public boolean isValid(Integer value, ConstraintValidatorContext context) {
         // 값이 아예 없으면(미전달) 통과, 값이 있으면 min 이상이어야 함
         if (value == null) return true;
-        return value >= min;
+
+        if(min > value){
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate(PagingErrorCode.INVALID_PAGE.getMessage())
+                    .addConstraintViolation();
+            return false;
+        }
+        return true;
+
+
     }
 }
