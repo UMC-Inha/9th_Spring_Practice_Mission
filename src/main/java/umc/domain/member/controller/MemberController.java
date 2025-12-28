@@ -43,10 +43,21 @@ public class MemberController {
 
     @PostMapping("/sign-up")
     public ResponseEntity<ApiResponse<MemberResponseDTO.SignupResponseDTO>> signUp(
+
             @RequestBody @Valid MemberReqDTO.SignupRequestDTO dto
             ){
         return ResponseEntity.ok(
                 ApiResponse.onSuccess(MemberSuccessCode.MEMBER_SIGNUP_SUCCESS, memberCommandService.signup(dto))
+        );
+    }
+
+    // 로그인
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<MemberResponseDTO.LoginDTO>> login(
+            @RequestBody @Valid MemberReqDTO.LoginDTO dto
+    ){
+        return ResponseEntity.ok(
+                ApiResponse.onSuccess(MemberSuccessCode.MEMBER_LOGIN_FOUND, memberQueryService.login(dto))
         );
     }
 }

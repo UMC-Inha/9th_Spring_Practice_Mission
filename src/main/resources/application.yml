@@ -16,3 +16,9 @@ spring:
       ddl-auto: update
     properties:
       hibernate.format_sql: true
+
+jwt:
+  token:
+    secretKey: ZGh3YWlkc2F2ZeffFDEdhZXZ3weEgMTM5FgMDMxdWMyIHEyMiBAIDAgKTJFVio=
+    expiration:
+      access: 14400000

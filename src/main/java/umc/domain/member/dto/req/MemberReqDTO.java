@@ -29,4 +29,12 @@ public class MemberReqDTO {
     ){
 
     }
+
+    // 로그인
+    public record LoginDTO(
+            @NotBlank
+            String email,
+            @NotBlank
+            String password
+    ){}
 }

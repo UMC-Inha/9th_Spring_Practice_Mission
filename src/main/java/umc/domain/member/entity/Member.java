@@ -9,6 +9,7 @@ import umc.domain.member.enums.Reception;
 import umc.domain.member.enums.Gender;
 import umc.domain.region.entity.Region;
 import umc.domain.review.entity.Review;
+import umc.global.auth.enums.Role;
 import umc.global.entity.BaseEntity;
 
 import java.time.LocalDate;
@@ -32,7 +33,7 @@ public class Member extends BaseEntity {
     @Column(name = "name", length =3, nullable = false)
     private String name;
 
-    @Column(name = "password" ,nullable = false, length = 13)
+    @Column(name = "password" ,nullable = false)
     private String password;
 
     @Column(name = "gender", nullable = false)
@@ -91,5 +92,8 @@ public class Member extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "member")
     private List<MemberFood> memberFoods = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
 }
