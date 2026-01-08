@@ -2,6 +2,7 @@ package umc.domain.member.service.command;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import umc.domain.member.converter.MemberConverter;
 import umc.domain.member.dto.member.MemberReqDTO;
@@ -13,6 +14,7 @@ import umc.domain.member.exception.food.code.FoodErrorCode;
 import umc.domain.member.repository.FoodRepository;
 import umc.domain.member.repository.MemberFoodRepository;
 import umc.domain.member.repository.MemberRepository;
+import umc.global.auth.enums.Role;
 
 @Service
 @RequiredArgsConstructor
@@ -21,12 +23,15 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     private final MemberRepository memberRepository;
     private final FoodRepository foodRepository;
     private final MemberFoodRepository memberFoodRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public MemberResDTO.JoinDTO signUp(
             MemberReqDTO.JoinDTO dto
     ) {
-        Member member = MemberConverter.toMember(dto);
+        String salt = passwordEncoder.encode(dto.password());
+
+        Member member = MemberConverter.toMember(dto, salt, Role.ROLE_USER);
         memberRepository.save(member);
 
         if (dto.preferCategory().size() > 1) {

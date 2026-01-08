@@ -23,6 +23,7 @@ import umc.domain.member.entity.mapping.MemberFood;
 import umc.domain.member.entity.mapping.MemberMission;
 import umc.domain.member.enums.Gender;
 import umc.domain.member.enums.SnsType;
+import umc.global.auth.enums.Role;
 import umc.global.entity.BaseEntity;
 
 @Entity
@@ -46,7 +47,10 @@ public class Member extends BaseEntity {
     @Column(name = "password", nullable = false, length = 255)
     private String password;
 
-    @Column(name = "email", length = 255)
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @Column(name = "email", nullable = false, length = 255)
     private String email;
 
     @Column(name = "phone_number", length = 11)

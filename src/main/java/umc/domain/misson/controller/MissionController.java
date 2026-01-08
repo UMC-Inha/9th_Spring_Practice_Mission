@@ -1,5 +1,6 @@
 package umc.domain.misson.controller;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import umc.domain.misson.dto.MissionResDTO.MissionPreviewListDTO;
 import umc.domain.misson.exception.code.MissionSuccessCode;
 import umc.domain.misson.service.command.MissionCommandService;
 import umc.domain.misson.service.query.MissionQueryService;
+import umc.global.annotation.PageParam;
 import umc.global.apiPayload.ApiResponse;
 
 @RestController
@@ -24,8 +26,8 @@ public class MissionController implements MissionControllerDocs {
     @GetMapping("/missions")
     @Override
     public ApiResponse<MissionPreviewListDTO> getMissionsByStore(
-            @RequestParam String storeName,
-            @RequestParam Integer page
+            @RequestParam @NotBlank String storeName,
+            @RequestParam @PageParam Integer page
     ) {
         MissionSuccessCode code = MissionSuccessCode.FOUND;
         return ApiResponse.onSuccess(code, missionQueryService.findMissionsByStore(storeName, page));
@@ -34,8 +36,8 @@ public class MissionController implements MissionControllerDocs {
     @GetMapping("/{memberId}/missions/ongoing")
     @Override
     public ApiResponse<MissionPreviewListDTO> getOngoingMissions(
-            @PathVariable Long memberId,
-            @RequestParam Integer page
+            @PathVariable @NotBlank Long memberId,
+            @RequestParam @PageParam Integer page
     ) {
         MemberMissionSuccessCode code = MemberMissionSuccessCode.FOUND;
         return ApiResponse.onSuccess(code, missionQueryService.findOngoingMissions(memberId, page));
